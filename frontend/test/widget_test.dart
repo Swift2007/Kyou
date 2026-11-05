@@ -1,30 +1,36 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'package:frontend/main.dart';
+import 'package:journal_app/features/auth/auth_repository.dart';
+import 'package:journal_app/features/auth/login_screen.dart';
 
+// The template test pointed at the old default app, so it was replaced with a
+// smoke test for the login screen. Supabase is never initialized in tests, so
+// the repository provider is overridden with an offline client that never
+// performs network calls.
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('login screen shows the sign-in form', (WidgetTester tester) async {
+    final client = SupabaseClient('http://localhost', 'test-key');
+    // The auth client starts a token auto-refresh timer in its constructor,
+    // which would outlive the test; stop it so no pending timer is flagged.
+    client.auth.stopAutoRefresh();
+    final repo = AuthRepository(client);
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [authRepositoryProvider.overrideWithValue(repo)],
+        child: const MaterialApp(home: LoginScreen()),
+      ),
+    );
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    expect(find.byType(TextFormField), findsNWidgets(2)); // email + password
+    expect(find.widgetWithText(FilledButton, 'Log in'), findsOneWidget);
+    expect(find.text("Don't have an account? Sign up"), findsOneWidget);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Elapse zero test-time so gotrue's zero-duration delay (scheduled by
+    // startAutoRefresh) fires; otherwise the test fails on a pending timer.
+    await tester.pump(Duration.zero);
   });
 }
