@@ -1,0 +1,36 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Kyou (Chrome web)",
+      "type": "dart",
+      "request": "launch",
+      "program": "${workspaceFolder}/lib/main.dart",
+      "cwd": "${workspaceFolder}",
+      "toolArgs": [
+        "--dart-define-from-file=env.json"
+      ],
+      "flutterMode": "debug",
+      "deviceId": "chrome"
+    },
+    {
+      "name": "Kyou (Android emulator)",
+      "type": "dart",
+      "request": "launch",
+      "program": "${workspaceFolder}/lib/main.dart",
+      "cwd": "${workspaceFolder}",
+      "toolArgs": [
+        "--dart-define-from-file=env.json"
+      ],
+      "flutterMode": "debug"
+    },
+    {
+      "name": "Kyou (attach)",
+      "type": "dart",
+      "request": "attach"
+    }
+  ]
+}
