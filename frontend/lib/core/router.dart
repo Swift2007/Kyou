@@ -8,6 +8,7 @@ import '../features/auth/signup_screen.dart';
 import '../features/entries/entries_list_screen.dart';
 import '../features/entries/entry.dart';
 import '../features/entries/entry_editor_screen.dart';
+import '../features/home/home_dashboard_screen.dart';
 import '../features/onboarding/onboarding_flow_screen.dart';
 import '../features/welcome/journal_welcome_screen.dart';
 
@@ -30,7 +31,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       // New accounts are routed to /onboarding after signup; keep /signup reachable
       // so that navigation can complete before/alongside auth-state refresh.
       if (isLoggedIn && (location == '/welcome' || location == '/login')) {
-        return '/entries';
+        return '/home';
       }
       return null;
     },
@@ -47,11 +48,12 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/onboarding',
         builder: (context, state) => OnboardingFlowScreen(
-          onGetStarted: () => context.go('/entries'),
-          onSkipped: () => context.go('/entries'),
-          onFinished: () => context.go('/entries'),
+          onGetStarted: () => context.go('/home'),
+          onSkipped: () => context.go('/home'),
+          onFinished: () => context.go('/home'),
         ),
       ),
+      GoRoute(path: '/home', builder: (context, state) => const HomeDashboardScreen()),
       GoRoute(path: '/entries', builder: (context, state) => const EntriesListScreen()),
       GoRoute(
         path: '/entries/new',
