@@ -67,6 +67,11 @@ class _SignupScreenState extends State<SignupScreen> {
                               await ref
                                   .read(authViewModelProvider.notifier)
                                   .signUp(_email, _password);
+                              if (!context.mounted) return;
+                              final state = ref.read(authViewModelProvider);
+                              if (!state.hasError) {
+                                context.go('/onboarding');
+                              }
                             },
                       child: const Text('Create account'),
                     ),

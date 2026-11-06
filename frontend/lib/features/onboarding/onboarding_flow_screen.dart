@@ -9,11 +9,19 @@ class OnboardingFlowScreen extends ConsumerWidget {
   const OnboardingFlowScreen({
     super.key,
     this.onFinished,
+    this.onGetStarted,
+    this.onSkipped,
     this.onSignIn,
   });
 
   /// Called when the user completes onboarding (placeholder for future steps).
   final VoidCallback? onFinished;
+
+  /// Called when the user starts setup from the welcome screen.
+  final VoidCallback? onGetStarted;
+
+  /// Called when the user skips setup from the welcome screen.
+  final VoidCallback? onSkipped;
 
   /// Called when the user chooses to sign in instead of starting onboarding.
   final VoidCallback? onSignIn;
@@ -29,17 +37,22 @@ class OnboardingFlowScreen extends ConsumerWidget {
         step = WelcomeStep(
           onGetStarted: () {
             viewModel.next();
-            if (OnboardingViewModel.stepCount == 1) {
-              onFinished?.call();
-            }
+            (onGetStarted ?? onFinished)?.call();
           },
-          onSignIn: onSignIn,
+          onSkipped: () {
+            (onSkipped ?? onSignIn ?? onFinished)?.call();
+          },
         );
         break;
       default:
         step = WelcomeStep(
-          onGetStarted: viewModel.next,
-          onSignIn: onSignIn,
+          onGetStarted: () {
+            viewModel.next();
+            (onGetStarted ?? onFinished)?.call();
+          },
+          onSkipped: () {
+            (onSkipped ?? onSignIn ?? onFinished)?.call();
+          },
         );
     }
 
