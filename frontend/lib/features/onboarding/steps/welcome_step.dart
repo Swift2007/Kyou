@@ -1,9 +1,6 @@
 // Responsibility: Renders the welcoming screen (Onboarding / 0) from the OpenPencil prototype.
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../onboarding_viewmodel.dart';
 
 /// Prototype palette (Onboarding / 0 Welcome).
 class _WelcomeColors {
@@ -20,7 +17,7 @@ class _WelcomeColors {
   static const buttonText = Color(0xFFFFF5F5);
 }
 
-class WelcomeStep extends ConsumerWidget {
+class WelcomeStep extends StatelessWidget {
   const WelcomeStep({
     super.key,
     this.onFinished,
@@ -37,32 +34,19 @@ class WelcomeStep extends ConsumerWidget {
   /// Called when the user taps "Skip for now".
   final VoidCallback? onSkipped;
 
-  void _handleGetStarted(OnboardingViewModel viewModel) {
-    if (onGetStarted != null) {
-      onGetStarted!.call();
-      return;
-    }
-    viewModel.next();
-    onFinished?.call();
+  void _handleGetStarted() {
+    (onGetStarted ?? onFinished)?.call();
   }
 
-  void _handleSkip(OnboardingViewModel viewModel) {
-    if (onSkipped != null) {
-      onSkipped!.call();
-      return;
-    }
-    // Default: treat skip as finishing/leaving the welcome step.
-    viewModel.next();
-    onFinished?.call();
+  void _handleSkip() {
+    (onSkipped ?? onFinished)?.call();
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.read(onboardingViewModelProvider.notifier);
-
-    return Scaffold(
-      backgroundColor: _WelcomeColors.background,
-      body: SafeArea(
+  Widget build(BuildContext context) {
+    return ColoredBox(
+      color: _WelcomeColors.background,
+      child: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(
@@ -101,12 +85,12 @@ class WelcomeStep extends ConsumerWidget {
                       const SizedBox(height: 24),
                       _PrimaryActionButton(
                         label: 'Get started',
-                        onPressed: () => _handleGetStarted(viewModel),
+                        onPressed: _handleGetStarted,
                       ),
                       const SizedBox(height: 14),
                       Center(
                         child: TextButton(
-                          onPressed: () => _handleSkip(viewModel),
+                          onPressed: _handleSkip,
                           style: TextButton.styleFrom(
                             foregroundColor: _WelcomeColors.muted,
                             padding: const EdgeInsets.symmetric(
@@ -183,8 +167,8 @@ class _IllustrationCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Stack(
-                  children: const [
+                child: const Stack(
+                  children: [
                     Positioned(left: 12, top: 22, child: _NotebookLine(width: 90)),
                     Positioned(left: 12, top: 42, child: _NotebookLine(width: 90)),
                     Positioned(left: 12, top: 62, child: _NotebookLine(width: 90)),
