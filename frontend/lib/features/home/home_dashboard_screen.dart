@@ -265,27 +265,6 @@ class _AppBar extends ConsumerWidget {
             ),
           ),
           const Spacer(),
-          GestureDetector(
-            onTap: () => ref.read(authViewModelProvider.notifier).signOut(),
-            child: Container(
-              width: 37,
-              height: 38,
-              decoration: BoxDecoration(
-                color: const Color(0xFF191916),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: const Color(0xFF191916), width: 2),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0xFF191916),
-                    offset: Offset(2, 2),
-                    blurRadius: 0,
-                  ),
-                ],
-              ),
-              child: const Icon(Icons.edit_outlined,
-                  color: Color(0xFFFFFDF5), size: 18),
-            ),
-          ),
         ],
       ),
     );
