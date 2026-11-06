@@ -2,16 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class _JournalWelcomeColors {
-  const _JournalWelcomeColors._();
-
-  static const background = Color(0xFFF3EEDF);
-  static const ink = Color(0xFF191916);
-  static const muted = Color(0xFF625F55);
-  static const accent = Color(0xFFFF623C);
-  static const page = Color(0xFFFFFDF5);
-  static const rule = Color(0xFFC6C1B3);
-}
+import '../../core/widgets/journal_kit.dart';
 
 class JournalWelcomeScreen extends StatelessWidget {
   const JournalWelcomeScreen({
@@ -26,7 +17,7 @@ class JournalWelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _JournalWelcomeColors.background,
+      backgroundColor: JournalColors.background,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -38,9 +29,13 @@ class JournalWelcomeScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      _Masthead(),
+                      const JournalMasthead(),
                       const SizedBox(height: 20),
-                      _Headline(),
+                      const JournalAccentHeadline(
+                        firstLine: 'MAKE ROOM\nFOR ',
+                        accentText: 'YOU.',
+                        note: 'YOUR MIND. UNEDITED.',
+                      ),
                       const SizedBox(height: 8),
                       const _JournalCollage(),
                       const SizedBox(height: 18),
@@ -49,20 +44,23 @@ class JournalWelcomeScreen extends StatelessWidget {
                         style: GoogleFonts.inter(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
-                          color: _JournalWelcomeColors.ink,
+                          color: JournalColors.ink,
                           height: 24 / 16,
                           letterSpacing: -0.3,
                         ),
                       ),
                       const Spacer(),
                       const SizedBox(height: 20),
-                      _StartJournalingButton(onPressed: onStartJournaling),
+                      JournalPrimaryButton(
+                        label: 'Start journaling',
+                        onPressed: onStartJournaling,
+                      ),
                       const SizedBox(height: 10),
                       Center(
                         child: TextButton(
                           onPressed: onLogIn,
                           style: TextButton.styleFrom(
-                            foregroundColor: _JournalWelcomeColors.muted,
+                            foregroundColor: JournalColors.muted,
                             minimumSize: const Size(44, 44),
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
@@ -71,13 +69,13 @@ class JournalWelcomeScreen extends StatelessWidget {
                             style: GoogleFonts.inter(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
-                              color: _JournalWelcomeColors.muted,
+                              color: JournalColors.muted,
                             ),
                           ),
                         ),
                       ),
                       const SizedBox(height: 12),
-                      const _ClosingNote(),
+                      const JournalClosingNote(),
                       const SizedBox(height: 8),
                     ],
                   ),
@@ -87,89 +85,6 @@ class JournalWelcomeScreen extends StatelessWidget {
           },
         ),
       ),
-    );
-  }
-}
-
-class _Masthead extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 48,
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: _JournalWelcomeColors.ink, width: 2),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            'KYOU',
-            style: GoogleFonts.ibmPlexMono(
-              fontSize: 19,
-              fontWeight: FontWeight.w600,
-              color: _JournalWelcomeColors.ink,
-              letterSpacing: -1,
-            ),
-          ),
-          Text(
-            'WORKING TITLE.\nYOUR JOURNAL.',
-            textAlign: TextAlign.right,
-            style: GoogleFonts.ibmPlexMono(
-              fontSize: 10,
-              fontWeight: FontWeight.w400,
-              color: _JournalWelcomeColors.muted,
-              height: 12 / 10,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Headline extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        RichText(
-          text: TextSpan(
-            style: GoogleFonts.anton(
-              fontSize: 76,
-              fontWeight: FontWeight.w400,
-              color: _JournalWelcomeColors.ink,
-              height: 72 / 76,
-              letterSpacing: -1.5,
-            ),
-            children: const [
-              TextSpan(text: 'MAKE ROOM\nFOR '),
-              TextSpan(
-                text: 'YOU.',
-                style: TextStyle(color: _JournalWelcomeColors.accent),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 18),
-        Row(
-          children: [
-            Container(width: 28, height: 3, color: _JournalWelcomeColors.accent),
-            const SizedBox(width: 10),
-            Text(
-              'YOUR MIND. UNEDITED.',
-              style: GoogleFonts.ibmPlexMono(
-                fontSize: 11,
-                fontWeight: FontWeight.w500,
-                color: _JournalWelcomeColors.ink,
-                letterSpacing: 1,
-              ),
-            ),
-          ],
-        ),
-      ],
     );
   }
 }
@@ -207,7 +122,7 @@ class _JournalCollage extends StatelessWidget {
                 style: GoogleFonts.anton(
                   fontSize: 35,
                   fontWeight: FontWeight.w400,
-                  color: _JournalWelcomeColors.ink,
+                  color: JournalColors.ink,
                 ),
               ),
             ),
@@ -227,11 +142,11 @@ class _JournalPageCard extends StatelessWidget {
       width: 313,
       height: 158,
       decoration: BoxDecoration(
-        color: _JournalWelcomeColors.page,
-        border: Border.all(color: _JournalWelcomeColors.ink, width: 2),
+        color: JournalColors.page,
+        border: Border.all(color: JournalColors.ink, width: 2),
         boxShadow: const [
           BoxShadow(
-            color: _JournalWelcomeColors.ink,
+            color: JournalColors.ink,
             offset: Offset(6, 6),
             blurRadius: 0,
           ),
@@ -245,14 +160,14 @@ class _JournalPageCard extends StatelessWidget {
               left: 0,
               top: top,
               right: 0,
-              child: Container(height: 1, color: _JournalWelcomeColors.rule),
+              child: Container(height: 1, color: JournalColors.rule),
             ),
           // Margin rule
           Positioned(
             left: 34,
             top: 0,
             bottom: 0,
-            child: Container(width: 1, color: _JournalWelcomeColors.accent),
+            child: Container(width: 1, color: JournalColors.accent),
           ),
           Positioned(
             left: 48,
@@ -262,7 +177,7 @@ class _JournalPageCard extends StatelessWidget {
               style: GoogleFonts.ibmPlexMono(
                 fontSize: 10,
                 fontWeight: FontWeight.w400,
-                color: _JournalWelcomeColors.muted,
+                color: JournalColors.muted,
                 letterSpacing: 1,
               ),
             ),
@@ -276,7 +191,7 @@ class _JournalPageCard extends StatelessWidget {
               style: GoogleFonts.caveat(
                 fontSize: 32,
                 fontWeight: FontWeight.w400,
-                color: _JournalWelcomeColors.ink,
+                color: JournalColors.ink,
                 height: 28 / 32,
               ),
             ),
@@ -289,7 +204,7 @@ class _JournalPageCard extends StatelessWidget {
               style: GoogleFonts.ibmPlexMono(
                 fontSize: 10,
                 fontWeight: FontWeight.w400,
-                color: _JournalWelcomeColors.muted,
+                color: JournalColors.muted,
               ),
             ),
           ),
@@ -331,13 +246,13 @@ class _BurstPainter extends CustomPainter {
     canvas.drawPath(
       path,
       Paint()
-        ..color = _JournalWelcomeColors.accent
+        ..color = JournalColors.accent
         ..style = PaintingStyle.fill,
     );
     canvas.drawPath(
       path,
       Paint()
-        ..color = _JournalWelcomeColors.ink
+        ..color = JournalColors.ink
         ..style = PaintingStyle.stroke
         ..strokeWidth = 2
         ..strokeJoin = StrokeJoin.miter,
@@ -346,123 +261,4 @@ class _BurstPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-class _StartJournalingButton extends StatelessWidget {
-  const _StartJournalingButton({required this.onPressed});
-
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 60,
-      decoration: BoxDecoration(
-        color: _JournalWelcomeColors.accent,
-        border: Border.all(color: _JournalWelcomeColors.ink, width: 2),
-        boxShadow: const [
-          BoxShadow(
-            color: _JournalWelcomeColors.ink,
-            offset: Offset(6, 6),
-            blurRadius: 0,
-          ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onPressed,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Start journaling',
-                  style: GoogleFonts.inter(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w700,
-                    color: _JournalWelcomeColors.ink,
-                  ),
-                ),
-                const _ForwardArrow(),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _ForwardArrow extends StatelessWidget {
-  const _ForwardArrow();
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      size: const Size(25, 24),
-      painter: _ForwardArrowPainter(),
-    );
-  }
-}
-
-class _ForwardArrowPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = _JournalWelcomeColors.ink
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.5
-      ..strokeCap = StrokeCap.butt
-      ..strokeJoin = StrokeJoin.miter;
-    final path = Path()
-      ..moveTo(0, 12)
-      ..lineTo(25, 12)
-      ..moveTo(15, 0)
-      ..lineTo(25, 12)
-      ..lineTo(15, 24);
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-class _ClosingNote extends StatelessWidget {
-  const _ClosingNote();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 48,
-      decoration: const BoxDecoration(
-        border: Border(
-          top: BorderSide(color: _JournalWelcomeColors.ink, width: 1),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            'LESS SCROLLING. MORE FEELING.',
-            style: GoogleFonts.ibmPlexMono(
-              fontSize: 10,
-              fontWeight: FontWeight.w400,
-              color: _JournalWelcomeColors.muted,
-              letterSpacing: 0.4,
-            ),
-          ),
-          Text(
-            'VOL. YOU',
-            style: GoogleFonts.ibmPlexMono(
-              fontSize: 10,
-              fontWeight: FontWeight.w400,
-              color: _JournalWelcomeColors.muted,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
