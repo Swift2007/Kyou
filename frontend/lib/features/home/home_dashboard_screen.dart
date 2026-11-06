@@ -70,7 +70,7 @@ class HomeDashboardScreen extends ConsumerWidget {
             ),
             Positioned(
               right: 16,
-              bottom: 24,
+              bottom: 90,
               child: GestureDetector(
                 onTap: () => context.push('/entries/new'),
                 child: Container(
@@ -86,7 +86,7 @@ class HomeDashboardScreen extends ConsumerWidget {
                         blurRadius: 0,
                       ),
                     ],
-                    border: Border.all(color: _ink, width: 2),
+                    border: Border.all(color: _ink, width: 3),
                   ),
                   child: Center(
                     child: Text(
@@ -97,6 +97,53 @@ class HomeDashboardScreen extends ConsumerWidget {
                         color: _ink,
                         height: 1,
                       ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Color(0xFFFFFDF5),
+                  border: Border(
+                    top: BorderSide(color: Color(0xFF191916), width: 3),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0xFF191916),
+                      offset: Offset(0, -3),
+                      blurRadius: 0,
+                    ),
+                  ],
+                ),
+                child: SafeArea(
+                  top: false,
+                  child: SizedBox(
+                    height: 70,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        GestureDetector(
+                          onTap: () => context.go('/home'),
+                          child: _NavItem(label: 'Home', active: true, icon: Icons.home_outlined),
+                        ),
+                        GestureDetector(
+                          onTap: () => context.go('/entries'),
+                          child: _NavItem(label: 'Insights', active: false, icon: Icons.bar_chart_outlined),
+                        ),
+                        GestureDetector(
+                          onTap: () => context.go('/entries'),
+                          child: _NavItem(label: 'Journal', active: false, icon: Icons.book_outlined),
+                        ),
+                        GestureDetector(
+                          onTap: () => context.go('/entries'),
+                          child: _NavItem(label: 'Profile', active: false, icon: Icons.person_outline),
+                        ),
+                      ],
                     ),
                   ),
                 ),
