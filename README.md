@@ -67,6 +67,9 @@ Most journals are a place to write things down and never look at again. Kyou tre
 | Feature | Description | Status |
 |---|---|---|
 | Accounts | Email and password sign-up and login through Supabase Auth | Backend verified |
+| Onboarding flow | Multi-step onboarding for new accounts (welcome, profile, goals, rhythm, topics) | In progress |
+| Home dashboard | Neubrutalist dashboard with calendar, recent entries, and quick actions | In progress |
+| Welcome & Auth UI | Journal welcome screen, sign in/sign up screens with Google auth UI | In progress |
 | App lock | Biometric or PIN lock, plus an optional decoy PIN that opens a harmless fake journal | Planned |
 | Legacy switch | Choose which entries are passed to a trusted person if you are inactive for a long time | Planned |
 | Fading entries | Entries that delete themselves after a chosen time | Planned |
