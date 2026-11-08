@@ -118,8 +118,13 @@ class _SignupScreenState extends State<SignupScreen> {
                                 : () => _submit(context, ref),
                           ),
                           const SizedBox(height: 14),
-                          // Google auth is not implemented yet; prototype parity for now.
-                          const JournalGoogleButton(),
+                          JournalGoogleButton(
+                            onPressed: isLoading
+                                ? null
+                                : () => ref
+                                    .read(authViewModelProvider.notifier)
+                                    .signInWithGoogle(),
+                          ),
                           const SizedBox(height: 14),
                           JournalSecondaryRow(
                             question: 'Already keeping a journal?',

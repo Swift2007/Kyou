@@ -118,8 +118,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                 : () => _submit(context, ref),
                           ),
                           const SizedBox(height: 14),
-                          // Google auth is not implemented yet; prototype parity for now.
-                          const JournalGoogleButton(),
+                          JournalGoogleButton(
+                            onPressed: isLoading
+                                ? null
+                                : () => ref
+                                    .read(authViewModelProvider.notifier)
+                                    .signInWithGoogle(),
+                          ),
                           const SizedBox(height: 14),
                           JournalSecondaryRow(
                             question: 'New here?',

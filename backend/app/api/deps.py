@@ -25,3 +25,16 @@ async def get_current_user_id(
     except jwt.PyJWTError:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Invalid or expired token")
     return UUID(payload["sub"])
+
+
+async def get_current_user(
+    creds: HTTPAuthorizationCredentials = Depends(bearer),
+) -> dict:
+    try:
+        payload = decode_token(creds.credentials)
+    except jwt.PyJWTError:
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Invalid or expired token")
+    return {
+        "user_id": UUID(payload["sub"]),
+        "email": payload.get("email"),
+    }

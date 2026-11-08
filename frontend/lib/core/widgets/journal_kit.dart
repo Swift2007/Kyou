@@ -163,8 +163,7 @@ class JournalPrimaryButton extends StatelessWidget {
   }
 }
 
-/// Prototype "Continue with Google" row. Google auth is not wired yet, so
-/// screens currently pass a null handler for visual parity only.
+/// "Continue with Google" button. Signs in via Supabase OAuth when tapped.
 class JournalGoogleButton extends StatelessWidget {
   const JournalGoogleButton({super.key, this.onPressed});
 

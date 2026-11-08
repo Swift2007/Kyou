@@ -36,6 +36,10 @@ class AuthRepository {
   Future<void> signOut() async {
     await _client.auth.signOut();
   }
+
+  Future<void> signInWithGoogle() async {
+    await _client.auth.signInWithOAuth(OAuthProvider.google);
+  }
 }
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) => AuthRepository());

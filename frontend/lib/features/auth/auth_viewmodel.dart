@@ -42,6 +42,16 @@ class AuthViewModel extends Notifier<AsyncValue<Session?>> {
     }
   }
 
+  Future<void> signInWithGoogle() async {
+    state = const AsyncValue.loading();
+    try {
+      await _repo.signInWithGoogle();
+      state = AsyncValue.data(_repo.session);
+    } catch (e, stack) {
+      state = AsyncValue.error(e, stack);
+    }
+  }
+
   String? get error {
     if (state is AsyncError) {
       return state.error.toString();
