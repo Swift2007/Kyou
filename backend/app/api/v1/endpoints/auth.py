@@ -26,5 +26,13 @@ async def get_current_user_profile(
 ):
     """Return the authenticated user's profile, creating it on first access."""
     email = user.get("email") or ""
-    return await service.get_or_create(user_id=user["user_id"], email=email)
+    user_obj, is_new = await service.get_or_create(
+        user_id=user["user_id"], email=email
+    )
+    return {
+        "id": user_obj.id,
+        "email": user_obj.email,
+        "created_at": user_obj.created_at,
+        "is_new_user": is_new,
+    }
 

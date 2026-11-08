@@ -16,5 +16,5 @@ class UserService:
     async def get_or_create(self, user_id: UUID, email: str):
         user = await self.repository.get_by_id(user_id)
         if user is not None:
-            return user
-        return await self.repository.create(user_id=user_id, email=email)
+            return user, False
+        return await self.repository.create(user_id=user_id, email=email), True

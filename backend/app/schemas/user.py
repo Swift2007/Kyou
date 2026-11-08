@@ -14,5 +14,6 @@ class UserCreate(UserBase):
 class UserResponse(UserBase):
     id: UUID
     created_at: datetime
+    is_new_user: bool = False
 
     model_config = {"from_attributes": True}

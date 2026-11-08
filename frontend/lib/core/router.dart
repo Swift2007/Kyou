@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/auth/auth_repository.dart';
+import '../features/auth/auth_viewmodel.dart';
 import '../features/auth/login_screen.dart';
 import '../features/auth/signup_screen.dart';
 import '../features/entries/entries_list_screen.dart';
@@ -28,10 +29,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       if (!isLoggedIn && !isLandingOrAuth && !isOnboarding) {
         return '/welcome';
       }
-      // New accounts are routed to /onboarding after signup; keep /signup reachable
-      // so that navigation can complete before/alongside auth-state refresh.
+      // New users go to onboarding; existing users go to the dashboard.
       if (isLoggedIn && (location == '/welcome' || location == '/login')) {
-        return '/home';
+        return ref.read(authViewModelProvider.notifier).isNewUser
+            ? '/onboarding'
+            : '/home';
       }
       return null;
     },
