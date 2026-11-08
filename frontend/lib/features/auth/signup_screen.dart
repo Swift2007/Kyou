@@ -25,7 +25,9 @@ class _SignupScreenState extends State<SignupScreen> {
     return Consumer(
       builder: (context, ref, child) {
         final authState = ref.watch(authViewModelProvider);
-        final error = authState is AsyncError ? authState.error.toString() : null;
+        final error = authState is AsyncError
+            ? authState.error.toString()
+            : null;
         final isLoading = authState is AsyncLoading;
 
         return Scaffold(
@@ -36,7 +38,9 @@ class _SignupScreenState extends State<SignupScreen> {
                 return SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: ConstrainedBox(
-                    constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                    ),
                     child: IntrinsicHeight(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -61,7 +65,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                   autocorrect: false,
                                   textInputAction: TextInputAction.next,
                                   validator: validateEmail,
-                                  onSaved: (value) => _email = (value ?? '').trim(),
+                                  onSaved: (value) =>
+                                      _email = (value ?? '').trim(),
                                 ),
                                 const SizedBox(height: 20),
                                 JournalTextField(
@@ -122,15 +127,16 @@ class _SignupScreenState extends State<SignupScreen> {
                             onPressed: isLoading
                                 ? null
                                 : () => ref
-                                    .read(authViewModelProvider.notifier)
-                                    .signInWithGoogle(),
+                                      .read(authViewModelProvider.notifier)
+                                      .signInWithGoogle(),
                           ),
                           const SizedBox(height: 14),
                           JournalSecondaryRow(
                             question: 'Already keeping a journal?',
                             action: 'Sign in',
-                            onAction:
-                                isLoading ? null : () => context.go('/login'),
+                            onAction: isLoading
+                                ? null
+                                : () => context.go('/login'),
                           ),
                           const SizedBox(height: 12),
                           const JournalClosingNote(),
@@ -153,10 +159,22 @@ class _SignupScreenState extends State<SignupScreen> {
     if (!_formKey.currentState!.validate()) return;
     _formKey.currentState!.save();
     await ref.read(authViewModelProvider.notifier).signUp(_email, _password);
+    // Navigation is handled by the router based on the session and onboarding
+    // metadata. If email confirmation is required there is no session, so the
+    // user stays here; show a hint in that case.
     if (!context.mounted) return;
     final state = ref.read(authViewModelProvider);
-    if (!state.hasError) {
-      context.go('/onboarding');
+    if (!state.hasError && !state.isLoading) {
+      final session = state.asData?.value;
+      if (session == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Check your email to confirm your account, then sign in.',
+            ),
+          ),
+        );
+      }
     }
   }
 }

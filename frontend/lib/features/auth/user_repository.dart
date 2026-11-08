@@ -14,7 +14,8 @@ class UserRepository {
     try {
       final res = await _dio.get('/auth/me');
       return AppUser.fromJson(res.data as Map<String, dynamic>);
-    } on DioException {
+    } catch (_) {
+      // Unreachable backend, auth failure, or unexpected response shape.
       return null;
     }
   }

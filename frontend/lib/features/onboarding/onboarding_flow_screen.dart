@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../auth/auth_viewmodel.dart';
 import 'onboarding_viewmodel.dart';
 import 'steps/birthday_step.dart';
 import 'steps/goals_step.dart';
@@ -33,7 +34,9 @@ class OnboardingFlowScreen extends ConsumerWidget {
   /// Legacy callback; treated as skipping/leaving onboarding.
   final VoidCallback? onSignIn;
 
-  void _exit(VoidCallback? preferred) {
+  void _exit(WidgetRef ref, VoidCallback? preferred) {
+    // Clear the new-user flag so the router allows navigation to /home.
+    ref.read(authViewModelProvider.notifier).completeOnboarding();
     (preferred ?? onFinished ?? onGetStarted)?.call();
   }
 
@@ -47,7 +50,7 @@ class OnboardingFlowScreen extends ConsumerWidget {
       case 0:
         step = WelcomeStep(
           onGetStarted: vm.next,
-          onSkipped: () => _exit(onSkipped ?? onSignIn ?? onFinished),
+          onSkipped: () => _exit(ref, onSkipped ?? onSignIn ?? onFinished),
         );
         break;
       case 1:
@@ -95,13 +98,13 @@ class OnboardingFlowScreen extends ConsumerWidget {
         step = SummaryStep(
           onBack: vm.previous,
           onEditStep: vm.goTo,
-          onFinished: () => _exit(onFinished ?? onGetStarted),
+          onFinished: () => _exit(ref, onFinished ?? onGetStarted),
         );
         break;
       default:
         step = WelcomeStep(
           onGetStarted: vm.next,
-          onSkipped: () => _exit(onSkipped ?? onSignIn ?? onFinished),
+          onSkipped: () => _exit(ref, onSkipped ?? onSignIn ?? onFinished),
         );
     }
 

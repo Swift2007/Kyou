@@ -1,4 +1,6 @@
-// Responsibility: Holds auth session, loading, error state, and new-user flag for the auth screens.
+// Responsibility: Holds the auth session and onboarding status for routing and screens.
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -9,30 +11,29 @@ class AuthViewModel extends AsyncNotifier<Session?> {
   AuthRepository get _repo => ref.read(authRepositoryProvider);
   UserRepository get _userRepo => ref.read(userRepositoryProvider);
 
-  bool _isNewUser = false;
+  bool _profileRequested = false;
 
-  /// True when the current session belongs to a user who just signed up
-  /// (email or Google) and has not yet completed onboarding.
-  bool get isNewUser => _isNewUser;
+  /// True when the signed-in user still needs to complete onboarding.
+  bool get needsOnboarding => !_repo.hasCompletedOnboarding;
 
   @override
   Future<Session?> build() async {
     final session = _repo.session;
     if (session != null) {
-      await _checkNewUser(session.user.id, session.user.email ?? '');
+      unawaited(_ensureBackendProfile());
     }
     return session;
   }
 
-  Future<void> _checkNewUser(String userId, String email) async {
+  /// Creates the backend profile row on first sign-in. Routing does not depend
+  /// on this call, so a backend hiccup cannot strand the user.
+  Future<void> _ensureBackendProfile() async {
+    if (_profileRequested) return;
+    _profileRequested = true;
     try {
-      final user = await _userRepo.getMe();
-      if (user != null) {
-        _isNewUser = user.isNewUser;
-      }
+      await _userRepo.getMe();
     } catch (_) {
-      // Backend unreachable; treat as existing user to avoid blocking sign-in.
-      _isNewUser = false;
+      _profileRequested = false;
     }
   }
 
@@ -40,10 +41,10 @@ class AuthViewModel extends AsyncNotifier<Session?> {
     state = const AsyncValue.loading();
     try {
       await _repo.signUp(email, password);
-      state = AsyncValue.data(_repo.session);
-      if (_repo.session != null) {
-        await _checkNewUser(_repo.session!.user.id, _repo.session!.user.email ?? '');
-      }
+      final session = _repo.session;
+      state = AsyncValue.data(session);
+      _repo.notifyAuthChanged();
+      if (session != null) unawaited(_ensureBackendProfile());
     } catch (e, stack) {
       state = AsyncValue.error(e, stack);
     }
@@ -53,21 +54,10 @@ class AuthViewModel extends AsyncNotifier<Session?> {
     state = const AsyncValue.loading();
     try {
       await _repo.signIn(email, password);
-      state = AsyncValue.data(_repo.session);
-      if (_repo.session != null) {
-        await _checkNewUser(_repo.session!.user.id, _repo.session!.user.email ?? '');
-      }
-    } catch (e, stack) {
-      state = AsyncValue.error(e, stack);
-    }
-  }
-
-  Future<void> signOut() async {
-    state = const AsyncValue.loading();
-    try {
-      await _repo.signOut();
-      _isNewUser = false;
-      state = const AsyncValue.data(null);
+      final session = _repo.session;
+      state = AsyncValue.data(session);
+      _repo.notifyAuthChanged();
+      if (session != null) unawaited(_ensureBackendProfile());
     } catch (e, stack) {
       state = AsyncValue.error(e, stack);
     }
@@ -77,13 +67,37 @@ class AuthViewModel extends AsyncNotifier<Session?> {
     state = const AsyncValue.loading();
     try {
       await _repo.signInWithGoogle();
-      state = AsyncValue.data(_repo.session);
-      if (_repo.session != null) {
-        await _checkNewUser(_repo.session!.user.id, _repo.session!.user.email ?? '');
-      }
+      // On web this usually redirects away; the session is restored when the
+      // app reloads and the repository re-reads the onboarding metadata.
+      final session = _repo.session;
+      state = AsyncValue.data(session);
+      _repo.notifyAuthChanged();
     } catch (e, stack) {
       state = AsyncValue.error(e, stack);
     }
+  }
+
+  Future<void> signOut() async {
+    state = const AsyncValue.loading();
+    try {
+      await _repo.signOut();
+      _profileRequested = false;
+      state = const AsyncValue.data(null);
+      _repo.notifyAuthChanged();
+    } catch (e, stack) {
+      state = AsyncValue.error(e, stack);
+    }
+  }
+
+  /// Marks onboarding complete so the router can leave onboarding, then
+  /// persists it to Supabase user metadata for future sessions.
+  void completeOnboarding() {
+    unawaited(
+      _repo.completeOnboarding().catchError((Object _) {
+        // Best effort: the session flag keeps this session moving. If saving
+        // fails, a later session may show onboarding again.
+      }),
+    );
   }
 
   String? get error {
@@ -96,5 +110,6 @@ class AuthViewModel extends AsyncNotifier<Session?> {
   bool get isLoading => state is AsyncLoading;
 }
 
-final authViewModelProvider =
-    AsyncNotifierProvider<AuthViewModel, Session?>(AuthViewModel.new);
+final authViewModelProvider = AsyncNotifierProvider<AuthViewModel, Session?>(
+  AuthViewModel.new,
+);
