@@ -2,8 +2,12 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../core/env.dart';
 
 class AuthRepository {
   AuthRepository([SupabaseClient? client])
@@ -71,12 +75,58 @@ class AuthRepository {
 
   Future<void> signOut() async {
     await _client.auth.signOut();
+    await GoogleSignIn().signOut();
     _completedOnboardingThisSession = false;
   }
 
   Future<void> signInWithGoogle() async {
     _completedOnboardingThisSession = false;
-    await _client.auth.signInWithOAuth(OAuthProvider.google);
+    final webClientId = Env.googleWebClientId;
+    if (webClientId.isEmpty) {
+      throw const AuthException('GOOGLE_WEB_CLIENT_ID is not configured.');
+    }
+
+    try {
+      final googleSignIn = GoogleSignIn(
+        serverClientId: webClientId,
+        scopes: const ['email', 'profile'],
+      );
+      final googleUser = await googleSignIn.signIn();
+      if (googleUser == null) {
+        throw const AuthException('Google sign-in was cancelled.');
+      }
+
+      final googleAuth = await googleUser.authentication;
+      final idToken = googleAuth.idToken;
+      if (idToken == null) {
+        throw const AuthException(
+          'Google sign-in failed: missing ID token. Check GOOGLE_WEB_CLIENT_ID '
+          'and Android OAuth SHA-1/package (com.journal.journal_app) configuration.',
+        );
+      }
+
+      await _client.auth.signInWithIdToken(
+        provider: OAuthProvider.google,
+        idToken: idToken,
+        accessToken: googleAuth.accessToken,
+      );
+    } on PlatformException catch (e) {
+      final details = [
+        e.code,
+        if (e.message != null && e.message!.isNotEmpty) e.message!,
+        if (e.details != null) '${e.details}',
+      ].join(': ');
+      if (e.code == 'sign_in_failed') {
+        throw AuthException(
+          'Google sign-in failed ($details). Usually an Android OAuth client '
+          'mismatch: in Google Cloud Console create an Android OAuth client for '
+          'package com.journal.journal_app with this app\'s SHA-1 (debug: run '
+          'gradlew signingReport in frontend/android), and set the Web client '
+          'ID/secret in Supabase Google provider.',
+        );
+      }
+      throw AuthException('Google sign-in error ($details).');
+    }
   }
 }
 

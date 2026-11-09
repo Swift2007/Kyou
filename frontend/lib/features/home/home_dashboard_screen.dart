@@ -129,19 +129,35 @@ class HomeDashboardScreen extends ConsumerWidget {
                       children: [
                         GestureDetector(
                           onTap: () => context.go('/home'),
-                          child: _NavItem(label: 'Home', active: true, icon: Icons.home_outlined),
+                          child: _NavItem(
+                            label: 'Home',
+                            active: true,
+                            icon: Icons.home_outlined,
+                          ),
                         ),
                         GestureDetector(
                           onTap: () => context.go('/entries'),
-                          child: _NavItem(label: 'Insights', active: false, icon: Icons.bar_chart_outlined),
+                          child: _NavItem(
+                            label: 'Insights',
+                            active: false,
+                            icon: Icons.bar_chart_outlined,
+                          ),
                         ),
                         GestureDetector(
                           onTap: () => context.go('/entries'),
-                          child: _NavItem(label: 'Journal', active: false, icon: Icons.book_outlined),
+                          child: _NavItem(
+                            label: 'Journal',
+                            active: false,
+                            icon: Icons.book_outlined,
+                          ),
                         ),
                         GestureDetector(
                           onTap: () => context.go('/entries'),
-                          child: _NavItem(label: 'Profile', active: false, icon: Icons.person_outline),
+                          child: _NavItem(
+                            label: 'Profile',
+                            active: false,
+                            icon: Icons.person_outline,
+                          ),
                         ),
                       ],
                     ),
@@ -199,9 +215,7 @@ class _StatusIcon extends StatelessWidget {
     return SizedBox(
       width: 18,
       height: 18,
-      child: CustomPaint(
-        painter: _DotPainter(),
-      ),
+      child: CustomPaint(painter: _DotPainter()),
     );
   }
 }
@@ -302,7 +316,15 @@ class _CalendarCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      for (final d in ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'])
+                      for (final d in [
+                        'SUN',
+                        'MON',
+                        'TUE',
+                        'WED',
+                        'THU',
+                        'FRI',
+                        'SAT',
+                      ])
                         SizedBox(
                           width: 42,
                           child: Text(
@@ -339,16 +361,22 @@ class _CalendarCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('<',
-                      style: GoogleFonts.inter(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xFF625F55))),
-                  Text('>',
-                      style: GoogleFonts.inter(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xFF625F55))),
+                  Text(
+                    '<',
+                    style: GoogleFonts.inter(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: const Color(0xFF625F55),
+                    ),
+                  ),
+                  Text(
+                    '>',
+                    style: GoogleFonts.inter(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: const Color(0xFF625F55),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -398,10 +426,7 @@ class _CalDay extends StatelessWidget {
       child: Text(
         day,
         textAlign: TextAlign.center,
-        style: GoogleFonts.inter(
-          fontSize: 16,
-          color: const Color(0xFF625F55),
-        ),
+        style: GoogleFonts.inter(fontSize: 16, color: const Color(0xFF625F55)),
       ),
     );
   }
@@ -514,28 +539,42 @@ class _BottomNav extends StatelessWidget {
       height: 60,
       decoration: const BoxDecoration(
         color: Color(0xFFFFFDF5),
-        border: Border(
-          top: BorderSide(color: Color(0xFF191916), width: 1),
-        ),
+        border: Border(top: BorderSide(color: Color(0xFF191916), width: 1)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           GestureDetector(
             onTap: () => context.go('/home'),
-            child: _NavItem(label: 'Home', active: true, icon: Icons.home_outlined),
+            child: _NavItem(
+              label: 'Home',
+              active: true,
+              icon: Icons.home_outlined,
+            ),
           ),
           GestureDetector(
             onTap: () => context.go('/entries'),
-            child: _NavItem(label: 'Insights', active: false, icon: Icons.bar_chart_outlined),
+            child: _NavItem(
+              label: 'Insights',
+              active: false,
+              icon: Icons.bar_chart_outlined,
+            ),
           ),
           GestureDetector(
             onTap: () => context.go('/entries'),
-            child: _NavItem(label: 'Journal', active: false, icon: Icons.book_outlined),
+            child: _NavItem(
+              label: 'Journal',
+              active: false,
+              icon: Icons.book_outlined,
+            ),
           ),
           GestureDetector(
             onTap: () => context.go('/entries'),
-            child: _NavItem(label: 'Profile', active: false, icon: Icons.person_outline),
+            child: _NavItem(
+              label: 'Profile',
+              active: false,
+              icon: Icons.person_outline,
+            ),
           ),
         ],
       ),
@@ -544,7 +583,11 @@ class _BottomNav extends StatelessWidget {
 }
 
 class _NavItem extends StatelessWidget {
-  const _NavItem({required this.label, required this.active, required this.icon});
+  const _NavItem({
+    required this.label,
+    required this.active,
+    required this.icon,
+  });
   final String label;
   final bool active;
   final IconData icon;

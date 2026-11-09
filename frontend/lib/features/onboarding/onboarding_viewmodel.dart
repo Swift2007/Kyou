@@ -42,7 +42,10 @@ class OnboardingViewModel extends Notifier<OnboardingState> {
 
   void previous() {
     if (state.stepIndex > 0) {
-      state = state.copyWith(stepIndex: state.stepIndex - 1, underageBlocked: false);
+      state = state.copyWith(
+        stepIndex: state.stepIndex - 1,
+        underageBlocked: false,
+      );
     }
   }
 
@@ -65,5 +68,5 @@ class OnboardingViewModel extends Notifier<OnboardingState> {
 
 final onboardingViewModelProvider =
     NotifierProvider<OnboardingViewModel, OnboardingState>(
-  OnboardingViewModel.new,
-);
+      OnboardingViewModel.new,
+    );

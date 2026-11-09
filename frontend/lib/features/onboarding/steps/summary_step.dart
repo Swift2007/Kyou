@@ -43,7 +43,8 @@ class _SummaryStepState extends ConsumerState<SummaryStep> {
   @override
   Widget build(BuildContext context) {
     final data = ref.watch(onboardingViewModelProvider).data;
-    final reminders = data.remindGently && (data.reminderTime?.trim().isNotEmpty ?? false)
+    final reminders =
+        data.remindGently && (data.reminderTime?.trim().isNotEmpty ?? false)
         ? data.reminderTime!.trim()
         : 'Off';
 
@@ -54,15 +55,16 @@ class _SummaryStepState extends ConsumerState<SummaryStep> {
           totalSteps: 6,
           onBack: widget.onBack,
           // No Skip on finish.
-          continueLabel: _saving ? 'Saving…' : 'Start writing',
+          bottom: _saving ? _SavingButton() : null,
+          continueLabel: 'Start writing',
           continueEnabled: !_saving,
-          onContinue: _finish,
+          onContinue: _saving ? null : _finish,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 4),
-              const OnboardingHeadline("You're all set"),
-              const SizedBox(height: 2),
+              const OnboardingHeadline("You're all set", size: 34),
+              const SizedBox(height: 4),
               const OnboardingSubtitle(
                 "Here's what you told us. You can change any of it later.",
               ),
@@ -73,11 +75,23 @@ class _SummaryStepState extends ConsumerState<SummaryStep> {
               const SizedBox(height: 16),
               _SummaryCard(
                 rows: [
-                  _Row('Name', data.nickname.trim().isEmpty ? 'Not set' : data.nickname.trim(), 1),
+                  _Row(
+                    'Name',
+                    data.nickname.trim().isEmpty
+                        ? 'Not set'
+                        : data.nickname.trim(),
+                    1,
+                  ),
                   _Row('Birthday', data.birthdaySummary, 2),
                   _Row('Birth year only', data.birthYearOnly ? 'On' : 'Off', 2),
                   _Row('Location', data.locationSummary, 3),
-                  _Row('Time zone', data.timeZone.trim().isEmpty ? 'Not set' : data.timeZone.trim(), 3),
+                  _Row(
+                    'Time zone',
+                    data.timeZone.trim().isEmpty
+                        ? 'Not set'
+                        : data.timeZone.trim(),
+                    3,
+                  ),
                   _Row('Why you journal', data.goalsSummary, 4),
                   _Row('Rhythm', data.rhythmSummary, 5),
                   _Row('Reminders', reminders, 5),
@@ -92,6 +106,12 @@ class _SummaryStepState extends ConsumerState<SummaryStep> {
             ],
           ),
         ),
+        if (_saving)
+          Positioned.fill(
+            child: IgnorePointer(
+              child: ColoredBox(color: OnbColors.ink.withValues(alpha: 0.12)),
+            ),
+          ),
         if (_saveError)
           Positioned(
             left: 24,
@@ -273,6 +293,46 @@ class _PrivacyNoteSticker extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _SavingButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 52,
+      width: double.infinity,
+      child: Container(
+        decoration: BoxDecoration(
+          color: OnbColors.disabledFill,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: OnbColors.ink, width: 2),
+          boxShadow: [hardShadow()],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(
+                strokeWidth: 2.5,
+                valueColor: AlwaysStoppedAnimation<Color>(OnbColors.onAccent),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              'Saving…',
+              style: GoogleFonts.inter(
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                color: OnbColors.onAccent,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

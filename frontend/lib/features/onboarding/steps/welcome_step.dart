@@ -44,9 +44,9 @@ class WelcomeStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: _WelcomeColors.background,
-      child: SafeArea(
+    return Scaffold(
+      backgroundColor: _WelcomeColors.background,
+      body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
@@ -65,22 +65,22 @@ class WelcomeStep extends StatelessWidget {
                   "Let's set up your journal",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.caveat(
-                    fontSize: 34,
+                    fontSize: 40,
                     fontWeight: FontWeight.w700,
                     color: _WelcomeColors.ink,
-                    height: 1.1,
+                    height: 50 / 40,
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 10),
               Text(
                 'Takes about a minute. You can skip most of it.',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.newsreader(
-                  fontSize: 15,
+                  fontSize: 16,
                   fontWeight: FontWeight.w400,
                   color: _WelcomeColors.muted,
-                  height: 22 / 15,
+                  height: 23 / 16,
                 ),
               ),
               const Spacer(),
@@ -89,7 +89,7 @@ class WelcomeStep extends StatelessWidget {
                 label: 'Get started',
                 onPressed: _handleGetStarted,
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 14),
               Center(
                 child: TextButton(
                   onPressed: _handleSkip,
@@ -175,23 +175,23 @@ class _IllustrationCard extends StatelessWidget {
                   child: const Stack(
                     children: [
                       Positioned(
-                        left: 12,
-                        top: 22,
+                        left: 15,
+                        top: 25,
                         child: _NotebookLine(width: 90),
                       ),
                       Positioned(
-                        left: 12,
-                        top: 42,
+                        left: 15,
+                        top: 45,
                         child: _NotebookLine(width: 90),
                       ),
                       Positioned(
-                        left: 12,
-                        top: 62,
+                        left: 15,
+                        top: 65,
                         child: _NotebookLine(width: 90),
                       ),
                       Positioned(
-                        left: 12,
-                        top: 82,
+                        left: 15,
+                        top: 85,
                         child: _NotebookLine(width: 60),
                       ),
                     ],

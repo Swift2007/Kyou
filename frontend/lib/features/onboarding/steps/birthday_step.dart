@@ -9,8 +9,18 @@ import '../onboarding_viewmodel.dart';
 import '../widgets/onboarding_widgets.dart';
 
 const List<String> _months = <String>[
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
 
 class BirthdayStep extends ConsumerStatefulWidget {
@@ -129,12 +139,18 @@ class _BirthdayStepState extends ConsumerState<BirthdayStep> {
                     m,
                     style: GoogleFonts.inter(
                       fontSize: 15,
-                      fontWeight: m == _month ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: m == _month
+                          ? FontWeight.w700
+                          : FontWeight.w500,
                       color: OnbColors.ink,
                     ),
                   ),
                   trailing: m == _month
-                      ? const Icon(Icons.check, color: OnbColors.accent, size: 18)
+                      ? const Icon(
+                          Icons.check,
+                          color: OnbColors.accent,
+                          size: 18,
+                        )
                       : null,
                   onTap: () => Navigator.of(context).pop(m),
                 ),
@@ -150,7 +166,9 @@ class _BirthdayStepState extends ConsumerState<BirthdayStep> {
         _showInvalid = false;
       });
       if (ref.read(onboardingViewModelProvider).underageBlocked) {
-        ref.read(onboardingViewModelProvider.notifier).setUnderageBlocked(false);
+        ref
+            .read(onboardingViewModelProvider.notifier)
+            .setUnderageBlocked(false);
       }
     }
   }
@@ -161,7 +179,9 @@ class _BirthdayStepState extends ConsumerState<BirthdayStep> {
     if (blocked) {
       return _UnderageBlocked(
         onBack: () {
-          ref.read(onboardingViewModelProvider.notifier).setUnderageBlocked(false);
+          ref
+              .read(onboardingViewModelProvider.notifier)
+              .setUnderageBlocked(false);
         },
       );
     }
@@ -221,9 +241,12 @@ class _BirthdayStepState extends ConsumerState<BirthdayStep> {
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.inter(
                               fontSize: 15,
-                              fontWeight:
-                                  _month.isEmpty ? FontWeight.w400 : FontWeight.w600,
-                              color: _month.isEmpty ? OnbColors.muted : OnbColors.ink,
+                              fontWeight: _month.isEmpty
+                                  ? FontWeight.w400
+                                  : FontWeight.w600,
+                              color: _month.isEmpty
+                                  ? OnbColors.muted
+                                  : OnbColors.ink,
                             ),
                           ),
                         ),
@@ -291,7 +314,8 @@ class _BirthdayStepState extends ConsumerState<BirthdayStep> {
           ),
           const SizedBox(height: 10),
           const WhyWeAskSticker(
-            message: 'We use your birthday to confirm you meet the age requirement.',
+            message:
+                'We use your birthday to confirm you meet the age requirement.',
           ),
         ],
       ),
@@ -331,8 +355,14 @@ class _DateBox extends StatelessWidget {
           color: OnbColors.ink,
         ),
         decoration: InputDecoration(
-          border: InputBorder.none,
           isCollapsed: true,
+          filled: false,
+          border: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          errorBorder: InputBorder.none,
+          focusedErrorBorder: InputBorder.none,
+          disabledBorder: InputBorder.none,
           hintText: hint,
           hintStyle: GoogleFonts.inter(
             fontSize: 15,

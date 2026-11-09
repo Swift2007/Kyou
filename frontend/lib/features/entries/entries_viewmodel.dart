@@ -23,13 +23,12 @@ class EntriesState {
     bool? hasMore,
     int? nextOffset,
     bool? loadingMore,
-  }) =>
-      EntriesState(
-        items: items ?? this.items,
-        hasMore: hasMore ?? this.hasMore,
-        nextOffset: nextOffset ?? this.nextOffset,
-        loadingMore: loadingMore ?? this.loadingMore,
-      );
+  }) => EntriesState(
+    items: items ?? this.items,
+    hasMore: hasMore ?? this.hasMore,
+    nextOffset: nextOffset ?? this.nextOffset,
+    loadingMore: loadingMore ?? this.loadingMore,
+  );
 }
 
 class EntriesViewmodel extends AsyncNotifier<EntriesState> {
@@ -90,20 +89,12 @@ class EntriesViewmodel extends AsyncNotifier<EntriesState> {
     String? mood,
   }) async {
     try {
-      final entry = await _repo.create(
-        title: title,
-        body: body,
-        mood: mood,
-      );
+      final entry = await _repo.create(title: title, body: body, mood: mood);
       final current = state.value;
       if (current == null) {
         await refresh();
       } else {
-        state = AsyncData(
-          current.copyWith(
-            items: [entry, ...current.items],
-          ),
-        );
+        state = AsyncData(current.copyWith(items: [entry, ...current.items]));
       }
       return null;
     } catch (e) {
@@ -129,8 +120,7 @@ class EntriesViewmodel extends AsyncNotifier<EntriesState> {
         state = AsyncData(
           current.copyWith(
             items: [
-              for (final e in current.items)
-                e.id == updated.id ? updated : e,
+              for (final e in current.items) e.id == updated.id ? updated : e,
             ],
           ),
         );
@@ -160,6 +150,4 @@ class EntriesViewmodel extends AsyncNotifier<EntriesState> {
 }
 
 final entriesViewmodelProvider =
-    AsyncNotifierProvider<EntriesViewmodel, EntriesState>(
-  EntriesViewmodel.new,
-);
+    AsyncNotifierProvider<EntriesViewmodel, EntriesState>(EntriesViewmodel.new);

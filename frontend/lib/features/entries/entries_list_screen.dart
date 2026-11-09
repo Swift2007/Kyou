@@ -12,8 +12,7 @@ class EntriesListScreen extends ConsumerWidget {
   const EntriesListScreen({super.key});
 
   Future<void> _loadMore(BuildContext context, WidgetRef ref) async {
-    final error =
-        await ref.read(entriesViewmodelProvider.notifier).loadMore();
+    final error = await ref.read(entriesViewmodelProvider.notifier).loadMore();
     if (error != null && context.mounted) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(error)));
@@ -21,8 +20,7 @@ class EntriesListScreen extends ConsumerWidget {
   }
 
   Future<void> _refresh(BuildContext context, WidgetRef ref) async {
-    final error =
-        await ref.read(entriesViewmodelProvider.notifier).refresh();
+    final error = await ref.read(entriesViewmodelProvider.notifier).refresh();
     if (error != null && context.mounted) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(error)));
@@ -53,8 +51,9 @@ class EntriesListScreen extends ConsumerWidget {
     );
     if (confirmed != true || !context.mounted) return;
 
-    final error =
-        await ref.read(entriesViewmodelProvider.notifier).delete(entry.id);
+    final error = await ref
+        .read(entriesViewmodelProvider.notifier)
+        .delete(entry.id);
     if (error != null && context.mounted) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(error)));
@@ -72,8 +71,7 @@ class EntriesListScreen extends ConsumerWidget {
           IconButton(
             tooltip: 'Log out',
             icon: const Icon(Icons.logout),
-            onPressed: () =>
-                ref.read(authViewModelProvider.notifier).signOut(),
+            onPressed: () => ref.read(authViewModelProvider.notifier).signOut(),
           ),
         ],
       ),
@@ -86,8 +84,7 @@ class EntriesListScreen extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stack) => _LoadError(
           message: describeApiError(error),
-          onRetry: () =>
-              ref.read(entriesViewmodelProvider.notifier).refresh(),
+          onRetry: () => ref.read(entriesViewmodelProvider.notifier).refresh(),
         ),
         data: (state) => _EntriesBody(
           state: state,
@@ -115,8 +112,11 @@ class _LoadError extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.cloud_off,
-                size: 48, color: Theme.of(context).colorScheme.outline),
+            Icon(
+              Icons.cloud_off,
+              size: 48,
+              color: Theme.of(context).colorScheme.outline,
+            ),
             const SizedBox(height: 12),
             Text(message, textAlign: TextAlign.center),
             const SizedBox(height: 16),
@@ -243,8 +243,9 @@ class _EntryTile extends StatelessWidget {
               date,
               time,
             ].join(' · '),
-            style: theme.textTheme.labelSmall
-                ?.copyWith(color: theme.colorScheme.outline),
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: theme.colorScheme.outline,
+            ),
           ),
         ],
       ),

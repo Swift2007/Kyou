@@ -67,7 +67,8 @@ class OnboardingData {
     final now = DateTime.now();
     var age = now.year - date.year;
     final hadBirthdayThisYear =
-        now.month > date.month || (now.month == date.month && now.day >= date.day);
+        now.month > date.month ||
+        (now.month == date.month && now.day >= date.day);
     if (!hadBirthdayThisYear) age -= 1;
     return age < minAge;
   }
@@ -92,11 +93,9 @@ class OnboardingData {
     return parts.isEmpty ? 'Not set' : parts.join(' \u00B7 ');
   }
 
-  String get goalsSummary =>
-      goals.isEmpty ? 'Not set' : goals.join(', ');
+  String get goalsSummary => goals.isEmpty ? 'Not set' : goals.join(', ');
 
-  String get topicsSummary =>
-      topics.isEmpty ? 'Not set' : topics.join(', ');
+  String get topicsSummary => topics.isEmpty ? 'Not set' : topics.join(', ');
 
   OnboardingData copyWith({
     String? nickname,
@@ -166,9 +165,18 @@ class OnboardingData {
 
   static int? _monthNumber(String month) {
     const months = <String, int>{
-      'january': 1, 'february': 2, 'march': 3, 'april': 4, 'may': 5,
-      'june': 6, 'july': 7, 'august': 8, 'september': 9, 'october': 10,
-      'november': 11, 'december': 12,
+      'january': 1,
+      'february': 2,
+      'march': 3,
+      'april': 4,
+      'may': 5,
+      'june': 6,
+      'july': 7,
+      'august': 8,
+      'september': 9,
+      'october': 10,
+      'november': 11,
+      'december': 12,
     };
     return months[month.toLowerCase()] ?? int.tryParse(month);
   }

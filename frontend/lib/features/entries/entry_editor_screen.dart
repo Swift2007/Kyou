@@ -47,11 +47,7 @@ class _EntryEditorScreenState extends ConsumerState<EntryEditorScreen> {
     final mood = _mood;
 
     final error = widget.entry == null
-        ? await viewmodel.create(
-            title: title,
-            body: body,
-            mood: mood,
-          )
+        ? await viewmodel.create(title: title, body: body, mood: mood)
         : await viewmodel.updateEntry(
             widget.entry!,
             title: title,
@@ -129,9 +125,8 @@ class _EntryEditorScreenState extends ConsumerState<EntryEditorScreen> {
                   ChoiceChip(
                     label: Text(moodLabel(mood)),
                     selected: _mood == mood,
-                    onSelected: (_) => setState(
-                      () => _mood = _mood == mood ? null : mood,
-                    ),
+                    onSelected: (_) =>
+                        setState(() => _mood = _mood == mood ? null : mood),
                   ),
               ],
             ),

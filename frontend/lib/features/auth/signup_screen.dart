@@ -36,6 +36,8 @@ class _SignupScreenState extends State<SignupScreen> {
             child: LayoutBuilder(
               builder: (context, constraints) {
                 return SingleChildScrollView(
+                  // Unscrollable by user; sized to fit the screen.
+                  physics: const NeverScrollableScrollPhysics(),
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
@@ -46,13 +48,13 @@ class _SignupScreenState extends State<SignupScreen> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           const JournalMasthead(),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 6),
                           const JournalAccentHeadline(
                             firstLine: 'START YOUR\n',
                             accentText: 'VOLUME ONE.',
                             note: 'PENS DOWN. JUST A NAME.',
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 8),
                           Form(
                             key: _formKey,
                             child: Column(
@@ -68,7 +70,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   onSaved: (value) =>
                                       _email = (value ?? '').trim(),
                                 ),
-                                const SizedBox(height: 20),
+                                const SizedBox(height: 8),
                                 JournalTextField(
                                   label: 'PASSWORD',
                                   hint: '\u2022' * 10,
@@ -77,52 +79,32 @@ class _SignupScreenState extends State<SignupScreen> {
                                   validator: validatePassword,
                                   onSaved: (value) => _password = value ?? '',
                                 ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  'JUST YOU AND THE PAGE.',
-                                  style: GoogleFonts.ibmPlexMono(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w400,
-                                    color: JournalColors.muted,
-                                    letterSpacing: 1,
-                                    height: 12 / 10,
-                                  ),
-                                ),
                               ],
                             ),
                           ),
                           if (error != null) ...[
-                            const SizedBox(height: 8),
+                            const SizedBox(height: 4),
                             Text(
                               error,
+                              maxLines: 6,
+                              overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.inter(
-                                fontSize: 13,
+                                fontSize: 11,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.red.shade700,
-                                height: 1.3,
+                                height: 1.2,
                               ),
                             ),
                           ],
-                          const SizedBox(height: 18),
-                          Text(
-                            'An account only holds the door.\nThe pages hold you.',
-                            style: GoogleFonts.inter(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: JournalColors.ink,
-                              height: 24 / 16,
-                              letterSpacing: -0.3,
-                            ),
-                          ),
                           const Spacer(),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 8),
                           JournalPrimaryButton(
                             label: 'Create space',
                             onPressed: isLoading
                                 ? null
                                 : () => _submit(context, ref),
                           ),
-                          const SizedBox(height: 14),
+                          const SizedBox(height: 12),
                           JournalGoogleButton(
                             onPressed: isLoading
                                 ? null
@@ -130,7 +112,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                       .read(authViewModelProvider.notifier)
                                       .signInWithGoogle(),
                           ),
-                          const SizedBox(height: 14),
+                          const SizedBox(height: 4),
                           JournalSecondaryRow(
                             question: 'Already keeping a journal?',
                             action: 'Sign in',
@@ -138,9 +120,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                 ? null
                                 : () => context.go('/login'),
                           ),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 2),
                           const JournalClosingNote(),
-                          const SizedBox(height: 8),
                         ],
                       ),
                     ),
@@ -161,17 +142,61 @@ class _SignupScreenState extends State<SignupScreen> {
     await ref.read(authViewModelProvider.notifier).signUp(_email, _password);
     // Navigation is handled by the router based on the session and onboarding
     // metadata. If email confirmation is required there is no session, so the
-    // user stays here; show a hint in that case.
+    // user stays here; guide them clearly.
     if (!context.mounted) return;
     final state = ref.read(authViewModelProvider);
     if (!state.hasError && !state.isLoading) {
       final session = state.asData?.value;
       if (session == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              'Check your email to confirm your account, then sign in.',
+        await showDialog<void>(
+          context: context,
+          builder: (dialogContext) => AlertDialog(
+            backgroundColor: JournalColors.page,
+            shape: RoundedRectangleBorder(
+              side: const BorderSide(color: JournalColors.ink, width: 2),
+              borderRadius: BorderRadius.circular(2),
             ),
+            title: Text(
+              'Confirm your email',
+              style: GoogleFonts.anton(
+                fontSize: 24,
+                color: JournalColors.ink,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            content: Text(
+              'We sent a confirmation link to $_email. Open it to confirm your account, then sign in.',
+              style: GoogleFonts.inter(
+                fontSize: 14,
+                color: JournalColors.ink,
+                height: 1.4,
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(dialogContext).pop(),
+                child: Text(
+                  'OK',
+                  style: GoogleFonts.inter(
+                    color: JournalColors.muted,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(dialogContext).pop();
+                  if (context.mounted) context.go('/login');
+                },
+                child: Text(
+                  'Go to sign in',
+                  style: GoogleFonts.inter(
+                    color: JournalColors.accent,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       }

@@ -67,11 +67,10 @@ class AuthViewModel extends AsyncNotifier<Session?> {
     state = const AsyncValue.loading();
     try {
       await _repo.signInWithGoogle();
-      // On web this usually redirects away; the session is restored when the
-      // app reloads and the repository re-reads the onboarding metadata.
       final session = _repo.session;
       state = AsyncValue.data(session);
       _repo.notifyAuthChanged();
+      if (session != null) unawaited(_ensureBackendProfile());
     } catch (e, stack) {
       state = AsyncValue.error(e, stack);
     }

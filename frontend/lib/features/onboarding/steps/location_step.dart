@@ -49,11 +49,13 @@ class _LocationStepState extends ConsumerState<LocationStep> {
   void _save() {
     final vm = ref.read(onboardingViewModelProvider.notifier);
     final data = ref.read(onboardingViewModelProvider).data;
-    vm.updateData(data.copyWith(
-      country: _country.text.trim(),
-      city: _city.text.trim(),
-      timeZone: _timeZone.trim(),
-    ));
+    vm.updateData(
+      data.copyWith(
+        country: _country.text.trim(),
+        city: _city.text.trim(),
+        timeZone: _timeZone.trim(),
+      ),
+    );
   }
 
   void _applyStubLocation() {
@@ -116,8 +118,14 @@ class _LocationStepState extends ConsumerState<LocationStep> {
                           color: OnbColors.ink,
                         ),
                         decoration: InputDecoration(
-                          border: InputBorder.none,
                           isCollapsed: true,
+                          filled: false,
+                          border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          focusedErrorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
                           hintText: 'Select country',
                           hintStyle: GoogleFonts.inter(
                             fontSize: 16,
@@ -158,8 +166,14 @@ class _LocationStepState extends ConsumerState<LocationStep> {
                     color: OnbColors.ink,
                   ),
                   decoration: InputDecoration(
-                    border: InputBorder.none,
                     isCollapsed: true,
+                    filled: false,
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    focusedErrorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
                     hintText: '',
                     hintStyle: GoogleFonts.inter(
                       fontSize: 16,
@@ -289,7 +303,10 @@ class _TimeZoneSticker extends StatelessWidget {
 }
 
 class _LocationPermissionOverlay extends StatelessWidget {
-  const _LocationPermissionOverlay({required this.onAllow, required this.onDeny});
+  const _LocationPermissionOverlay({
+    required this.onAllow,
+    required this.onDeny,
+  });
   final VoidCallback onAllow;
   final VoidCallback onDeny;
 

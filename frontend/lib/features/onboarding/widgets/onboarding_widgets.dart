@@ -114,96 +114,103 @@ class OnboardingTopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 96,
+      width: double.infinity,
       decoration: BoxDecoration(
         color: OnbColors.topBar,
         border: Border.all(color: OnbColors.ink, width: 2),
       ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 0, 16, 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          if (onBack != null)
+            Positioned(
+              left: 8,
+              top: 46,
+              width: 44,
               height: 44,
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 44,
-                    height: 44,
-                    child: onBack == null
-                        ? null
-                        : IconButton(
-                            onPressed: onBack,
-                            padding: EdgeInsets.zero,
-                            icon: Text(
-                              '\u2190',
-                              style: GoogleFonts.inter(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w700,
-                                color: OnbColors.ink,
-                              ),
-                            ),
-                          ),
-                  ),
-                  const Spacer(),
-                  if (onSkip != null)
-                    TextButton(
-                      onPressed: onSkip,
-                      style: TextButton.styleFrom(
-                        foregroundColor: OnbColors.muted,
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        minimumSize: const Size(44, 44),
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      child: Text(
-                        'Skip',
-                        style: GoogleFonts.inter(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: OnbColors.muted,
-                        ),
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: onBack,
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10, top: 8),
+                    child: Text(
+                      '\u2190',
+                      style: GoogleFonts.inter(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                        color: OnbColors.ink,
+                        height: 1,
                       ),
                     ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Text(
-                'Step $step of $totalSteps',
-                style: GoogleFonts.ibmPlexMono(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w600,
-                  color: OnbColors.muted,
+                  ),
                 ),
               ),
             ),
-            const SizedBox(height: 4),
-            Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Row(
-                children: [
-                  for (var i = 1; i <= totalSteps; i++) ...[
-                    Expanded(
-                      child: Container(
-                        height: 14,
-                        decoration: BoxDecoration(
-                          color: i <= step ? OnbColors.accent : OnbColors.page,
-                          borderRadius: BorderRadius.circular(4),
-                          border: Border.all(color: OnbColors.ink, width: 2),
-                          boxShadow: [
-                            hardShadow(x: i <= step ? 2 : 4, y: i <= step ? 2 : 4),
-                          ],
-                        ),
-                      ),
+          if (onSkip != null)
+            Positioned(
+              right: 24,
+              top: 56,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: onSkip,
+                child: SizedBox(
+                  height: 24,
+                  child: Text(
+                    'Skip',
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: OnbColors.muted,
+                      height: 1,
                     ),
-                    if (i < totalSteps) const SizedBox(width: 6),
-                  ],
-                ],
+                  ),
+                ),
               ),
             ),
-          ],
-        ),
+          Positioned(
+            left: 24,
+            top: 42,
+            child: Text(
+              'Step $step of $totalSteps',
+              style: GoogleFonts.ibmPlexMono(
+                fontSize: 10,
+                fontWeight: FontWeight.w600,
+                color: OnbColors.muted,
+                height: 1,
+              ),
+            ),
+          ),
+          Positioned(
+            left: 24,
+            top: 60,
+            right: 24,
+            child: Row(
+              children: [
+                for (var i = 1; i <= totalSteps; i++) ...[
+                  Expanded(
+                    child: Container(
+                      height: 14,
+                      decoration: BoxDecoration(
+                        color: i <= step ? OnbColors.accent : OnbColors.page,
+                        borderRadius: BorderRadius.circular(4),
+                        border: Border.all(color: OnbColors.ink, width: 2),
+                        boxShadow: [
+                          hardShadow(
+                            x: i <= step ? 2 : 4,
+                            y: i <= step ? 2 : 4,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  if (i < totalSteps) const SizedBox(width: 6),
+                ],
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -259,13 +266,19 @@ class _WhyWeAskStickerState extends State<WhyWeAskSticker> {
 
   @override
   Widget build(BuildContext context) {
+    final expandedWidth = MediaQuery.sizeOf(context).width - 48;
     return GestureDetector(
       onTap: () => setState(() => _expanded = !_expanded),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 140),
-        width: _expanded ? double.infinity : 118,
+        width: _expanded ? expandedWidth : 118,
         constraints: BoxConstraints(minHeight: _expanded ? 56 : 30),
-        padding: EdgeInsets.fromLTRB(10, _expanded ? 7 : 6, 10, _expanded ? 8 : 6),
+        padding: EdgeInsets.fromLTRB(
+          10,
+          _expanded ? 7 : 6,
+          10,
+          _expanded ? 8 : 6,
+        ),
         decoration: BoxDecoration(
           color: OnbColors.why,
           borderRadius: BorderRadius.circular(8),
@@ -278,17 +291,14 @@ class _WhyWeAskStickerState extends State<WhyWeAskSticker> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   _label(),
-                  const SizedBox(height: 4),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 14),
-                    child: Text(
-                      widget.message,
-                      style: GoogleFonts.newsreader(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                        color: OnbColors.ink,
-                        height: 18 / 13,
-                      ),
+                  const SizedBox(height: 6),
+                  Text(
+                    widget.message,
+                    style: GoogleFonts.newsreader(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                      color: OnbColors.ink,
+                      height: 18 / 13,
                     ),
                   ),
                 ],
@@ -666,7 +676,11 @@ class OnbSegmentedFrequency extends StatelessWidget {
 }
 
 class _Seg extends StatelessWidget {
-  const _Seg({required this.label, required this.selected, required this.onTap});
+  const _Seg({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
   final String label;
   final bool selected;
   final VoidCallback onTap;

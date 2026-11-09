@@ -139,11 +139,13 @@ ThemeData buildAppTheme() {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.orangePrimary, width: 1.5),
+        borderSide: const BorderSide(
+          color: AppColors.orangePrimary,
+          width: 1.5,
+        ),
       ),
       labelStyle: AppTextStyles.bodyMuted,
     ),
     dividerColor: AppColors.outline,
   );
 }
-

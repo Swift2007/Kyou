@@ -25,7 +25,9 @@ class _LoginScreenState extends State<LoginScreen> {
     return Consumer(
       builder: (context, ref, child) {
         final authState = ref.watch(authViewModelProvider);
-        final error = authState is AsyncError ? authState.error.toString() : null;
+        final error = authState is AsyncError
+            ? authState.error.toString()
+            : null;
         final isLoading = authState is AsyncLoading;
 
         return Scaffold(
@@ -34,21 +36,25 @@ class _LoginScreenState extends State<LoginScreen> {
             child: LayoutBuilder(
               builder: (context, constraints) {
                 return SingleChildScrollView(
+                  // Unscrollable by user; sized to fit the screen.
+                  physics: const NeverScrollableScrollPhysics(),
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: ConstrainedBox(
-                    constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                    ),
                     child: IntrinsicHeight(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           const JournalMasthead(),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 6),
                           const JournalAccentHeadline(
                             firstLine: 'YOUR SPACE\nIS ',
                             accentText: 'WAITING.',
                             note: 'NO PAPERS REQUIRED.',
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 8),
                           Form(
                             key: _formKey,
                             child: Column(
@@ -61,9 +67,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   autocorrect: false,
                                   textInputAction: TextInputAction.next,
                                   validator: validateEmail,
-                                  onSaved: (value) => _email = (value ?? '').trim(),
+                                  onSaved: (value) =>
+                                      _email = (value ?? '').trim(),
                                 ),
-                                const SizedBox(height: 20),
+                                const SizedBox(height: 8),
                                 JournalTextField(
                                   label: 'PASSWORD',
                                   hint: '\u2022' * 10,
@@ -72,69 +79,49 @@ class _LoginScreenState extends State<LoginScreen> {
                                   validator: validatePassword,
                                   onSaved: (value) => _password = value ?? '',
                                 ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  'WE HOLD YOUR THOUGHTS FOR YOU.',
-                                  style: GoogleFonts.ibmPlexMono(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w400,
-                                    color: JournalColors.muted,
-                                    letterSpacing: 1,
-                                    height: 12 / 10,
-                                  ),
-                                ),
                               ],
                             ),
                           ),
                           if (error != null) ...[
-                            const SizedBox(height: 8),
+                            const SizedBox(height: 4),
                             Text(
                               error,
+                              maxLines: 6,
+                              overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.inter(
-                                fontSize: 13,
+                                fontSize: 11,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.red.shade700,
-                                height: 1.3,
+                                height: 1.2,
                               ),
                             ),
                           ],
-                          const SizedBox(height: 18),
-                          Text(
-                            'Sign in to keep your entries in one place.\nCross-device. Autosaved. Yours.',
-                            style: GoogleFonts.inter(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: JournalColors.ink,
-                              height: 24 / 16,
-                              letterSpacing: -0.3,
-                            ),
-                          ),
                           const Spacer(),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 8),
                           JournalPrimaryButton(
                             label: 'Sign in',
                             onPressed: isLoading
                                 ? null
                                 : () => _submit(context, ref),
                           ),
-                          const SizedBox(height: 14),
+                          const SizedBox(height: 12),
                           JournalGoogleButton(
                             onPressed: isLoading
                                 ? null
                                 : () => ref
-                                    .read(authViewModelProvider.notifier)
-                                    .signInWithGoogle(),
+                                      .read(authViewModelProvider.notifier)
+                                      .signInWithGoogle(),
                           ),
-                          const SizedBox(height: 14),
+                          const SizedBox(height: 4),
                           JournalSecondaryRow(
                             question: 'New here?',
                             action: 'Start a journal',
-                            onAction:
-                                isLoading ? null : () => context.go('/signup'),
+                            onAction: isLoading
+                                ? null
+                                : () => context.go('/signup'),
                           ),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 2),
                           const JournalClosingNote(),
-                          const SizedBox(height: 8),
                         ],
                       ),
                     ),

@@ -36,13 +36,15 @@ class _RhythmStepState extends ConsumerState<RhythmStep> {
     _writingTime = data.writingTime;
     _frequency = data.frequency;
     _remindGently = data.remindGently;
-    _reminderTime = _parseTime(data.reminderTime) ?? const TimeOfDay(hour: 20, minute: 30);
+    _reminderTime =
+        _parseTime(data.reminderTime) ?? const TimeOfDay(hour: 20, minute: 30);
   }
 
   TimeOfDay? _parseTime(String? value) {
     if (value == null || value.trim().isEmpty) return null;
     // Accept "8:30 PM" style.
-    final match = RegExp(r'^(\d{1,2}):(\d{2})\s*([AaPp][Mm])$').firstMatch(value.trim());
+    final match = RegExp(r'^(\d{1,2}):(\d{2})\s*([AaPp][Mm])$')
+        .firstMatch(value.trim());
     if (match == null) return null;
     var hour = int.parse(match.group(1)!);
     final minute = int.parse(match.group(2)!);
@@ -63,12 +65,14 @@ class _RhythmStepState extends ConsumerState<RhythmStep> {
   void _save() {
     final vm = ref.read(onboardingViewModelProvider.notifier);
     final data = ref.read(onboardingViewModelProvider).data;
-    vm.updateData(data.copyWith(
-      writingTime: _writingTime,
-      frequency: _frequency,
-      remindGently: _remindGently,
-      reminderTime: _remindGently ? _formatTime(_reminderTime) : null,
-    ));
+    vm.updateData(
+      data.copyWith(
+        writingTime: _writingTime,
+        frequency: _frequency,
+        remindGently: _remindGently,
+        reminderTime: _remindGently ? _formatTime(_reminderTime) : null,
+      ),
+    );
   }
 
   Future<void> _pickTime() async {
@@ -117,7 +121,7 @@ class _RhythmStepState extends ConsumerState<RhythmStep> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 4),
-          const OnboardingHeadline('Your writing rhythm'),
+          const OnboardingHeadline('Your writing rhythm', size: 34),
           const SizedBox(height: 6),
           const OnboardingSubtitle('When and how often feels right?'),
           const SizedBox(height: 28),

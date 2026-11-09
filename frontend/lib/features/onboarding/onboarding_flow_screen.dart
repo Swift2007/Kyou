@@ -61,10 +61,7 @@ class OnboardingFlowScreen extends ConsumerWidget {
         );
         break;
       case 2:
-        step = BirthdayStep(
-          onBack: vm.previous,
-          onContinue: vm.next,
-        );
+        step = BirthdayStep(onBack: vm.previous, onContinue: vm.next);
         break;
       case 3:
         step = LocationStep(
@@ -110,10 +107,7 @@ class OnboardingFlowScreen extends ConsumerWidget {
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 220),
-      child: KeyedSubtree(
-        key: ValueKey<int>(state.stepIndex),
-        child: step,
-      ),
+      child: KeyedSubtree(key: ValueKey<int>(state.stepIndex), child: step),
     );
   }
 }

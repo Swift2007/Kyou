@@ -19,8 +19,7 @@ final dioProvider = Provider<Dio>((ref) {
   dio.interceptors.add(
     InterceptorsWrapper(
       onRequest: (options, handler) {
-        final token =
-            Supabase.instance.client.auth.currentSession?.accessToken;
+        final token = Supabase.instance.client.auth.currentSession?.accessToken;
         if (token != null && token.isNotEmpty) {
           options.headers['Authorization'] = 'Bearer $token';
         }
@@ -73,7 +72,8 @@ String describeApiError(Object error) {
         return 'The request was cancelled.';
       case DioExceptionType.badResponse:
         final status = error.response?.statusCode;
-        if (status == 401) return 'Your session has expired. Please sign in again.';
+        if (status == 401)
+          return 'Your session has expired. Please sign in again.';
         if (status == 403) return "You don't have access to do that.";
         if (status == 404) return 'The requested item could not be found.';
         if (status != null && status >= 500) {
@@ -89,6 +89,3 @@ String describeApiError(Object error) {
   }
   return 'Something went wrong. Please try again.';
 }
-
-
-

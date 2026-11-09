@@ -23,8 +23,9 @@ class JournalMasthead extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final compact = MediaQuery.sizeOf(context).height < 720;
     return Container(
-      height: 48,
+      height: compact ? 40 : 48,
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: JournalColors.ink, width: 2)),
       ),
@@ -61,39 +62,44 @@ class JournalAccentHeadline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Scale the headline down on narrow screens (e.g. 360dp Android phones) so
-    // it fits without scrolling or overflow, while preserving the design ratio.
+    // Match the prototype's Anton headline scale; FittedBox.scaleDown keeps it
+    // unscrollable/fitting on narrow or short screens (e.g. 360dp phones).
     // Uses screen width (not LayoutBuilder) to stay compatible with IntrinsicHeight.
     final screenWidth = MediaQuery.sizeOf(context).width;
     final fontSize = ((screenWidth - 48) * 0.22).clamp(44.0, 76.0);
     final lineHeight = fontSize * (72 / 76);
+    final text = Text.rich(
+      TextSpan(
+        style: GoogleFonts.anton(
+          fontSize: fontSize,
+          fontWeight: FontWeight.w400,
+          color: JournalColors.ink,
+          height: lineHeight / fontSize,
+          letterSpacing: -1.5 * (fontSize / 76),
+        ),
+        children: [
+          TextSpan(text: firstLine),
+          TextSpan(
+            text: accentText,
+            style: const TextStyle(color: JournalColors.accent),
+          ),
+        ],
+      ),
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text.rich(
-          TextSpan(
-            style: GoogleFonts.anton(
-              fontSize: fontSize,
-              fontWeight: FontWeight.w400,
-              color: JournalColors.ink,
-              height: lineHeight / fontSize,
-              letterSpacing: -1.5 * (fontSize / 76),
-            ),
-            children: [
-              TextSpan(text: firstLine),
-              TextSpan(
-                text: accentText,
-                style: const TextStyle(color: JournalColors.accent),
-              ),
-            ],
-          ),
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: text,
         ),
         SizedBox(height: (10 * (fontSize / 76)).clamp(6.0, 18.0)),
         Row(
           children: [
-            Container(width: 28, height: 3, color: JournalColors.accent),
-            const SizedBox(width: 10),
+            Container(width: 24, height: 3, color: JournalColors.accent),
+            const SizedBox(width: 8),
             Flexible(
               child: Text(
                 note,
@@ -298,8 +304,14 @@ class JournalTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final inputStyle = GoogleFonts.caveat(
+      fontSize: 22,
+      fontWeight: FontWeight.w400,
+      color: JournalColors.ink,
+      height: 24 / 22,
+    );
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 9, 16, 8),
+      padding: const EdgeInsets.fromLTRB(14, 7, 14, 6),
       decoration: BoxDecoration(
         color: JournalColors.page,
         border: Border.all(color: JournalColors.ink, width: 2),
@@ -311,21 +323,16 @@ class JournalTextField extends StatelessWidget {
           Text(
             label,
             style: GoogleFonts.ibmPlexMono(
-              fontSize: 10,
+              fontSize: 9,
               fontWeight: FontWeight.w400,
               color: JournalColors.muted,
-              letterSpacing: 1,
-              height: 12 / 10,
+              letterSpacing: 0.8,
+              height: 11 / 9,
             ),
           ),
-          const SizedBox(height: 2),
+          const SizedBox(height: 1),
           TextFormField(
-            style: GoogleFonts.caveat(
-              fontSize: 28,
-              fontWeight: FontWeight.w400,
-              color: JournalColors.ink,
-              height: 30 / 28,
-            ),
+            style: inputStyle,
             cursorColor: JournalColors.ink,
             obscureText: obscureText,
             keyboardType: keyboardType,
@@ -345,21 +352,16 @@ class JournalTextField extends StatelessWidget {
               focusedErrorBorder: InputBorder.none,
               disabledBorder: InputBorder.none,
               hintText: hint,
-              hintStyle: GoogleFonts.caveat(
-                fontSize: 28,
-                fontWeight: FontWeight.w400,
-                color: JournalColors.ink,
-                height: 30 / 28,
-              ),
+              hintStyle: inputStyle.copyWith(color: JournalColors.muted),
               errorStyle: GoogleFonts.inter(
-                fontSize: 11,
+                fontSize: 10,
                 fontWeight: FontWeight.w400,
                 color: Colors.red.shade700,
                 height: 1.2,
               ),
             ),
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 4),
           Container(height: 1, color: JournalColors.rule),
         ],
       ),
@@ -374,23 +376,29 @@ class JournalClosingNote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final compact = MediaQuery.sizeOf(context).height < 720;
     return Container(
-      height: 48,
+      height: compact ? 40 : 48,
       decoration: const BoxDecoration(
         border: Border(top: BorderSide(color: JournalColors.ink, width: 1)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            'LESS SCROLLING. MORE FEELING.',
-            style: GoogleFonts.ibmPlexMono(
-              fontSize: 10,
-              fontWeight: FontWeight.w400,
-              color: JournalColors.muted,
-              letterSpacing: 0.4,
+          Flexible(
+            child: Text(
+              'LESS SCROLLING. MORE FEELING.',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.ibmPlexMono(
+                fontSize: 10,
+                fontWeight: FontWeight.w400,
+                color: JournalColors.muted,
+                letterSpacing: 0.4,
+              ),
             ),
           ),
+          const SizedBox(width: 8),
           Text(
             'VOL. YOU',
             style: GoogleFonts.ibmPlexMono(

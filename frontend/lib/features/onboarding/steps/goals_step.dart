@@ -81,7 +81,7 @@ class _GoalsStepState extends ConsumerState<GoalsStep> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 4),
-          const OnboardingHeadline('Why do you journal?'),
+          const OnboardingHeadline('Why do you journal?', size: 34),
           const SizedBox(height: 6),
           const OnboardingSubtitle('Pick what fits. This is optional.'),
           const SizedBox(height: 28),

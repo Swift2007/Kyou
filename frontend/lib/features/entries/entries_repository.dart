@@ -119,4 +119,3 @@ class EntriesRepository {
 final entriesRepositoryProvider = Provider<EntriesRepository>(
   (ref) => EntriesRepository(ref.watch(dioProvider)),
 );
-

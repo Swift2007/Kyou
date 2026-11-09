@@ -97,8 +97,14 @@ class _NameStepState extends ConsumerState<NameStep> {
               ),
               decoration: InputDecoration(
                 counterText: '',
-                border: InputBorder.none,
                 isCollapsed: true,
+                filled: false,
+                border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+                focusedErrorBorder: InputBorder.none,
+                disabledBorder: InputBorder.none,
                 hintText: '',
                 hintStyle: GoogleFonts.inter(
                   fontSize: 16,

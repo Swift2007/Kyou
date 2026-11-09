@@ -83,7 +83,7 @@ class _TopicsStepState extends ConsumerState<TopicsStep> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 4),
-          const OnboardingHeadline('What do you write about?'),
+          const OnboardingHeadline('What do you write about?', size: 34),
           const SizedBox(height: 6),
           const OnboardingSubtitle('Pick a few, or skip this.'),
           const SizedBox(height: 28),
