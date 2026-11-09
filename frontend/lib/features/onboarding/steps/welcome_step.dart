@@ -47,76 +47,74 @@ class WelcomeStep extends StatelessWidget {
     return ColoredBox(
       color: _WelcomeColors.background,
       child: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                child: IntrinsicHeight(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const SizedBox(height: 60),
-                      const _IllustrationCard(),
-                      const SizedBox(height: 30),
-                      Text(
-                        "Let's set up your journal",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.caveat(
-                          fontSize: 40,
-                          fontWeight: FontWeight.w700,
-                          color: _WelcomeColors.ink,
-                          height: 1.1,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        'Takes about a minute. You can skip most of it.',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.newsreader(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: _WelcomeColors.muted,
-                          height: 23 / 16,
-                        ),
-                      ),
-                      const Spacer(),
-                      const SizedBox(height: 24),
-                      _PrimaryActionButton(
-                        label: 'Get started',
-                        onPressed: _handleGetStarted,
-                      ),
-                      const SizedBox(height: 14),
-                      Center(
-                        child: TextButton(
-                          onPressed: _handleSkip,
-                          style: TextButton.styleFrom(
-                            foregroundColor: _WelcomeColors.muted,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 8,
-                            ),
-                            minimumSize: const Size(44, 44),
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          child: Text(
-                            'Skip for now',
-                            style: GoogleFonts.inter(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: _WelcomeColors.muted,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                    ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 24),
+              const Flexible(
+                flex: 4,
+                fit: FlexFit.loose,
+                child: Center(child: _IllustrationCard()),
+              ),
+              const SizedBox(height: 16),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  "Let's set up your journal",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.caveat(
+                    fontSize: 34,
+                    fontWeight: FontWeight.w700,
+                    color: _WelcomeColors.ink,
+                    height: 1.1,
                   ),
                 ),
               ),
-            );
-          },
+              const SizedBox(height: 8),
+              Text(
+                'Takes about a minute. You can skip most of it.',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.newsreader(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                  color: _WelcomeColors.muted,
+                  height: 22 / 15,
+                ),
+              ),
+              const Spacer(),
+              const SizedBox(height: 16),
+              _PrimaryActionButton(
+                label: 'Get started',
+                onPressed: _handleGetStarted,
+              ),
+              const SizedBox(height: 10),
+              Center(
+                child: TextButton(
+                  onPressed: _handleSkip,
+                  style: TextButton.styleFrom(
+                    foregroundColor: _WelcomeColors.muted,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                    minimumSize: const Size(44, 44),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  child: Text(
+                    'Skip for now',
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: _WelcomeColors.muted,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );
@@ -126,93 +124,117 @@ class WelcomeStep extends StatelessWidget {
 class _IllustrationCard extends StatelessWidget {
   const _IllustrationCard();
 
+  static const double _designWidth = 342;
+  static const double _designHeight = 360;
+
   @override
   Widget build(BuildContext context) {
     // Matches prototype: 342x360 card containing notebook+pen illustration.
-    return Center(
-      child: Container(
-        width: 342,
-        height: 360,
-        decoration: BoxDecoration(
-          color: _WelcomeColors.card,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: _WelcomeColors.ink, width: 2),
-          boxShadow: const [
-            BoxShadow(
-              color: _WelcomeColors.ink,
-              offset: Offset(6, 6),
-              blurRadius: 0,
-            ),
-          ],
-        ),
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            // Notebook: frame (130,150) => card-relative (106,90), 120x150.
-            Positioned(
-              left: 106,
-              top: 90,
-              child: Container(
-                width: 120,
-                height: 150,
-                decoration: BoxDecoration(
-                  color: _WelcomeColors.notebook,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: _WelcomeColors.ink, width: 3),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: _WelcomeColors.ink,
-                      offset: Offset(4, 4),
-                      blurRadius: 0,
-                    ),
-                  ],
-                ),
-                child: const Stack(
-                  children: [
-                    Positioned(left: 12, top: 22, child: _NotebookLine(width: 90)),
-                    Positioned(left: 12, top: 42, child: _NotebookLine(width: 90)),
-                    Positioned(left: 12, top: 62, child: _NotebookLine(width: 90)),
-                    Positioned(left: 12, top: 82, child: _NotebookLine(width: 60)),
-                  ],
+    // Scales down to fit narrower phones so the layout stays unscrollable.
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      alignment: Alignment.center,
+      child: SizedBox(
+        width: _designWidth,
+        height: _designHeight,
+        child: Container(
+          decoration: BoxDecoration(
+            color: _WelcomeColors.card,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: _WelcomeColors.ink, width: 2),
+            boxShadow: const [
+              BoxShadow(
+                color: _WelcomeColors.ink,
+                offset: Offset(6, 6),
+                blurRadius: 0,
+              ),
+            ],
+          ),
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              // Notebook: frame (130,150) => card-relative (106,90), 120x150.
+              Positioned(
+                left: 106,
+                top: 90,
+                child: Container(
+                  width: 120,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    color: _WelcomeColors.notebook,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: _WelcomeColors.ink, width: 3),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: _WelcomeColors.ink,
+                        offset: Offset(4, 4),
+                        blurRadius: 0,
+                      ),
+                    ],
+                  ),
+                  child: const Stack(
+                    children: [
+                      Positioned(
+                        left: 12,
+                        top: 22,
+                        child: _NotebookLine(width: 90),
+                      ),
+                      Positioned(
+                        left: 12,
+                        top: 42,
+                        child: _NotebookLine(width: 90),
+                      ),
+                      Positioned(
+                        left: 12,
+                        top: 62,
+                        child: _NotebookLine(width: 90),
+                      ),
+                      Positioned(
+                        left: 12,
+                        top: 82,
+                        child: _NotebookLine(width: 60),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            // Pen: frame (230,190) => card-relative (206,130), 14x100.
-            Positioned(
-              left: 206,
-              top: 130,
-              child: Container(
-                width: 14,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: _WelcomeColors.accent,
-                  borderRadius: BorderRadius.circular(4),
-                  border: Border.all(color: _WelcomeColors.ink, width: 2),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: _WelcomeColors.ink,
-                      offset: Offset(2, 2),
-                      blurRadius: 0,
-                    ),
-                  ],
+              // Pen: frame (230,190) => card-relative (206,130), 14x100.
+              Positioned(
+                left: 206,
+                top: 130,
+                child: Container(
+                  width: 14,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    color: _WelcomeColors.accent,
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(color: _WelcomeColors.ink, width: 2),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: _WelcomeColors.ink,
+                        offset: Offset(2, 2),
+                        blurRadius: 0,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            // Pen tip: frame (233,280) => card-relative (209,220), 8x16.
-            Positioned(
-              left: 209,
-              top: 220,
-              child: Container(
-                width: 8,
-                height: 16,
-                decoration: BoxDecoration(
-                  color: _WelcomeColors.penTip,
-                  borderRadius: BorderRadius.circular(2),
-                  border: Border.all(color: _WelcomeColors.ink, width: 1.5),
+              // Pen tip: frame (233,280) => card-relative (209,220), 8x16.
+              Positioned(
+                left: 209,
+                top: 220,
+                child: Container(
+                  width: 8,
+                  height: 16,
+                  decoration: BoxDecoration(
+                    color: _WelcomeColors.penTip,
+                    borderRadius: BorderRadius.circular(2),
+                    border: Border.all(color: _WelcomeColors.ink, width: 1.5),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -238,10 +260,7 @@ class _NotebookLine extends StatelessWidget {
 }
 
 class _PrimaryActionButton extends StatelessWidget {
-  const _PrimaryActionButton({
-    required this.label,
-    required this.onPressed,
-  });
+  const _PrimaryActionButton({required this.label, required this.onPressed});
 
   final String label;
   final VoidCallback onPressed;

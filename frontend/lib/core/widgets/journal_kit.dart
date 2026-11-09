@@ -26,9 +26,7 @@ class JournalMasthead extends StatelessWidget {
     return Container(
       height: 48,
       decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: JournalColors.ink, width: 2),
-        ),
+        border: Border(bottom: BorderSide(color: JournalColors.ink, width: 2)),
       ),
       child: Align(
         alignment: Alignment.centerRight,
@@ -63,17 +61,24 @@ class JournalAccentHeadline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Scale the headline down on narrow screens (e.g. 360dp Android phones) so
+    // it fits without scrolling or overflow, while preserving the design ratio.
+    // Uses screen width (not LayoutBuilder) to stay compatible with IntrinsicHeight.
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final fontSize = ((screenWidth - 48) * 0.22).clamp(44.0, 76.0);
+    final lineHeight = fontSize * (72 / 76);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        RichText(
-          text: TextSpan(
+        Text.rich(
+          TextSpan(
             style: GoogleFonts.anton(
-              fontSize: 76,
+              fontSize: fontSize,
               fontWeight: FontWeight.w400,
               color: JournalColors.ink,
-              height: 72 / 76,
-              letterSpacing: -1.5,
+              height: lineHeight / fontSize,
+              letterSpacing: -1.5 * (fontSize / 76),
             ),
             children: [
               TextSpan(text: firstLine),
@@ -84,18 +89,22 @@ class JournalAccentHeadline extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 18),
+        SizedBox(height: (10 * (fontSize / 76)).clamp(6.0, 18.0)),
         Row(
           children: [
             Container(width: 28, height: 3, color: JournalColors.accent),
             const SizedBox(width: 10),
-            Text(
-              note,
-              style: GoogleFonts.ibmPlexMono(
-                fontSize: 11,
-                fontWeight: FontWeight.w500,
-                color: JournalColors.ink,
-                letterSpacing: 1,
+            Flexible(
+              child: Text(
+                note,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.ibmPlexMono(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500,
+                  color: JournalColors.ink,
+                  letterSpacing: 1,
+                ),
               ),
             ),
           ],
@@ -108,11 +117,7 @@ class JournalAccentHeadline extends StatelessWidget {
 /// Filled accent action button with ink border, hard offset shadow, and
 /// forward-arrow glyph — "Start journaling" / "Sign in" / "Create space".
 class JournalPrimaryButton extends StatelessWidget {
-  const JournalPrimaryButton({
-    super.key,
-    required this.label,
-    this.onPressed,
-  });
+  const JournalPrimaryButton({super.key, required this.label, this.onPressed});
 
   final String label;
   final VoidCallback? onPressed;
@@ -372,9 +377,7 @@ class JournalClosingNote extends StatelessWidget {
     return Container(
       height: 48,
       decoration: const BoxDecoration(
-        border: Border(
-          top: BorderSide(color: JournalColors.ink, width: 1),
-        ),
+        border: Border(top: BorderSide(color: JournalColors.ink, width: 1)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

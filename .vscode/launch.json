@@ -1,0 +1,49 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Kyou (Android phone)",
+      "type": "dart",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/frontend",
+      "program": "${workspaceFolder}/frontend/lib/main.dart",
+      "toolArgs": [
+        "--dart-define-from-file=env.json"
+      ],
+      "env": {
+        "FLUTTER_STORAGE_BASE_URL": "https://storage.flutter-io.cn"
+      },
+      "flutterMode": "debug",
+      "deviceId": "9CEBB20605200476"
+    },
+    {
+      "name": "frontend",
+      "cwd": "frontend",
+      "request": "launch",
+      "type": "dart",
+      "toolArgs": [
+        "--dart-define-from-file=env.json"
+      ]
+    },
+    {
+      "name": "frontend (profile mode)",
+      "cwd": "frontend",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile",
+      "toolArgs": [
+        "--dart-define-from-file=env.json"
+      ]
+    },
+    {
+      "name": "frontend (release mode)",
+      "cwd": "frontend",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "toolArgs": [
+        "--dart-define-from-file=env.json"
+      ]
+    }
+  ]
+}
