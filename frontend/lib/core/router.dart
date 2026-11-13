@@ -18,6 +18,7 @@ import '../features/preference/preference_screen.dart';
 import '../features/profile/profile_screen.dart';
 import '../features/notifications/notification_screen.dart';
 import '../features/about/about_screen.dart';
+import '../features/language/language_screen.dart';
 import '../features/welcome/journal_welcome_screen.dart';
 
 /// Decides where a request for [location] should go.
@@ -129,6 +130,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/about',
         builder: (context, state) => const AboutScreen(),
+      ),
+      GoRoute(
+        path: '/language',
+        builder: (context, state) => const LanguageScreen(),
       ),
     ],
   );
