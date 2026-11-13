@@ -7,8 +7,7 @@ import '../features/auth/login_screen.dart';
 import '../features/auth/signup_screen.dart';
 import '../features/auth/sign_up_screen.dart';
 import '../features/entries/entries_list_screen.dart';
-import '../features/entries/entry.dart';
-import '../features/entries/entry_editor_screen.dart';
+import '../features/journal_editor/journal_editor_screen.dart';
 import '../features/home/home_dashboard_screen.dart';
 import '../features/insights/insights_screen.dart';
 import '../features/journal/create_journal_screen.dart';
@@ -116,12 +115,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/entries/new',
-        builder: (context, state) => const EntryEditorScreen(),
+        builder: (context, state) => const JournalEditorScreen(),
       ),
       GoRoute(
         path: '/entries/edit',
-        builder: (context, state) =>
-            EntryEditorScreen(entry: state.extra as Entry?),
+        builder: (context, state) => const JournalEditorScreen(),
       ),
       GoRoute(
         path: '/notifications',
