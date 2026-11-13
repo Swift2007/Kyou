@@ -5,11 +5,16 @@ import 'package:go_router/go_router.dart';
 import '../features/auth/auth_repository.dart';
 import '../features/auth/login_screen.dart';
 import '../features/auth/signup_screen.dart';
+import '../features/auth/sign_up_screen.dart';
 import '../features/entries/entries_list_screen.dart';
 import '../features/entries/entry.dart';
 import '../features/entries/entry_editor_screen.dart';
 import '../features/home/home_dashboard_screen.dart';
+import '../features/insights/insights_screen.dart';
+import '../features/journal/create_journal_screen.dart';
+import '../features/journal/journal_screen.dart';
 import '../features/onboarding/onboarding_flow_screen.dart';
+import '../features/profile/profile_screen.dart';
 import '../features/welcome/journal_welcome_screen.dart';
 
 /// Decides where a request for [location] should go.
@@ -66,12 +71,32 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const SignupScreen(),
       ),
       GoRoute(
+        path: '/sign-up',
+        builder: (context, state) => const SignUpScreen(),
+      ),
+      GoRoute(
+        path: '/create-journal',
+        builder: (context, state) => const CreateJournalScreen(),
+      ),
+      GoRoute(
         path: '/onboarding',
         builder: (context, state) => OnboardingFlowScreen(
           onGetStarted: () => context.go('/home'),
           onSkipped: () => context.go('/home'),
           onFinished: () => context.go('/home'),
         ),
+      ),
+      GoRoute(
+        path: '/insights',
+        builder: (context, state) => const InsightsScreen(),
+      ),
+      GoRoute(
+        path: '/journal',
+        builder: (context, state) => const JournalScreen(),
+      ),
+      GoRoute(
+        path: '/profile',
+        builder: (context, state) => const ProfileScreen(),
       ),
       GoRoute(
         path: '/home',

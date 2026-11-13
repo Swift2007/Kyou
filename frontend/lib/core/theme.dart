@@ -1,151 +1,214 @@
-// Responsibility: Defines the Material 3 theme, with all app colors and text styles as named constants.
+// Responsibility: Defines the neobrutalist Material theme, with all app colors
+// and text styles unified with the journal_kit OpenPencil Home UI palette.
+//
+// Colors match lib/core/widgets/journal_kit.dart exactly:
+//   background #F3EEDF, surface #FFFDF5, ink #191916, muted #625F55,
+//   accent #FF623C, rule #C6C1B3.
+//
+// Fonts: Inter (UI), IBM Plex Mono (monospace/dates), Caveat (display),
+// Anton (headline condensed) — wired via google_fonts.
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppColors {
   const AppColors._();
 
-  // Core palette (restyle later from Figma by changing values here).
-  static const Color creamBackground = Color(0xFFF7F1E3);
-  static const Color surface = Color(0xFFFFFBF4);
-  static const Color darkInk = Color(0xFF1F2433);
-  static const Color inkMuted = Color(0xFF5B6173);
-  static const Color orangePrimary = Color(0xFFE07A2F);
-  static const Color orangePrimaryDark = Color(0xFFC7661F);
+  // Neobrutalist palette — unified with core/widgets/journal_kit.dart
+  static const Color background = Color(0xFFF3EEDF);
+  static const Color surface = Color(0xFFFFFDF5);
+  static const Color ink = Color(0xFF191916);
+  static const Color muted = Color(0xFF625F55);
+  static const Color accent = Color(0xFFFF623C);
+  static const Color rule = Color(0xFFC6C1B3);
   static const Color onPrimary = Color(0xFFFFFFFF);
-  static const Color outline = Color(0xFFD7CFC0);
-  static const Color error = Color(0xFFB3261E);
+  static const Color error = Color(0xFFFF623C);
   static const Color onError = Color(0xFFFFFFFF);
 }
 
 class AppTextStyles {
   const AppTextStyles._();
 
-  static const String fontFamily = 'Roboto';
+  static const String fontFamily = 'Inter';
 
-  static const TextStyle display = TextStyle(
-    fontFamily: fontFamily,
-    fontSize: 32,
-    height: 1.2,
-    fontWeight: FontWeight.w700,
-    color: AppColors.darkInk,
-  );
+  static TextStyle display({
+    double fontSize = 56,
+    FontWeight fontWeight = FontWeight.w800,
+  }) =>
+      GoogleFonts.anton(
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        color: AppColors.ink,
+        letterSpacing: -1.5,
+        height: 1.1,
+      );
 
-  static const TextStyle headline = TextStyle(
-    fontFamily: fontFamily,
-    fontSize: 24,
-    height: 1.25,
-    fontWeight: FontWeight.w600,
-    color: AppColors.darkInk,
-  );
+  static TextStyle headline({
+    double fontSize = 40,
+    FontWeight fontWeight = FontWeight.w800,
+  }) =>
+      GoogleFonts.anton(
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        color: AppColors.ink,
+        letterSpacing: -1,
+        height: 1.15,
+      );
 
-  static const TextStyle title = TextStyle(
-    fontFamily: fontFamily,
-    fontSize: 18,
-    height: 1.3,
-    fontWeight: FontWeight.w600,
-    color: AppColors.darkInk,
-  );
+  static TextStyle title({
+    double fontSize = 24,
+    FontWeight fontWeight = FontWeight.w700,
+  }) =>
+      GoogleFonts.inter(
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        color: AppColors.ink,
+      );
 
-  static const TextStyle body = TextStyle(
-    fontFamily: fontFamily,
-    fontSize: 16,
-    height: 1.45,
-    fontWeight: FontWeight.w400,
-    color: AppColors.darkInk,
-  );
+  static TextStyle body({
+    double fontSize = 16,
+    FontWeight fontWeight = FontWeight.w400,
+  }) =>
+      GoogleFonts.inter(
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        color: AppColors.ink,
+        height: 1.5,
+      );
 
-  static const TextStyle bodyMuted = TextStyle(
-    fontFamily: fontFamily,
-    fontSize: 16,
-    height: 1.45,
-    fontWeight: FontWeight.w400,
-    color: AppColors.inkMuted,
-  );
+  static TextStyle bodyMuted({
+    double fontSize = 14,
+    FontWeight fontWeight = FontWeight.w400,
+  }) =>
+      GoogleFonts.inter(
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        color: AppColors.muted,
+        height: 1.5,
+      );
 
-  static const TextStyle label = TextStyle(
-    fontFamily: fontFamily,
-    fontSize: 14,
-    height: 1.3,
-    fontWeight: FontWeight.w500,
-    color: AppColors.darkInk,
-  );
+  static TextStyle label({
+    double fontSize = 12,
+    FontWeight fontWeight = FontWeight.w700,
+  }) =>
+      GoogleFonts.inter(
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        color: AppColors.ink,
+        letterSpacing: 0.5,
+      );
 
-  static const TextStyle caption = TextStyle(
-    fontFamily: fontFamily,
-    fontSize: 12,
-    height: 1.3,
-    fontWeight: FontWeight.w400,
-    color: AppColors.inkMuted,
-  );
+  static TextStyle caption({
+    double fontSize = 10,
+    FontWeight fontWeight = FontWeight.w700,
+  }) =>
+      GoogleFonts.ibmPlexMono(
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        color: AppColors.muted,
+        letterSpacing: 0.5,
+      );
+
+  static TextStyle mono({
+    double fontSize = 12,
+    FontWeight fontWeight = FontWeight.w400,
+  }) =>
+      GoogleFonts.ibmPlexMono(
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        color: AppColors.ink,
+        height: 1.4,
+      );
 }
 
 ThemeData buildAppTheme() {
-  final colorScheme = ColorScheme(
-    brightness: Brightness.light,
-    primary: AppColors.orangePrimary,
-    onPrimary: AppColors.onPrimary,
-    secondary: AppColors.orangePrimaryDark,
-    onSecondary: AppColors.onPrimary,
-    error: AppColors.error,
-    onError: AppColors.onError,
-    surface: AppColors.surface,
-    onSurface: AppColors.darkInk,
-    outline: AppColors.outline,
-    outlineVariant: AppColors.outline,
-    surfaceContainerHighest: AppColors.creamBackground,
-    onSurfaceVariant: AppColors.inkMuted,
-  );
-
   return ThemeData(
-    useMaterial3: true,
-    colorScheme: colorScheme,
-    scaffoldBackgroundColor: AppColors.creamBackground,
-    canvasColor: AppColors.creamBackground,
-    textTheme: const TextTheme(
-      displaySmall: AppTextStyles.display,
-      headlineSmall: AppTextStyles.headline,
-      titleLarge: AppTextStyles.headline,
-      titleMedium: AppTextStyles.title,
-      bodyLarge: AppTextStyles.body,
-      bodyMedium: AppTextStyles.body,
-      bodySmall: AppTextStyles.bodyMuted,
-      labelLarge: AppTextStyles.label,
-      labelMedium: AppTextStyles.label,
-      labelSmall: AppTextStyles.caption,
+    useMaterial3: false,
+    brightness: Brightness.light,
+    scaffoldBackgroundColor: AppColors.background,
+    canvasColor: AppColors.background,
+    colorScheme: const ColorScheme.light(
+      primary: AppColors.ink,
+      secondary: AppColors.accent,
+      surface: AppColors.surface,
+      onPrimary: AppColors.onPrimary,
+      onSecondary: AppColors.onPrimary,
+      onSurface: AppColors.ink,
+      error: AppColors.error,
+      onError: AppColors.onError,
+    ),
+    textTheme: TextTheme(
+      displayLarge: AppTextStyles.display(),
+      headlineMedium: AppTextStyles.headline(),
+      titleLarge: AppTextStyles.title(),
+      bodyLarge: AppTextStyles.body(),
+      bodyMedium: AppTextStyles.body(),
+      bodySmall: AppTextStyles.bodyMuted(),
+      labelLarge: AppTextStyles.label(),
+      labelMedium: AppTextStyles.caption(),
     ),
     appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.creamBackground,
-      foregroundColor: AppColors.darkInk,
+      backgroundColor: AppColors.background,
+      foregroundColor: AppColors.ink,
       elevation: 0,
       centerTitle: false,
     ),
     filledButtonTheme: FilledButtonThemeData(
       style: FilledButton.styleFrom(
-        backgroundColor: AppColors.orangePrimary,
+        backgroundColor: AppColors.accent,
         foregroundColor: AppColors.onPrimary,
-        textStyle: AppTextStyles.label,
+        elevation: 0,
+        shadowColor: AppColors.ink,
+        side: const BorderSide(color: AppColors.ink, width: 2),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+        ),
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        foregroundColor: AppColors.ink,
+        side: const BorderSide(color: AppColors.ink, width: 2),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+        ),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColors.surface,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.outline),
+      border: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(6)),
+        borderSide: BorderSide(color: AppColors.ink, width: 2),
       ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.outline),
+      enabledBorder: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(6)),
+        borderSide: BorderSide(color: AppColors.muted, width: 2),
       ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(
-          color: AppColors.orangePrimary,
-          width: 1.5,
-        ),
+      focusedBorder: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(6)),
+        borderSide: BorderSide(color: AppColors.ink, width: 3),
       ),
-      labelStyle: AppTextStyles.bodyMuted,
     ),
-    dividerColor: AppColors.outline,
+    cardTheme: const CardThemeData(
+      color: AppColors.background,
+      elevation: 0,
+      shadowColor: AppColors.ink,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(6)),
+        side: BorderSide(color: AppColors.ink, width: 2),
+      ),
+    ),
+    dividerTheme: const DividerThemeData(
+      space: 1,
+      thickness: 1,
+      color: AppColors.rule,
+    ),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: AppColors.background,
+      selectedItemColor: AppColors.ink,
+      unselectedItemColor: AppColors.muted,
+      type: BottomNavigationBarType.fixed,
+      elevation: 0,
+    ),
   );
 }

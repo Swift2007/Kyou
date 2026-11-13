@@ -136,7 +136,7 @@ class HomeDashboardScreen extends ConsumerWidget {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () => context.go('/entries'),
+                          onTap: () => context.go('/insights'),
                           child: _NavItem(
                             label: 'Insights',
                             active: false,
@@ -144,7 +144,7 @@ class HomeDashboardScreen extends ConsumerWidget {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () => context.go('/entries'),
+                          onTap: () => context.go('/journal'),
                           child: _NavItem(
                             label: 'Journal',
                             active: false,
@@ -156,7 +156,7 @@ class HomeDashboardScreen extends ConsumerWidget {
                           child: _NavItem(
                             label: 'Profile',
                             active: false,
-                            icon: Icons.person_outline,
+                            icon: Icons.person_outlined,
                           ),
                         ),
                       ],
@@ -553,7 +553,7 @@ class _BottomNav extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => context.go('/entries'),
+            onTap: () => context.go('/insights'),
             child: _NavItem(
               label: 'Insights',
               active: false,
@@ -561,7 +561,7 @@ class _BottomNav extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => context.go('/entries'),
+            onTap: () => context.go('/journal'),
             child: _NavItem(
               label: 'Journal',
               active: false,
@@ -573,7 +573,7 @@ class _BottomNav extends StatelessWidget {
             child: _NavItem(
               label: 'Profile',
               active: false,
-              icon: Icons.person_outline,
+              icon: Icons.person_outlined,
             ),
           ),
         ],
