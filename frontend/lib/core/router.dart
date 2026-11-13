@@ -16,6 +16,8 @@ import '../features/journal/journal_screen.dart';
 import '../features/onboarding/onboarding_flow_screen.dart';
 import '../features/preference/preference_screen.dart';
 import '../features/profile/profile_screen.dart';
+import '../features/notifications/notification_screen.dart';
+import '../features/about/about_screen.dart';
 import '../features/welcome/journal_welcome_screen.dart';
 
 /// Decides where a request for [location] should go.
@@ -119,6 +121,14 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/entries/edit',
         builder: (context, state) =>
             EntryEditorScreen(entry: state.extra as Entry?),
+      ),
+      GoRoute(
+        path: '/notifications',
+        builder: (context, state) => const NotificationScreen(),
+      ),
+      GoRoute(
+        path: '/about',
+        builder: (context, state) => const AboutScreen(),
       ),
     ],
   );
