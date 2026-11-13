@@ -14,6 +14,7 @@ import '../features/insights/insights_screen.dart';
 import '../features/journal/create_journal_screen.dart';
 import '../features/journal/journal_screen.dart';
 import '../features/onboarding/onboarding_flow_screen.dart';
+import '../features/preference/preference_screen.dart';
 import '../features/profile/profile_screen.dart';
 import '../features/welcome/journal_welcome_screen.dart';
 
@@ -85,6 +86,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           onSkipped: () => context.go('/home'),
           onFinished: () => context.go('/home'),
         ),
+      ),
+      GoRoute(
+        path: '/preference',
+        builder: (context, state) => const PreferenceScreen(),
       ),
       GoRoute(
         path: '/insights',
