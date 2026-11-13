@@ -8,15 +8,9 @@ import '../onboarding_viewmodel.dart';
 import '../widgets/onboarding_widgets.dart';
 
 class RhythmStep extends ConsumerStatefulWidget {
-  const RhythmStep({
-    super.key,
-    required this.onBack,
-    required this.onSkip,
-    required this.onContinue,
-  });
+  const RhythmStep({super.key, required this.onBack, required this.onContinue});
 
   final VoidCallback onBack;
-  final VoidCallback onSkip;
   final VoidCallback onContinue;
 
   @override
@@ -107,10 +101,6 @@ class _RhythmStepState extends ConsumerState<RhythmStep> {
         _save();
         widget.onBack();
       },
-      onSkip: () {
-        _save();
-        widget.onSkip();
-      },
       continueLabel: 'Continue',
       continueEnabled: true,
       onContinue: () {
@@ -196,6 +186,16 @@ class _RhythmStepState extends ConsumerState<RhythmStep> {
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
                         color: OnbColors.accent,
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      '›',
+                      style: GoogleFonts.inter(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: OnbColors.muted,
+                        height: 1,
                       ),
                     ),
                   ],

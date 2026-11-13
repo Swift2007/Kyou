@@ -7,15 +7,9 @@ import '../onboarding_viewmodel.dart';
 import '../widgets/onboarding_widgets.dart';
 
 class NameStep extends ConsumerStatefulWidget {
-  const NameStep({
-    super.key,
-    required this.onBack,
-    required this.onSkip,
-    required this.onContinue,
-  });
+  const NameStep({super.key, required this.onBack, required this.onContinue});
 
   final VoidCallback onBack;
-  final VoidCallback onSkip;
   final VoidCallback onContinue;
 
   @override
@@ -63,10 +57,6 @@ class _NameStepState extends ConsumerState<NameStep> {
         _save();
         widget.onBack();
       },
-      onSkip: () {
-        _save();
-        widget.onSkip();
-      },
       continueLabel: 'Continue',
       continueEnabled: canContinue,
       onContinue: _continue,
@@ -90,10 +80,11 @@ class _NameStepState extends ConsumerState<NameStep> {
               maxLength: _max,
               textInputAction: TextInputAction.done,
               onSubmitted: (_) => canContinue ? _continue() : null,
-              style: GoogleFonts.inter(
-                fontSize: 16,
+              style: GoogleFonts.caveat(
+                fontSize: 22,
                 fontWeight: FontWeight.w400,
                 color: OnbColors.ink,
+                height: 24 / 22,
               ),
               decoration: InputDecoration(
                 counterText: '',
@@ -106,10 +97,11 @@ class _NameStepState extends ConsumerState<NameStep> {
                 focusedErrorBorder: InputBorder.none,
                 disabledBorder: InputBorder.none,
                 hintText: '',
-                hintStyle: GoogleFonts.inter(
-                  fontSize: 16,
+                hintStyle: GoogleFonts.caveat(
+                  fontSize: 22,
                   fontWeight: FontWeight.w400,
                   color: OnbColors.muted,
+                  height: 24 / 22,
                 ),
               ),
             ),

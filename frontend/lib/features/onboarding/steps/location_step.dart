@@ -10,12 +10,10 @@ class LocationStep extends ConsumerStatefulWidget {
   const LocationStep({
     super.key,
     required this.onBack,
-    required this.onSkip,
     required this.onContinue,
   });
 
   final VoidCallback onBack;
-  final VoidCallback onSkip;
   final VoidCallback onContinue;
 
   @override
@@ -79,10 +77,6 @@ class _LocationStepState extends ConsumerState<LocationStep> {
             _save();
             widget.onBack();
           },
-          onSkip: () {
-            _save();
-            widget.onSkip();
-          },
           continueLabel: 'Continue',
           continueEnabled: true,
           onContinue: () {
@@ -110,12 +104,11 @@ class _LocationStepState extends ConsumerState<LocationStep> {
                       child: TextField(
                         controller: _country,
                         textInputAction: TextInputAction.next,
-                        style: GoogleFonts.inter(
-                          fontSize: 16,
-                          fontWeight: _country.text.trim().isEmpty
-                              ? FontWeight.w400
-                              : FontWeight.w500,
+                        style: GoogleFonts.caveat(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w400,
                           color: OnbColors.ink,
+                          height: 24 / 22,
                         ),
                         decoration: InputDecoration(
                           isCollapsed: true,
@@ -127,12 +120,13 @@ class _LocationStepState extends ConsumerState<LocationStep> {
                           focusedErrorBorder: InputBorder.none,
                           disabledBorder: InputBorder.none,
                           hintText: 'Select country',
-                          hintStyle: GoogleFonts.inter(
-                            fontSize: 16,
+                          hintStyle: GoogleFonts.caveat(
+                            fontSize: 22,
                             fontWeight: FontWeight.w400,
                             color: _country.text.trim().isEmpty
                                 ? OnbColors.ink
                                 : OnbColors.muted,
+                            height: 24 / 22,
                           ),
                         ),
                       ),
@@ -160,10 +154,11 @@ class _LocationStepState extends ConsumerState<LocationStep> {
                     _save();
                     widget.onContinue();
                   },
-                  style: GoogleFonts.inter(
-                    fontSize: 16,
+                  style: GoogleFonts.caveat(
+                    fontSize: 22,
                     fontWeight: FontWeight.w400,
                     color: OnbColors.ink,
+                    height: 24 / 22,
                   ),
                   decoration: InputDecoration(
                     isCollapsed: true,
@@ -175,10 +170,11 @@ class _LocationStepState extends ConsumerState<LocationStep> {
                     focusedErrorBorder: InputBorder.none,
                     disabledBorder: InputBorder.none,
                     hintText: '',
-                    hintStyle: GoogleFonts.inter(
-                      fontSize: 16,
+                    hintStyle: GoogleFonts.caveat(
+                      fontSize: 22,
                       fontWeight: FontWeight.w400,
                       color: OnbColors.muted,
+                      height: 24 / 22,
                     ),
                   ),
                 ),

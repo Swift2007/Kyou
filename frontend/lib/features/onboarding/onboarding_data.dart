@@ -155,11 +155,11 @@ class OnboardingData {
   static String frequencyLabel(WritingFrequency value) {
     switch (value) {
       case WritingFrequency.everyDay:
-        return 'Every day';
+        return 'Daily';
       case WritingFrequency.fewTimesAWeek:
-        return 'A few times a week';
+        return 'Few / week';
       case WritingFrequency.whenIFeelLikeIt:
-        return 'When I feel like it';
+        return 'Whenever';
     }
   }
 

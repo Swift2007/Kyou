@@ -340,7 +340,6 @@ class _DateBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasValue = controller.text.trim().isNotEmpty;
     return OnbFieldBox(
       error: error,
       shadow: hardShadow(x: 2, y: 2),
@@ -349,10 +348,11 @@ class _DateBox extends StatelessWidget {
         keyboardType: keyboardType,
         inputFormatters: formatters,
         textAlign: TextAlign.center,
-        style: GoogleFonts.inter(
-          fontSize: 15,
-          fontWeight: hasValue ? FontWeight.w600 : FontWeight.w400,
+        style: GoogleFonts.caveat(
+          fontSize: 22,
+          fontWeight: FontWeight.w400,
           color: OnbColors.ink,
+          height: 24 / 22,
         ),
         decoration: InputDecoration(
           isCollapsed: true,
@@ -364,10 +364,11 @@ class _DateBox extends StatelessWidget {
           focusedErrorBorder: InputBorder.none,
           disabledBorder: InputBorder.none,
           hintText: hint,
-          hintStyle: GoogleFonts.inter(
-            fontSize: 15,
+          hintStyle: GoogleFonts.caveat(
+            fontSize: 22,
             fontWeight: FontWeight.w400,
             color: OnbColors.muted,
+            height: 24 / 22,
           ),
         ),
       ),

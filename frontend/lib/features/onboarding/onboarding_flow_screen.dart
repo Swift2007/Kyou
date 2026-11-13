@@ -54,42 +54,22 @@ class OnboardingFlowScreen extends ConsumerWidget {
         );
         break;
       case 1:
-        step = NameStep(
-          onBack: vm.previous,
-          onSkip: vm.skipStep,
-          onContinue: vm.next,
-        );
+        step = NameStep(onBack: vm.previous, onContinue: vm.next);
         break;
       case 2:
         step = BirthdayStep(onBack: vm.previous, onContinue: vm.next);
         break;
       case 3:
-        step = LocationStep(
-          onBack: vm.previous,
-          onSkip: vm.skipStep,
-          onContinue: vm.next,
-        );
+        step = LocationStep(onBack: vm.previous, onContinue: vm.next);
         break;
       case 4:
-        step = GoalsStep(
-          onBack: vm.previous,
-          onSkip: vm.skipStep,
-          onContinue: vm.next,
-        );
+        step = GoalsStep(onBack: vm.previous, onContinue: vm.next);
         break;
       case 5:
-        step = RhythmStep(
-          onBack: vm.previous,
-          onSkip: vm.skipStep,
-          onContinue: vm.next,
-        );
+        step = RhythmStep(onBack: vm.previous, onContinue: vm.next);
         break;
       case 6:
-        step = TopicsStep(
-          onBack: vm.previous,
-          onSkip: vm.skipStep,
-          onContinue: vm.next,
-        );
+        step = TopicsStep(onBack: vm.previous, onContinue: vm.next);
         break;
       case 7:
         step = SummaryStep(

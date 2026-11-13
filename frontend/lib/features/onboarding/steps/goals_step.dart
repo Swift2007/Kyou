@@ -18,15 +18,9 @@ const List<String> _goals = <String>[
 ];
 
 class GoalsStep extends ConsumerStatefulWidget {
-  const GoalsStep({
-    super.key,
-    required this.onBack,
-    required this.onSkip,
-    required this.onContinue,
-  });
+  const GoalsStep({super.key, required this.onBack, required this.onContinue});
 
   final VoidCallback onBack;
-  final VoidCallback onSkip;
   final VoidCallback onContinue;
 
   @override
@@ -66,10 +60,6 @@ class _GoalsStepState extends ConsumerState<GoalsStep> {
       onBack: () {
         _save();
         widget.onBack();
-      },
-      onSkip: () {
-        _save();
-        widget.onSkip();
       },
       continueLabel: 'Continue',
       continueEnabled: true,

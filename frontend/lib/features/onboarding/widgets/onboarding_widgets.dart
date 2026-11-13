@@ -27,7 +27,7 @@ class OnbColors {
 BoxShadow hardShadow({double x = 4, double y = 4}) =>
     BoxShadow(color: OnbColors.ink, offset: Offset(x, y), blurRadius: 0);
 
-/// Pinned onboarding chrome: cream background + top bar (back/skip/progress)
+/// Pinned onboarding chrome: cream background + top bar (back/progress)
 /// with scrollable body and a pinned bottom continue button.
 class OnboardingScaffold extends StatelessWidget {
   const OnboardingScaffold({
@@ -36,7 +36,6 @@ class OnboardingScaffold extends StatelessWidget {
     required this.totalSteps,
     required this.child,
     this.onBack,
-    this.onSkip,
     this.continueLabel = 'Continue',
     this.onContinue,
     this.continueEnabled = true,
@@ -48,7 +47,6 @@ class OnboardingScaffold extends StatelessWidget {
   final int totalSteps;
   final Widget child;
   final VoidCallback? onBack;
-  final VoidCallback? onSkip;
   final String continueLabel;
   final VoidCallback? onContinue;
   final bool continueEnabled;
@@ -67,11 +65,10 @@ class OnboardingScaffold extends StatelessWidget {
                 step: step,
                 totalSteps: totalSteps,
                 onBack: onBack,
-                onSkip: onSkip,
               ),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(24, 4, 24, 16),
+                padding: const EdgeInsets.fromLTRB(24, 20, 24, 32),
                 child: child,
               ),
             ),
@@ -102,13 +99,11 @@ class OnboardingTopBar extends StatelessWidget {
     required this.step,
     required this.totalSteps,
     this.onBack,
-    this.onSkip,
   });
 
   final int step;
   final int totalSteps;
   final VoidCallback? onBack;
-  final VoidCallback? onSkip;
 
   @override
   Widget build(BuildContext context) {
@@ -120,6 +115,7 @@ class OnboardingTopBar extends StatelessWidget {
         border: Border.all(color: OnbColors.ink, width: 2),
       ),
       child: Stack(
+        fit: StackFit.expand,
         clipBehavior: Clip.none,
         children: [
           if (onBack != null)
@@ -143,27 +139,6 @@ class OnboardingTopBar extends StatelessWidget {
                         color: OnbColors.ink,
                         height: 1,
                       ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          if (onSkip != null)
-            Positioned(
-              right: 24,
-              top: 56,
-              child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: onSkip,
-                child: SizedBox(
-                  height: 24,
-                  child: Text(
-                    'Skip',
-                    style: GoogleFonts.inter(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: OnbColors.muted,
-                      height: 1,
                     ),
                   ),
                 ),
@@ -464,21 +439,24 @@ class OnbChip extends StatelessWidget {
               label,
               style: GoogleFonts.inter(
                 fontSize: 13,
-                fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
+                // Constant weight prevents Wrap reflow when toggling selection.
+                fontWeight: FontWeight.w600,
                 color: selected ? OnbColors.onAccent : OnbColors.ink,
               ),
             ),
-            if (selected) ...[
-              const SizedBox(width: 6),
-              Text(
+            // Reserve space so selecting/deselecting never changes chip width.
+            const SizedBox(width: 6),
+            Opacity(
+              opacity: selected ? 1 : 0,
+              child: Text(
                 '\u2713',
                 style: GoogleFonts.inter(
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
-                  color: OnbColors.onAccent,
+                  color: selected ? OnbColors.onAccent : OnbColors.ink,
                 ),
               ),
-            ],
+            ),
           ],
         ),
       ),

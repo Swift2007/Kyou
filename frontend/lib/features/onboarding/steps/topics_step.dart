@@ -20,15 +20,9 @@ const List<String> _topics = <String>[
 ];
 
 class TopicsStep extends ConsumerStatefulWidget {
-  const TopicsStep({
-    super.key,
-    required this.onBack,
-    required this.onSkip,
-    required this.onContinue,
-  });
+  const TopicsStep({super.key, required this.onBack, required this.onContinue});
 
   final VoidCallback onBack;
-  final VoidCallback onSkip;
   final VoidCallback onContinue;
 
   @override
@@ -68,10 +62,6 @@ class _TopicsStepState extends ConsumerState<TopicsStep> {
       onBack: () {
         _save();
         widget.onBack();
-      },
-      onSkip: () {
-        _save();
-        widget.onSkip();
       },
       continueLabel: 'Continue',
       continueEnabled: true,
