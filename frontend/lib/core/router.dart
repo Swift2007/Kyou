@@ -7,14 +7,17 @@ import '../features/auth/login_screen.dart';
 import '../features/auth/signup_screen.dart';
 import '../features/auth/sign_up_screen.dart';
 import '../features/entries/entries_list_screen.dart';
-import '../features/entries/entry.dart';
-import '../features/entries/entry_editor_screen.dart';
+import '../features/journal_editor/journal_editor_screen.dart';
 import '../features/home/home_dashboard_screen.dart';
 import '../features/insights/insights_screen.dart';
 import '../features/journal/create_journal_screen.dart';
 import '../features/journal/journal_screen.dart';
 import '../features/onboarding/onboarding_flow_screen.dart';
+import '../features/preference/preference_screen.dart';
 import '../features/profile/profile_screen.dart';
+import '../features/notifications/notification_screen.dart';
+import '../features/about/about_screen.dart';
+import '../features/language/language_screen.dart';
 import '../features/welcome/journal_welcome_screen.dart';
 
 /// Decides where a request for [location] should go.
@@ -87,6 +90,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         ),
       ),
       GoRoute(
+        path: '/preference',
+        builder: (context, state) => const PreferenceScreen(),
+      ),
+      GoRoute(
         path: '/insights',
         builder: (context, state) => const InsightsScreen(),
       ),
@@ -108,12 +115,23 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/entries/new',
-        builder: (context, state) => const EntryEditorScreen(),
+        builder: (context, state) => const JournalEditorScreen(),
       ),
       GoRoute(
         path: '/entries/edit',
-        builder: (context, state) =>
-            EntryEditorScreen(entry: state.extra as Entry?),
+        builder: (context, state) => const JournalEditorScreen(),
+      ),
+      GoRoute(
+        path: '/notifications',
+        builder: (context, state) => const NotificationScreen(),
+      ),
+      GoRoute(
+        path: '/about',
+        builder: (context, state) => const AboutScreen(),
+      ),
+      GoRoute(
+        path: '/language',
+        builder: (context, state) => const LanguageScreen(),
       ),
     ],
   );
