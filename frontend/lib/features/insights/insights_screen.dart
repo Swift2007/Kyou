@@ -1,13 +1,12 @@
 // Responsibility: Renders the Insights screen matching OpenPencil Home UI
 // (frame 0:1142) with responsive layout. No status bar, no home indicator pill.
 // Sections: INSIGHTS title, Analysis (4 stat cards in 2x2), THIS WEEK chart,
-// RECENT INSIGHT card. FAB opens "New entry" popup menu anchored to FAB.
+// RECENT INSIGHT card. Uses shared bottom dock (Insights tab removed from nav).
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme.dart';
-import '../../core/widgets/app_bottom_nav.dart';
-import '../../core/widgets/app_new_entry_fab.dart';
+import '../../core/widgets/app_bottom_dock.dart';
 import 'widgets/insight_row.dart';
 import 'widgets/insights_app_bar.dart';
 import 'widgets/insights_stats_row.dart';
@@ -20,11 +19,11 @@ class InsightsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      bottomNavigationBar: const AppBottomNav(activeTab: AppTab.insights),
-      floatingActionButton: const AppNewEntryFab(),
+      bottomNavigationBar: const AppBottomDock(activeTab: AppTab.insights),
       body: SafeArea(
+        bottom: false,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 96),
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: const [
