@@ -1,5 +1,5 @@
 // Responsibility: Home screen — progress hub (OpenPencil Home UI base)
-// with key insights surfaced: stats, weekly activity, and recent insight.
+// with key insights surfaced: stats, daily activity, and recent insight.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -7,7 +7,7 @@ import '../../core/theme.dart';
 import '../../core/widgets/app_bottom_dock.dart';
 import '../insights/widgets/insight_row.dart';
 import '../insights/widgets/insights_stats_row.dart';
-import '../insights/widgets/weekly_chart.dart';
+import 'widgets/home_activity_grid.dart';
 import 'widgets/home_app_bar.dart';
 import 'widgets/home_calendar_card.dart';
 import 'widgets/home_recent_entries.dart';
@@ -53,9 +53,9 @@ class HomeDashboardScreen extends ConsumerWidget {
                 ],
               ),
               SizedBox(height: 24),
-              _SectionLabel('THIS WEEK'),
+              _SectionLabel('ACTIVITY'),
               SizedBox(height: 12),
-              WeeklyChart(),
+              HomeActivityGrid(),
               SizedBox(height: 24),
               _SectionLabel('RECENT INSIGHT'),
               SizedBox(height: 12),
