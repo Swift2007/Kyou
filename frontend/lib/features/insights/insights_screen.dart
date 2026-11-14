@@ -1,7 +1,5 @@
-// Responsibility: Renders the Insights screen matching OpenPencil Home UI
-// (frame 0:1142) with responsive layout. No status bar, no home indicator pill.
-// Sections: INSIGHTS title, Analysis (4 stat cards in 2x2), THIS WEEK chart,
-// RECENT INSIGHT card. Uses shared bottom dock (Insights tab removed from nav).
+// Responsibility: Insights screen (kept accessible by route, no navbar tab).
+// Key insights content has been surfaced on Home; this screen remains available.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,7 +17,7 @@ class InsightsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      bottomNavigationBar: const AppBottomDock(activeTab: AppTab.insights),
+      bottomNavigationBar: const AppBottomDock(activeTab: null),
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(

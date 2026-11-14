@@ -1,20 +1,11 @@
-// Responsibility: Renders the Profile screen matching the OpenPencil
-// Home UI prototype exactly (frame 0:1272, 402x874).
-// No status bar per user instruction.
-//
-// Structure from OpenPencil:
-// - App bar: "PROFILE" title (0:1282/0:1285)
-// - Avatar: "S" initial + "Sam Smith" + "@sam.untitled"
-// - Menu items: My Profile >, Preferences >, Notifications >,
-//   Transaction History >, About App >, Logout >
-// - Bottom nav: Profile active (0:1289)
-// - Home indicator (0:1287/0:1288)
+// Responsibility: Profile screen — user info and settings menu.
+// Uses shared bottom dock. No status bar, no home indicator pill.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
+import '../../core/widgets/app_bottom_dock.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -23,64 +14,43 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: AppColors.background,
+      bottomNavigationBar: const AppBottomDock(activeTab: AppTab.profile),
       body: SafeArea(
         bottom: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 12),
-            // App bar — "PROFILE" title matching OpenPencil 0:1282/0:1285
-            const _ProfileAppBar(),
-            const SizedBox(height: 24),
-            // Avatar + name + handle
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: _ProfileHeader(),
-            ),
-            const SizedBox(height: 32),
-            // Menu items
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: _ProfileMenu(),
-            ),
-            const Spacer(),
-            // Bottom navigation — Profile active (OpenPencil 0:1289)
-            const _ProfileBottomNav(),
-            // Home safe area — iOS home indicator (OpenPencil 0:1287/0:1288)
-            Container(
-              height: 38,
-              color: AppColors.background,
-              child: const Center(child: _HomeIndicator()),
-            ),
-          ],
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(24, 12, 24, 120),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: const [
+              _ProfileAppBar(),
+              SizedBox(height: 24),
+              _ProfileHeader(),
+              SizedBox(height: 32),
+              _ProfileMenu(),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class _ProfileAppBar extends ConsumerWidget {
+class _ProfileAppBar extends StatelessWidget {
   const _ProfileAppBar();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-      child: Row(
-        children: [
-          // "PROFILE" title matching OpenPencil 0:1285
-          Text(
-            'PROFILE',
-            style: TextStyle(
-              fontFamily: 'Inter',
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
-              color: AppColors.ink,
-              letterSpacing: 0.5,
-            ),
-          ),
-          const Spacer(),
-        ],
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 10),
+      child: Text(
+        'PROFILE',
+        style: TextStyle(
+          fontFamily: 'Inter',
+          fontSize: 20,
+          fontWeight: FontWeight.w800,
+          color: AppColors.ink,
+          letterSpacing: 0.5,
+        ),
       ),
     );
   }
@@ -93,7 +63,6 @@ class _ProfileHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Avatar — "S" initial matching OpenPencil 0:1307/0:1308
         Container(
           width: 62,
           height: 62,
@@ -115,7 +84,6 @@ class _ProfileHeader extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        // Name
         Text(
           'Sam Smith',
           style: GoogleFonts.inter(
@@ -125,7 +93,6 @@ class _ProfileHeader extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 4),
-        // Handle
         Text(
           '@sam.untitled',
           style: GoogleFonts.inter(
@@ -145,36 +112,16 @@ class _ProfileMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        _MenuItem(label: 'My Profile', onTap: () {}),
-        const Divider(
-          height: 1,
-          color: AppColors.rule,
-          indent: 0,
-          endIndent: 0,
-        ),
-        _MenuItem(label: 'Preferences', onTap: () {}),
-        const Divider(
-          height: 1,
-          color: AppColors.rule,
-          indent: 0,
-          endIndent: 0,
-        ),
-        _MenuItem(label: 'Notifications', onTap: () {}),
-        const Divider(
-          height: 1,
-          color: AppColors.rule,
-          indent: 0,
-          endIndent: 0,
-        ),
-        _MenuItem(label: 'About App', onTap: () {}),
-        const Divider(
-          height: 1,
-          color: AppColors.rule,
-          indent: 0,
-          endIndent: 0,
-        ),
-        _MenuItem(label: 'Logout', onTap: () {}, accent: true),
+      children: const [
+        _MenuItem(label: 'My Profile'),
+        SizedBox(height: 8),
+        _MenuItem(label: 'Preferences'),
+        SizedBox(height: 8),
+        _MenuItem(label: 'Notifications'),
+        SizedBox(height: 8),
+        _MenuItem(label: 'About App'),
+        SizedBox(height: 8),
+        _MenuItem(label: 'Logout', accent: true),
       ],
     );
   }
@@ -182,19 +129,14 @@ class _ProfileMenu extends StatelessWidget {
 
 class _MenuItem extends StatelessWidget {
   final String label;
-  final VoidCallback onTap;
   final bool accent;
 
-  const _MenuItem({
-    required this.label,
-    required this.onTap,
-    this.accent = false,
-  });
+  const _MenuItem({required this.label, this.accent = false});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 354,
+      width: double.infinity,
       height: 56,
       decoration: BoxDecoration(
         color: AppColors.surface,
@@ -228,117 +170,6 @@ class _MenuItem extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _ProfileBottomNav extends StatelessWidget {
-  const _ProfileBottomNav();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 402,
-      height: 60,
-      decoration: BoxDecoration(
-        color: AppColors.background,
-        border: Border(top: BorderSide(color: AppColors.ink, width: 2)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          GestureDetector(
-            onTap: () => context.go('/home'),
-            child: _NavItem(
-              label: 'Home',
-              active: false,
-              icon: Icons.home_outlined,
-            ),
-          ),
-          GestureDetector(
-            onTap: () => context.go('/insights'),
-            child: _NavItem(
-              label: 'Insights',
-              active: false,
-              icon: Icons.bar_chart_outlined,
-            ),
-          ),
-          GestureDetector(
-            onTap: () => context.go('/journal'),
-            child: _NavItem(
-              label: 'Journal',
-              active: false,
-              icon: Icons.book_outlined,
-            ),
-          ),
-          GestureDetector(
-            onTap: () => context.go('/profile'),
-            child: _NavItem(
-              label: 'Profile',
-              active: true,
-              icon: Icons.person_outlined,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _NavItem extends StatelessWidget {
-  final String label;
-  final bool active;
-  final IconData icon;
-
-  const _NavItem({
-    required this.label,
-    required this.active,
-    required this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        if (active)
-          Container(
-            width: 6,
-            height: 6,
-            margin: const EdgeInsets.only(bottom: 2),
-            decoration: const BoxDecoration(
-              color: AppColors.accent,
-              shape: BoxShape.circle,
-            ),
-          )
-        else
-          const SizedBox(height: 8),
-        Icon(icon, size: 22, color: active ? AppColors.ink : AppColors.muted),
-        Text(
-          label,
-          style: GoogleFonts.inter(
-            fontSize: 13,
-            color: active ? AppColors.ink : AppColors.muted,
-            fontWeight: active ? FontWeight.w700 : FontWeight.w400,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _HomeIndicator extends StatelessWidget {
-  const _HomeIndicator();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 134,
-      height: 5,
-      decoration: BoxDecoration(
-        color: AppColors.muted,
-        borderRadius: BorderRadius.circular(2.5),
       ),
     );
   }

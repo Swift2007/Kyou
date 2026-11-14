@@ -1,16 +1,16 @@
 // Responsibility: Shared bottom dock for main tab screens.
 // Rounded, raised 3-tab nav pill (Home/Journal/Profile) with a separate
-// FAB on the right (iOS-like). Insights is not shown in the nav.
+// FAB on the right (iOS-like).
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../theme.dart';
 import 'app_new_entry_fab.dart';
 
-enum AppTab { home, insights, journal, profile }
+enum AppTab { home, journal, profile }
 
 class AppBottomDock extends StatelessWidget {
-  final AppTab activeTab;
+  final AppTab? activeTab;
 
   const AppBottomDock({super.key, required this.activeTab});
 
@@ -56,10 +56,7 @@ class AppBottomDock extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 12),
-            const Padding(
-              padding: EdgeInsets.only(bottom: 0),
-              child: AppNewEntryFab(),
-            ),
+            const AppNewEntryFab(),
           ],
         ),
       ),
