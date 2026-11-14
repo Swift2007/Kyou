@@ -1,5 +1,6 @@
 // Responsibility: Journal entry card — icon/color block, content, chevron.
 // Configurable for user-chosen icon/color; OpenPencil-aligned typography.
+// Supports compact mode (smaller height, no intro) for Home recent entries.
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,6 +15,8 @@ class JournalEntryCard extends StatelessWidget {
   final IconData icon;
   final Color iconBackgroundColor;
   final VoidCallback? onTap;
+  final bool showIntro;
+  final bool compact;
 
   const JournalEntryCard({
     super.key,
@@ -21,10 +24,12 @@ class JournalEntryCard extends StatelessWidget {
     required this.date,
     required this.mood,
     required this.trait,
-    required this.intro,
+    this.intro = '',
     this.icon = Icons.eco_outlined,
     this.iconBackgroundColor = const Color(0xFFDDE7C7),
     this.onTap,
+    this.showIntro = true,
+    this.compact = false,
   });
 
   @override
@@ -34,16 +39,26 @@ class JournalEntryCard extends StatelessWidget {
                 Brightness.dark
             ? AppColors.surface
             : AppColors.ink;
+    final stripWidth = compact ? 44.0 : 56.0;
+    final iconSize = compact ? 20.0 : 24.0;
+    final contentPadding = compact
+        ? const EdgeInsets.fromLTRB(10, 8, 6, 8)
+        : const EdgeInsets.fromLTRB(12, 12, 8, 12);
+    final titleSize = compact ? 15.0 : 16.0;
+    final dateSize = compact ? 9.0 : 10.0;
+    final metaGap = compact ? 4.0 : 6.0;
+    final chevronSize = compact ? 20.0 : 22.0;
+    final radius = 20.0;
 
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(radius),
         child: Container(
           decoration: BoxDecoration(
             color: AppColors.surface,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(radius),
             border: Border.all(color: AppColors.ink, width: 2),
           ),
           child: ClipRRect(
@@ -53,14 +68,14 @@ class JournalEntryCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Container(
-                    width: 56,
+                    width: stripWidth,
                     color: iconBackgroundColor,
                     alignment: Alignment.center,
-                    child: Icon(icon, size: 24, color: iconColor),
+                    child: Icon(icon, size: iconSize, color: iconColor),
                   ),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(12, 12, 8, 12),
+                      padding: contentPadding,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -72,9 +87,9 @@ class JournalEntryCard extends StatelessWidget {
                               Expanded(
                                 child: Text(
                                   title,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontFamily: 'Inter',
-                                    fontSize: 16,
+                                    fontSize: titleSize,
                                     fontWeight: FontWeight.w700,
                                     color: AppColors.ink,
                                     height: 1.2,
@@ -85,12 +100,12 @@ class JournalEntryCard extends StatelessWidget {
                               ),
                               const SizedBox(width: 8),
                               Padding(
-                                padding: const EdgeInsets.only(top: 2),
+                                padding: const EdgeInsets.only(top: 1),
                                 child: Text(
                                   date,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontFamily: 'IBM Plex Mono',
-                                    fontSize: 10,
+                                    fontSize: dateSize,
                                     fontWeight: FontWeight.w400,
                                     color: AppColors.muted,
                                     height: 1.2,
@@ -100,10 +115,10 @@ class JournalEntryCard extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 6),
+                          SizedBox(height: metaGap),
                           Wrap(
                             spacing: 8,
-                            runSpacing: 4,
+                            runSpacing: 2,
                             crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
                               _MetaLabel(text: mood, emphasized: true),
@@ -118,28 +133,30 @@ class JournalEntryCard extends StatelessWidget {
                               _MetaLabel(text: trait, emphasized: false),
                             ],
                           ),
-                          const SizedBox(height: 6),
-                          Text(
-                            intro,
-                            style: GoogleFonts.caveat(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.muted,
-                              height: 1.2,
+                          if (showIntro && intro.isNotEmpty) ...[
+                            SizedBox(height: metaGap),
+                            Text(
+                              intro,
+                              style: GoogleFonts.caveat(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.muted,
+                                height: 1.2,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                          ],
                         ],
                       ),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(right: 8),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8),
                     child: Center(
                       child: Icon(
                         Icons.chevron_right,
-                        size: 22,
+                        size: chevronSize,
                         color: AppColors.muted,
                       ),
                     ),

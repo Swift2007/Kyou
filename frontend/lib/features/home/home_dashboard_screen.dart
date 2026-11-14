@@ -1,12 +1,10 @@
 // Responsibility: Home screen — progress hub (OpenPencil Home UI base)
-// with key insights surfaced: stats, daily activity, and recent insight.
+// with key insights surfaced: daily activity and recent entries.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme.dart';
 import '../../core/widgets/app_bottom_dock.dart';
-import '../insights/widgets/insight_row.dart';
-import '../insights/widgets/insights_stats_row.dart';
 import 'widgets/home_activity_grid.dart';
 import 'widgets/home_app_bar.dart';
 import 'widgets/home_calendar_card.dart';
@@ -20,50 +18,58 @@ class HomeDashboardScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       bottomNavigationBar: const AppBottomDock(activeTab: AppTab.home),
-      body: const SafeArea(
+      body: SafeArea(
         bottom: false,
-        child: SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(16, 12, 16, 120),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              HomeAppBar(),
-              SizedBox(height: 16),
-              HomeCalendarCard(),
-              SizedBox(height: 24),
-              _SectionLabel('YOUR PROGRESS'),
-              SizedBox(height: 12),
-              Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(16, 12, 16, 0),
+              child: HomeAppBar(),
+            ),
+            const SizedBox(height: 8),
+            Expanded(
+              child: Stack(
                 children: [
-                  Expanded(
-                    child: StatCard(
-                      value: '12',
-                      label: 'STREAK',
-                      sublabel: 'days',
+                  SingleChildScrollView(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 120),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: const [
+                        HomeCalendarCard(),
+                        SizedBox(height: 24),
+                        _SectionLabel('ACTIVITY'),
+                        SizedBox(height: 12),
+                        HomeActivityGrid(),
+                        SizedBox(height: 24),
+                        HomeRecentEntries(),
+                      ],
                     ),
                   ),
-                  SizedBox(width: 12),
-                  Expanded(
-                    child: StatCard(
-                      value: '42',
-                      label: 'ENTRIES',
-                      sublabel: 'total',
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: IgnorePointer(
+                      child: Container(
+                        height: 20,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              AppColors.background,
+                              AppColors.background.withValues(alpha: 0.0),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 24),
-              _SectionLabel('ACTIVITY'),
-              SizedBox(height: 12),
-              HomeActivityGrid(),
-              SizedBox(height: 24),
-              _SectionLabel('RECENT INSIGHT'),
-              SizedBox(height: 12),
-              InsightRow(),
-              SizedBox(height: 24),
-              HomeRecentEntries(),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
