@@ -1,13 +1,10 @@
-// Responsibility: Renders the Insights screen matching OpenPencil Home UI
-// (frame 0:1142) with responsive layout. No status bar, no home indicator pill.
-// Sections: INSIGHTS title, Analysis (4 stat cards in 2x2), THIS WEEK chart,
-// RECENT INSIGHT card. FAB opens "New entry" popup menu anchored to FAB.
+// Responsibility: Insights screen (kept accessible by route, no navbar tab).
+// Key insights content has been surfaced on Home; this screen remains available.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme.dart';
-import '../../core/widgets/app_bottom_nav.dart';
-import '../../core/widgets/app_new_entry_fab.dart';
+import '../../core/widgets/app_bottom_dock.dart';
 import 'widgets/insight_row.dart';
 import 'widgets/insights_app_bar.dart';
 import 'widgets/insights_stats_row.dart';
@@ -20,37 +17,29 @@ class InsightsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      bottomNavigationBar: const AppBottomNav(activeTab: AppTab.insights),
+      bottomNavigationBar: const AppBottomDock(activeTab: null),
       body: SafeArea(
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 96),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: const [
-                  InsightsAppBar(),
-                  SizedBox(height: 24),
-                  _SectionLabel('Analysis'),
-                  SizedBox(height: 12),
-                  InsightsStatsRow(),
-                  SizedBox(height: 24),
-                  _SectionLabel('THIS WEEK'),
-                  SizedBox(height: 12),
-                  WeeklyChart(),
-                  SizedBox(height: 24),
-                  _SectionLabel('RECENT INSIGHT'),
-                  SizedBox(height: 12),
-                  InsightRow(),
-                ],
-              ),
-            ),
-            const Positioned(
-              right: 16,
-              bottom: 16,
-              child: AppNewEntryFab(),
-            ),
-          ],
+        bottom: false,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: const [
+              InsightsAppBar(),
+              SizedBox(height: 24),
+              _SectionLabel('Analysis'),
+              SizedBox(height: 12),
+              InsightsStatsRow(),
+              SizedBox(height: 24),
+              _SectionLabel('THIS WEEK'),
+              SizedBox(height: 12),
+              WeeklyChart(),
+              SizedBox(height: 24),
+              _SectionLabel('RECENT INSIGHT'),
+              SizedBox(height: 12),
+              InsightRow(),
+            ],
+          ),
         ),
       ),
     );

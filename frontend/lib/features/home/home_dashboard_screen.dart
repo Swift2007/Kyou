@@ -1,12 +1,11 @@
-// Responsibility: Home screen (OpenPencil Home UI, frame 0:1052).
-// Clean, flat layout: app bar, calendar, recent entries, shared FAB + nav.
+// Responsibility: Home screen — progress hub (OpenPencil Home UI base)
+// with key insights surfaced: daily activity and recent entries.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../core/theme.dart';
-import '../../core/widgets/app_bottom_nav.dart';
-import '../../core/widgets/app_new_entry_fab.dart';
+import '../../core/widgets/app_bottom_dock.dart';
+import 'widgets/home_activity_grid.dart';
 import 'widgets/home_app_bar.dart';
 import 'widgets/home_calendar_card.dart';
 import 'widgets/home_recent_entries.dart';
@@ -18,32 +17,79 @@ class HomeDashboardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      bottomNavigationBar: const AppBottomNav(activeTab: AppTab.home),
+      bottomNavigationBar: const AppBottomDock(activeTab: AppTab.home),
       body: SafeArea(
-        child: Stack(
+        bottom: false,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 96),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+            const Padding(
+              padding: EdgeInsets.fromLTRB(16, 12, 16, 0),
+              child: HomeAppBar(),
+            ),
+            const SizedBox(height: 8),
+            Expanded(
+              child: Stack(
                 children: [
-                  HomeAppBar(
-                    onEdit: () => context.push('/edit-profile'),
+                  SingleChildScrollView(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 120),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: const [
+                        HomeCalendarCard(),
+                        SizedBox(height: 24),
+                        _SectionLabel('ACTIVITY'),
+                        SizedBox(height: 12),
+                        HomeActivityGrid(),
+                        SizedBox(height: 24),
+                        HomeRecentEntries(),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 16),
-                  const HomeCalendarCard(),
-                  const SizedBox(height: 24),
-                  const HomeRecentEntries(),
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: IgnorePointer(
+                      child: Container(
+                        height: 20,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              AppColors.background,
+                              AppColors.background.withValues(alpha: 0.0),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
-            const Positioned(
-              right: 16,
-              bottom: 16,
-              child: AppNewEntryFab(),
-            ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _SectionLabel extends StatelessWidget {
+  final String text;
+  const _SectionLabel(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: const TextStyle(
+        fontFamily: 'IBM Plex Mono',
+        fontSize: 11,
+        fontWeight: FontWeight.w500,
+        color: AppColors.muted,
+        letterSpacing: 1,
       ),
     );
   }
