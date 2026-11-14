@@ -1,7 +1,6 @@
-// Responsibility: Insight row card — "You write most on Wednesdays. Keep the momentum going.",
-// matching the OpenPencil Home UI prototype. Extracted from insights_screen.dart.
+// Responsibility: Recent insight card — "You write most on Wednesdays.
+// Keep the momentum going." Flat card per OpenPencil (2px border, r20, no shadow).
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme.dart';
 
@@ -11,43 +10,39 @@ class InsightRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 354,
-      height: 64,
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.ink, width: 3),
-        boxShadow: const [
-          BoxShadow(color: AppColors.ink, offset: Offset(4, 4), blurRadius: 0),
-        ],
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.ink, width: 2),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'You write most on Wednesdays.',
-              style: GoogleFonts.inter(
-                fontSize: 15,
-                fontWeight: FontWeight.w700,
-                color: AppColors.ink,
-                height: 20 / 15,
-              ),
+      child: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'You write most on Wednesdays.',
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: AppColors.ink,
+              height: 1.25,
             ),
-            const SizedBox(height: 4),
-            Text(
-              'Keep the momentum going.',
-              style: GoogleFonts.ibmPlexMono(
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-                color: AppColors.muted,
-                height: 17 / 12,
-              ),
+          ),
+          SizedBox(height: 4),
+          Text(
+            'Keep the momentum going.',
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: AppColors.muted,
+              height: 1.3,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -1,151 +1,118 @@
-// Responsibility: Mini calendar card showing weekday headers and day chips,
-// matching the OpenPencil Home UI prototype. Extracted from home_dashboard_screen.dart.
+// Responsibility: Home calendar card — weekdays, dates, today highlight, arrows.
+// Flat style per OpenPencil (2px stroke, r24, no shadow), static for now.
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
+import '../../../core/theme.dart';
 
 class HomeCalendarCard extends StatelessWidget {
   const HomeCalendarCard({super.key});
 
+  static const _weekdays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+  static const _dates = ['15', '16', '17', '18', '19', '20', '21'];
+  static const _todayIndex = 3;
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Container(
-        height: 80,
-        decoration: BoxDecoration(
-          color: const Color(0xFFFFFDF5),
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: const Color(0xFF191916), width: 3),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0xFF191916),
-              offset: Offset(4, 4),
-              blurRadius: 0,
-            ),
-          ],
-        ),
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      for (final d in [
-                        'SUN',
-                        'MON',
-                        'TUE',
-                        'WED',
-                        'THU',
-                        'FRI',
-                        'SAT',
-                      ])
-                        SizedBox(
-                          width: 42,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: AppColors.ink, width: 2),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              const _NavArrow(label: '<'),
+              Expanded(
+                child: Row(
+                  children: _weekdays
+                      .map(
+                        (d) => Expanded(
                           child: Text(
                             d,
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.ibmPlexMono(
+                            style: const TextStyle(
+                              fontFamily: 'IBM Plex Mono',
                               fontSize: 10,
-                              color: const Color(0xFF625F55),
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.muted,
                             ),
                           ),
                         ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CalDay('15'),
-                      CalDay('16'),
-                      CalDay('17'),
-                      CalDay('18', isToday: true),
-                      CalDay('19'),
-                      CalDay('20'),
-                      CalDay('21'),
-                    ],
-                  ),
-                ],
+                      )
+                      .toList(),
+                ),
               ),
-            ),
-            Positioned(
-              left: 10,
-              right: 10,
-              top: 0,
-              bottom: 0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '<',
-                    style: GoogleFonts.inter(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xFF625F55),
-                    ),
+              const _NavArrow(label: '>'),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: List.generate(_dates.length, (i) {
+                final isToday = i == _todayIndex;
+                return Expanded(
+                  child: Center(
+                    child: isToday
+                        ? Container(
+                            width: 32,
+                            height: 32,
+                            decoration: const BoxDecoration(
+                              color: AppColors.accent,
+                              shape: BoxShape.circle,
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              _dates[i],
+                              style: const TextStyle(
+                                fontFamily: 'Inter',
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.ink,
+                              ),
+                            ),
+                          )
+                        : Text(
+                            _dates[i],
+                            style: const TextStyle(
+                              fontFamily: 'Inter',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.muted,
+                            ),
+                          ),
                   ),
-                  Text(
-                    '>',
-                    style: GoogleFonts.inter(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xFF625F55),
-                    ),
-                  ),
-                ],
-              ),
+                );
+              }),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
 
-class CalDay extends StatelessWidget {
-  const CalDay(this.day, {this.isToday = false, super.key});
-
-  final String day;
-  final bool isToday;
+class _NavArrow extends StatelessWidget {
+  final String label;
+  const _NavArrow({required this.label});
 
   @override
   Widget build(BuildContext context) {
-    if (isToday) {
-      return SizedBox(
-        width: 42,
-        height: 32,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Container(
-              width: 32,
-              height: 32,
-              decoration: const BoxDecoration(
-                color: Color(0xFFFF623C),
-                shape: BoxShape.circle,
-              ),
-            ),
-            Text(
-              day,
-              style: GoogleFonts.inter(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: const Color(0xFF191916),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
     return SizedBox(
-      width: 42,
+      width: 20,
       child: Text(
-        day,
+        label,
         textAlign: TextAlign.center,
-        style: GoogleFonts.inter(fontSize: 16, color: const Color(0xFF625F55)),
+        style: const TextStyle(
+          fontFamily: 'Inter',
+          fontSize: 16,
+          fontWeight: FontWeight.w700,
+          color: AppColors.muted,
+        ),
       ),
     );
   }
