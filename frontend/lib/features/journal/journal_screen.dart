@@ -1,11 +1,11 @@
 // Responsibility: Journal screen — lists journals/entries. Uses shared bottom dock.
-// No status bar, no home indicator pill.
+// New journal cards: icon/color block, title/date, mood/trait, intro, chevron.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 import '../../core/widgets/app_bottom_dock.dart';
+import 'widgets/journal_entry_card.dart';
 
 class JournalScreen extends ConsumerWidget {
   const JournalScreen({super.key});
@@ -18,27 +18,26 @@ class JournalScreen extends ConsumerWidget {
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(24, 12, 24, 120),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: const [
               _JournalAppBar(),
-              SizedBox(height: 18),
+              SizedBox(height: 16),
               _JournalSearchField(),
               SizedBox(height: 24),
               Text(
                 'YOUR JOURNALS',
                 style: TextStyle(
                   fontFamily: 'IBM Plex Mono',
-                  fontSize: 14,
+                  fontSize: 11,
                   fontWeight: FontWeight.w500,
                   color: AppColors.muted,
-                  letterSpacing: 0.5,
-                  height: 18 / 14,
+                  letterSpacing: 1,
                 ),
               ),
               SizedBox(height: 12),
-              _JournalRows(),
+              _JournalCards(),
             ],
           ),
         ),
@@ -52,17 +51,13 @@ class _JournalAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 10),
-      child: Text(
-        'JOURNAL',
-        style: TextStyle(
-          fontFamily: 'Inter',
-          fontSize: 20,
-          fontWeight: FontWeight.w800,
-          color: AppColors.ink,
-          letterSpacing: 0.5,
-        ),
+    return const Text(
+      'JOURNAL',
+      style: TextStyle(
+        fontFamily: 'IBM Plex Mono',
+        fontSize: 20,
+        fontWeight: FontWeight.w700,
+        color: AppColors.ink,
       ),
     );
   }
@@ -77,26 +72,24 @@ class _JournalSearchField extends StatelessWidget {
       height: 52,
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.ink, width: 3),
-        boxShadow: const [
-          BoxShadow(color: AppColors.ink, offset: Offset(4, 4), blurRadius: 0),
-        ],
+        borderRadius: BorderRadius.circular(26),
+        border: Border.all(color: AppColors.ink, width: 2),
       ),
-      child: Row(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: const Row(
         children: [
-          const SizedBox(width: 16),
-          const Icon(Icons.search, size: 20, color: AppColors.muted),
-          const SizedBox(width: 12),
+          Icon(Icons.search, size: 20, color: AppColors.muted),
+          SizedBox(width: 10),
           Expanded(
             child: Text(
               'Search your journal…',
-              style: GoogleFonts.ibmPlexMono(
-                fontSize: 14,
+              style: TextStyle(
+                fontFamily: 'Inter',
+                fontSize: 16,
                 fontWeight: FontWeight.w400,
                 color: AppColors.muted,
-                height: 19 / 14,
               ),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
@@ -105,102 +98,43 @@ class _JournalSearchField extends StatelessWidget {
   }
 }
 
-class _JournalRows extends StatelessWidget {
-  const _JournalRows();
+class _JournalCards extends StatelessWidget {
+  const _JournalCards();
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: const [
-        _JournalRow(title: null, date: null, body: null),
-        SizedBox(height: 8),
-        _JournalRow(title: null, date: null, body: null),
-        SizedBox(height: 8),
-        _JournalRow(
+        JournalEntryCard(
           title: 'Monday Musings',
-          date: 'Oct 13 · 2:14 PM',
-          body: 'Work week reflections and thoughts.',
+          date: 'October 13, 2026',
+          mood: 'Reflective',
+          trait: 'Personal',
+          intro: 'Work week reflections and thoughts to start the day.',
+          icon: Icons.eco_outlined,
+          iconBackgroundColor: Color(0xFFDDE7C7),
         ),
-        SizedBox(height: 8),
-        _JournalRow(
+        SizedBox(height: 12),
+        JournalEntryCard(
           title: 'Gratitude List',
-          date: 'Oct 12 · 9:00 AM',
-          body: 'Today I am grateful for the little things.',
+          date: 'October 12, 2026',
+          mood: 'Grateful',
+          trait: 'Mindfulness',
+          intro: 'Today I am grateful for the little things around me.',
+          icon: Icons.wb_sunny_outlined,
+          iconBackgroundColor: Color(0xFFF6E3A1),
         ),
-        SizedBox(height: 8),
-        _JournalRow(
+        SizedBox(height: 12),
+        JournalEntryCard(
           title: 'Travel Notes',
-          date: 'Oct 10 · 3:30 PM',
-          body: 'Mountain cabin weekend, fresh air.',
+          date: 'October 10, 2026',
+          mood: 'Calm',
+          trait: 'Adventure',
+          intro: 'Mountain cabin weekend, fresh air and quiet moments.',
+          icon: Icons.terrain_outlined,
+          iconBackgroundColor: Color(0xFFD7E6F5),
         ),
       ],
-    );
-  }
-}
-
-class _JournalRow extends StatelessWidget {
-  final String? title;
-  final String? date;
-  final String? body;
-
-  const _JournalRow({this.title, this.date, this.body});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      constraints: const BoxConstraints(minHeight: 69),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.ink, width: 3),
-        boxShadow: const [
-          BoxShadow(color: AppColors.ink, offset: Offset(4, 4), blurRadius: 0),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (title != null) ...[
-              Text(
-                title!,
-                style: GoogleFonts.inter(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.ink,
-                  height: 21 / 17,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                date ?? '',
-                style: GoogleFonts.ibmPlexMono(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.muted,
-                  height: 14 / 12,
-                ),
-              ),
-              const SizedBox(height: 4),
-              if (body != null)
-                Text(
-                  body!,
-                  style: GoogleFonts.ibmPlexMono(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.muted,
-                    height: 17 / 13,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-            ],
-          ],
-        ),
-      ),
     );
   }
 }
