@@ -1,5 +1,5 @@
 // Responsibility: "RECENT ENTRIES" section and entry rows for Home screen.
-// Flat avatars, left-aligned content, subtle dividers per OpenPencil.
+// Flat, clean rows per OpenPencil direction (no avatars), subtle dividers.
 import 'package:flutter/material.dart';
 
 import '../../../core/theme.dart';
@@ -24,21 +24,18 @@ class HomeRecentEntries extends StatelessWidget {
         ),
         SizedBox(height: 12),
         _EntryRow(
-          initial: 'A',
           title: 'Monday, Oct 13',
           subtitle: 'This week was heavy. Wrote it anyway.',
           time: '2h ago',
         ),
         _EntryDivider(),
         _EntryRow(
-          initial: 'B',
           title: 'Tuesday, Oct 14',
           subtitle: 'Some days just need a quieter list.',
           time: '1d ago',
         ),
         _EntryDivider(),
         _EntryRow(
-          initial: 'C',
           title: 'Wednesday, Oct 15',
           subtitle: 'The center holds.',
           time: '2d ago',
@@ -49,13 +46,11 @@ class HomeRecentEntries extends StatelessWidget {
 }
 
 class _EntryRow extends StatelessWidget {
-  final String initial;
   final String title;
   final String subtitle;
   final String time;
 
   const _EntryRow({
-    required this.initial,
     required this.title,
     required this.subtitle,
     required this.time,
@@ -66,26 +61,6 @@ class _EntryRow extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          width: 40,
-          height: 40,
-          decoration: BoxDecoration(
-            color: AppColors.surface,
-            shape: BoxShape.circle,
-            border: Border.all(color: AppColors.ink, width: 2),
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            initial,
-            style: const TextStyle(
-              fontFamily: 'IBM Plex Mono',
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-              color: AppColors.ink,
-            ),
-          ),
-        ),
-        const SizedBox(width: 12),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,7 +89,7 @@ class _EntryRow extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: 12),
         Padding(
           padding: const EdgeInsets.only(top: 2),
           child: Text(

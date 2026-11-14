@@ -21,36 +21,28 @@ class InsightsScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       bottomNavigationBar: const AppBottomNav(activeTab: AppTab.insights),
+      floatingActionButton: const AppNewEntryFab(),
       body: SafeArea(
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 96),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: const [
-                  InsightsAppBar(),
-                  SizedBox(height: 24),
-                  _SectionLabel('Analysis'),
-                  SizedBox(height: 12),
-                  InsightsStatsRow(),
-                  SizedBox(height: 24),
-                  _SectionLabel('THIS WEEK'),
-                  SizedBox(height: 12),
-                  WeeklyChart(),
-                  SizedBox(height: 24),
-                  _SectionLabel('RECENT INSIGHT'),
-                  SizedBox(height: 12),
-                  InsightRow(),
-                ],
-              ),
-            ),
-            const Positioned(
-              right: 16,
-              bottom: 16,
-              child: AppNewEntryFab(),
-            ),
-          ],
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 96),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: const [
+              InsightsAppBar(),
+              SizedBox(height: 24),
+              _SectionLabel('Analysis'),
+              SizedBox(height: 12),
+              InsightsStatsRow(),
+              SizedBox(height: 24),
+              _SectionLabel('THIS WEEK'),
+              SizedBox(height: 12),
+              WeeklyChart(),
+              SizedBox(height: 24),
+              _SectionLabel('RECENT INSIGHT'),
+              SizedBox(height: 12),
+              InsightRow(),
+            ],
+          ),
         ),
       ),
     );

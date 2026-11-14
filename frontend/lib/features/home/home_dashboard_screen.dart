@@ -2,7 +2,6 @@
 // Clean, flat layout: app bar, calendar, recent entries, shared FAB + nav.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../core/theme.dart';
 import '../../core/widgets/app_bottom_nav.dart';
@@ -19,30 +18,20 @@ class HomeDashboardScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       bottomNavigationBar: const AppBottomNav(activeTab: AppTab.home),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 96),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  HomeAppBar(
-                    onEdit: () => context.push('/edit-profile'),
-                  ),
-                  const SizedBox(height: 16),
-                  const HomeCalendarCard(),
-                  const SizedBox(height: 24),
-                  const HomeRecentEntries(),
-                ],
-              ),
-            ),
-            const Positioned(
-              right: 16,
-              bottom: 16,
-              child: AppNewEntryFab(),
-            ),
-          ],
+      floatingActionButton: const AppNewEntryFab(),
+      body: const SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.fromLTRB(16, 12, 16, 96),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              HomeAppBar(),
+              SizedBox(height: 16),
+              HomeCalendarCard(),
+              SizedBox(height: 24),
+              HomeRecentEntries(),
+            ],
+          ),
         ),
       ),
     );
