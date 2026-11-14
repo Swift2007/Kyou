@@ -29,11 +29,7 @@ class NotificationSettingRow extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.ink, width: 3),
         boxShadow: const [
-          BoxShadow(
-            color: AppColors.ink,
-            offset: Offset(4, 4),
-            blurRadius: 0,
-          ),
+          BoxShadow(color: AppColors.ink, offset: Offset(4, 4), blurRadius: 0),
         ],
       ),
       child: Padding(
@@ -50,10 +46,7 @@ class NotificationSettingRow extends StatelessWidget {
                 border: Border.all(color: AppColors.ink, width: 2),
               ),
               child: Center(
-                child: Text(
-                  icon,
-                  style: const TextStyle(fontSize: 16),
-                ),
+                child: Text(icon, style: const TextStyle(fontSize: 16)),
               ),
             ),
             const SizedBox(width: 14),
@@ -63,10 +56,7 @@ class NotificationSettingRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    label,
-                    style: AppTextStyles.body(),
-                  ),
+                  Text(label, style: AppTextStyles.body()),
                   const SizedBox(height: 4),
                   Text(
                     desc,
@@ -106,10 +96,7 @@ class NotificationSettingRow extends StatelessWidget {
 class NotificationToggle extends StatelessWidget {
   final bool on;
 
-  const NotificationToggle({
-    super.key,
-    required this.on,
-  });
+  const NotificationToggle({super.key, required this.on});
 
   @override
   Widget build(BuildContext context) {

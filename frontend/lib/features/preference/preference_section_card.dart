@@ -26,11 +26,7 @@ class SectionCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.ink, width: 3),
         boxShadow: const [
-          BoxShadow(
-            color: AppColors.ink,
-            offset: Offset(4, 4),
-            blurRadius: 0,
-          ),
+          BoxShadow(color: AppColors.ink, offset: Offset(4, 4), blurRadius: 0),
         ],
       ),
       child: Padding(
@@ -44,10 +40,7 @@ class SectionCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        title,
-                        style: AppTextStyles.caption(),
-                      ),
+                      Text(title, style: AppTextStyles.caption()),
                       const SizedBox(height: 4),
                       Text(
                         subtitle,

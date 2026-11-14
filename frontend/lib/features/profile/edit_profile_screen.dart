@@ -220,11 +220,7 @@ class _EditProfileForm extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         // Username field
-        _EditProfileField(
-          label: 'Username',
-          value: 'samsmith',
-          prefix: '@',
-        ),
+        _EditProfileField(label: 'Username', value: 'samsmith', prefix: '@'),
         const SizedBox(height: 16),
         // Email field (read-only)
         _EditProfileField(
@@ -260,10 +256,7 @@ class _EditProfileField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Field label
-        Text(
-          label,
-          style: AppTextStyles.caption(),
-        ),
+        Text(label, style: AppTextStyles.caption()),
         const SizedBox(height: 8),
         // Field input container
         Container(
@@ -290,17 +283,16 @@ class _EditProfileField extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        prefix!,
-                        style: AppTextStyles.caption(),
-                      ),
+                      Text(prefix!, style: AppTextStyles.caption()),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
                           value,
                           style: AppTextStyles.body(),
                           maxLines: maxLines ?? 1,
-                          overflow: maxLines != null ? TextOverflow.ellipsis : null,
+                          overflow: maxLines != null
+                              ? TextOverflow.ellipsis
+                              : null,
                         ),
                       ),
                     ],

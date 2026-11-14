@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/api_client.dart';
+import '../../core/theme.dart';
 import '../auth/auth_viewmodel.dart';
 import 'entry.dart';
 import 'entries_viewmodel.dart';
@@ -81,7 +82,7 @@ class EntriesListScreen extends ConsumerWidget {
         label: const Text('New entry'),
       ),
       body: asyncEntries.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const _EntriesSkeleton(),
         error: (error, stack) => _LoadError(
           message: describeApiError(error),
           onRetry: () => ref.read(entriesViewmodelProvider.notifier).refresh(),
@@ -255,6 +256,39 @@ class _EntryTile extends StatelessWidget {
         onPressed: onDelete,
       ),
       onTap: onOpen,
+    );
+  }
+}
+
+/// Shimmer skeleton shown while the entries list loads, so the screen
+/// has substance immediately instead of a bare spinner.
+class _EntriesSkeleton extends StatelessWidget {
+  const _EntriesSkeleton();
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: 6,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(width: 200, height: 20, color: AppColors.rule),
+              const SizedBox(height: 8),
+              Container(
+                width: double.infinity,
+                height: 16,
+                color: AppColors.rule,
+              ),
+              const SizedBox(height: 8),
+              Container(width: 120, height: 14, color: AppColors.rule),
+              const Divider(height: 24),
+            ],
+          ),
+        );
+      },
     );
   }
 }

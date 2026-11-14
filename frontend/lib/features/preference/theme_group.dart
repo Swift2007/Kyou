@@ -15,20 +15,17 @@ class ThemeGroup extends StatelessWidget {
         const ThemeModeRow(),
         const SizedBox(height: 14),
         // Theme colors — label + swatch grid
-        Row(
-          children: [
-            Text(
-              'Paper tone',
-              style: AppTextStyles.caption(),
-            ),
-          ],
-        ),
+        Row(children: [Text('Paper tone', style: AppTextStyles.caption())]),
         const SizedBox(height: 10),
         Wrap(
           spacing: 10,
           runSpacing: 10,
           children: [
-            ColorSwatch(label: 'Warm', color: AppColors.background, isSelected: true),
+            ColorSwatch(
+              label: 'Warm',
+              color: AppColors.background,
+              isSelected: true,
+            ),
             ColorSwatch(label: 'Butter', color: AppColors.surface),
             ColorSwatch(label: 'Soft', color: AppColors.surface),
             ColorSwatch(label: 'Sage', color: AppColors.background),
@@ -46,9 +43,7 @@ class ThemeGroup extends StatelessWidget {
 }
 
 class ThemeModeRow extends StatelessWidget {
-  const ThemeModeRow({
-    super.key,
-  });
+  const ThemeModeRow({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -133,10 +128,7 @@ class ThemeModeChip extends StatelessWidget {
                   border: Border.all(color: AppColors.ink, width: 2),
                 ),
                 child: Center(
-                  child: Text(
-                    icon,
-                    style: const TextStyle(fontSize: 12),
-                  ),
+                  child: Text(icon, style: const TextStyle(fontSize: 12)),
                 ),
               ),
               const SizedBox(width: 8),

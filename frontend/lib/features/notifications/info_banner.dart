@@ -8,10 +8,7 @@ import '../../core/theme.dart';
 class InfoBanner extends StatelessWidget {
   final String text;
 
-  const InfoBanner({
-    super.key,
-    required this.text,
-  });
+  const InfoBanner({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +20,7 @@ class InfoBanner extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.ink, width: 3),
         boxShadow: const [
-          BoxShadow(
-            color: AppColors.ink,
-            offset: Offset(4, 4),
-            blurRadius: 0,
-          ),
+          BoxShadow(color: AppColors.ink, offset: Offset(4, 4), blurRadius: 0),
         ],
       ),
       child: Padding(

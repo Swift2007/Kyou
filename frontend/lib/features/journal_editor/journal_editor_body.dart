@@ -11,9 +11,7 @@ class JournalEditorBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 400,
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-      ),
+      decoration: BoxDecoration(color: Colors.transparent),
       child: const TextField(
         style: TextStyle(
           fontSize: 17,

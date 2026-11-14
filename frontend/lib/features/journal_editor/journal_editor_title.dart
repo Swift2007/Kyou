@@ -12,9 +12,7 @@ class JournalEditorTitle extends StatelessWidget {
     return Container(
       width: 185,
       height: 38,
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-      ),
+      decoration: BoxDecoration(color: Colors.transparent),
       child: const TextField(
         style: TextStyle(
           fontSize: 27,

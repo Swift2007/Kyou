@@ -116,9 +116,7 @@ class InsightsScreen extends ConsumerWidget {
                 Container(
                   height: 38,
                   color: AppColors.background,
-                  child: const Center(
-                    child: _HomeIndicator(),
-                  ),
+                  child: const Center(child: _HomeIndicator()),
                 ),
               ],
             ),
@@ -262,11 +260,7 @@ class _StatCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.ink, width: 3),
         boxShadow: const [
-          BoxShadow(
-            color: AppColors.ink,
-            offset: Offset(4, 4),
-            blurRadius: 0,
-          ),
+          BoxShadow(color: AppColors.ink, offset: Offset(4, 4), blurRadius: 0),
         ],
       ),
       child: Column(
@@ -333,11 +327,7 @@ class _WeeklyChart extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.ink, width: 3),
         boxShadow: const [
-          BoxShadow(
-            color: AppColors.ink,
-            offset: Offset(4, 4),
-            blurRadius: 0,
-          ),
+          BoxShadow(color: AppColors.ink, offset: Offset(4, 4), blurRadius: 0),
         ],
       ),
       child: Column(
@@ -401,11 +391,7 @@ class _InsightRow extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.ink, width: 3),
         boxShadow: const [
-          BoxShadow(
-            color: AppColors.ink,
-            offset: Offset(4, 4),
-            blurRadius: 0,
-          ),
+          BoxShadow(color: AppColors.ink, offset: Offset(4, 4), blurRadius: 0),
         ],
       ),
       child: Padding(
@@ -450,9 +436,7 @@ class _InsightsBottomNav extends StatelessWidget {
       height: 60,
       decoration: BoxDecoration(
         color: AppColors.background,
-        border: Border(
-          top: BorderSide(color: AppColors.ink, width: 2),
-        ),
+        border: Border(top: BorderSide(color: AppColors.ink, width: 2)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -523,11 +507,7 @@ class _NavItem extends StatelessWidget {
           )
         else
           const SizedBox(height: 8),
-        Icon(
-          icon,
-          size: 22,
-          color: active ? AppColors.ink : AppColors.muted,
-        ),
+        Icon(icon, size: 22, color: active ? AppColors.ink : AppColors.muted),
         Text(
           label,
           style: GoogleFonts.inter(

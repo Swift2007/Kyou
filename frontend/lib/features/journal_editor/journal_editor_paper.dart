@@ -32,10 +32,7 @@ class JournalEditorPaper extends StatelessWidget {
             const Positioned(
               left: 12,
               top: 20,
-              child: SizedBox(
-                width: 1,
-                height: 534,
-              ),
+              child: SizedBox(width: 1, height: 534),
             ),
             // Horizontal ruled lines — 334×1 each, spaced ~26px apart
             ...List.generate(20, (index) {
@@ -43,11 +40,7 @@ class JournalEditorPaper extends StatelessWidget {
               return Positioned(
                 left: 16,
                 top: top.toDouble(),
-                child: Container(
-                  width: 334,
-                  height: 1,
-                  color: AppColors.ink,
-                ),
+                child: Container(width: 334, height: 1, color: AppColors.ink),
               );
             }),
           ],

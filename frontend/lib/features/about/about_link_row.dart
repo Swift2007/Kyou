@@ -9,11 +9,7 @@ class AboutLinkRow extends StatelessWidget {
   final String label;
   final String desc;
 
-  const AboutLinkRow({
-    super.key,
-    required this.label,
-    required this.desc,
-  });
+  const AboutLinkRow({super.key, required this.label, required this.desc});
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +21,7 @@ class AboutLinkRow extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.ink, width: 3),
         boxShadow: const [
-          BoxShadow(
-            color: AppColors.ink,
-            offset: Offset(4, 4),
-            blurRadius: 0,
-          ),
+          BoxShadow(color: AppColors.ink, offset: Offset(4, 4), blurRadius: 0),
         ],
       ),
       child: Padding(
@@ -41,10 +33,7 @@ class AboutLinkRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    label,
-                    style: AppTextStyles.body(),
-                  ),
+                  Text(label, style: AppTextStyles.body()),
                   const SizedBox(height: 4),
                   Text(
                     desc,

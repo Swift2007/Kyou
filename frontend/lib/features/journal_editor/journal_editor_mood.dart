@@ -66,12 +66,18 @@ class _MoodChip extends StatelessWidget {
 
   double _chipWidth(String label) {
     switch (label) {
-      case 'Great': return 53;
-      case 'Good': return 52;
-      case 'Okay': return 50;
-      case 'Low': return 44;
-      case 'Rough': return 58;
-      default: return 50;
+      case 'Great':
+        return 53;
+      case 'Good':
+        return 52;
+      case 'Okay':
+        return 50;
+      case 'Low':
+        return 44;
+      case 'Rough':
+        return 58;
+      default:
+        return 50;
     }
   }
 }

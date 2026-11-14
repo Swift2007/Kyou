@@ -45,10 +45,7 @@ class AboutScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 14),
 
-            const AboutLinkRow(
-              label: "What's new",
-              desc: 'See recent updates',
-            ),
+            const AboutLinkRow(label: "What's new", desc: 'See recent updates'),
             const SizedBox(height: 10),
             const AboutLinkRow(
               label: 'Privacy Policy',

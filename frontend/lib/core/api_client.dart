@@ -72,8 +72,9 @@ String describeApiError(Object error) {
         return 'The request was cancelled.';
       case DioExceptionType.badResponse:
         final status = error.response?.statusCode;
-        if (status == 401)
+        if (status == 401) {
           return 'Your session has expired. Please sign in again.';
+        }
         if (status == 403) return "You don't have access to do that.";
         if (status == 404) return 'The requested item could not be found.';
         if (status != null && status >= 500) {

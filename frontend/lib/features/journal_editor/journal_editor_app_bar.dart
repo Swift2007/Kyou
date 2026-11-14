@@ -17,11 +17,7 @@ class JournalEditorAppBar extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.ink, width: 3),
         boxShadow: const [
-          BoxShadow(
-            color: AppColors.ink,
-            offset: Offset(4, 4),
-            blurRadius: 0,
-          ),
+          BoxShadow(color: AppColors.ink, offset: Offset(4, 4), blurRadius: 0),
         ],
       ),
       child: Padding(
@@ -122,9 +118,7 @@ class JournalEditorAppBar extends StatelessWidget {
                     Container(
                       width: 6,
                       height: 8,
-                      decoration: BoxDecoration(
-                        color: AppColors.ink,
-                      ),
+                      decoration: BoxDecoration(color: AppColors.ink),
                     ),
                   ],
                 ),

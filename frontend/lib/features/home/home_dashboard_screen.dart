@@ -4,8 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../auth/auth_viewmodel.dart';
-
 class HomeDashboardScreen extends ConsumerWidget {
   const HomeDashboardScreen({super.key});
 
@@ -170,68 +168,6 @@ class HomeDashboardScreen extends ConsumerWidget {
       ),
     );
   }
-}
-
-class _StatusBar extends StatelessWidget {
-  const _StatusBar();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 6),
-      child: Row(
-        children: [
-          Text(
-            '9:41',
-            style: GoogleFonts.inter(
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF191916),
-            ),
-          ),
-          const Spacer(),
-          Row(
-            children: [
-              _StatusIcon(path: 'assets/icons/signal.png'),
-              const SizedBox(width: 5),
-              _StatusIcon(path: 'assets/icons/wifi.png'),
-              const SizedBox(width: 5),
-              _StatusIcon(path: 'assets/icons/battery.png'),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _StatusIcon extends StatelessWidget {
-  const _StatusIcon({required this.path});
-  final String path;
-
-  @override
-  Widget build(BuildContext context) {
-    // Fallback to simple shapes if assets not present
-    return SizedBox(
-      width: 18,
-      height: 18,
-      child: CustomPaint(painter: _DotPainter()),
-    );
-  }
-}
-
-class _DotPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = const Color(0xFF191916);
-    canvas.drawRect(Rect.fromLTWH(2, 3, 2, 2), paint);
-    canvas.drawRect(Rect.fromLTWH(6, 2, 2, 3), paint);
-    canvas.drawRect(Rect.fromLTWH(10, 1, 2, 4), paint);
-    canvas.drawRect(Rect.fromLTWH(14, 0, 2, 5), paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
 class _AppBar extends ConsumerWidget {
@@ -524,59 +460,7 @@ class _Divider extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
       child: Container(
         height: 1,
-        color: const Color(0xFF191916).withOpacity(0.1),
-      ),
-    );
-  }
-}
-
-class _BottomNav extends StatelessWidget {
-  const _BottomNav();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 60,
-      decoration: const BoxDecoration(
-        color: Color(0xFFFFFDF5),
-        border: Border(top: BorderSide(color: Color(0xFF191916), width: 1)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          GestureDetector(
-            onTap: () => context.go('/home'),
-            child: _NavItem(
-              label: 'Home',
-              active: true,
-              icon: Icons.home_outlined,
-            ),
-          ),
-          GestureDetector(
-            onTap: () => context.go('/insights'),
-            child: _NavItem(
-              label: 'Insights',
-              active: false,
-              icon: Icons.bar_chart_outlined,
-            ),
-          ),
-          GestureDetector(
-            onTap: () => context.go('/journal'),
-            child: _NavItem(
-              label: 'Journal',
-              active: false,
-              icon: Icons.book_outlined,
-            ),
-          ),
-          GestureDetector(
-            onTap: () => context.go('/entries'),
-            child: _NavItem(
-              label: 'Profile',
-              active: false,
-              icon: Icons.person_outlined,
-            ),
-          ),
-        ],
+        color: const Color(0xFF191916).withValues(alpha: 0.1),
       ),
     );
   }

@@ -123,10 +123,7 @@ class _SignUpForm extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         // Disclaimer
-        Text(
-          'JUST YOU AND THE PAGE.',
-          style: AppTextStyles.caption(),
-        ),
+        Text('JUST YOU AND THE PAGE.', style: AppTextStyles.caption()),
       ],
     );
   }
@@ -140,10 +137,7 @@ class _SignUpActions extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        JournalPrimaryButton(
-          label: 'Create space',
-          onPressed: () {},
-        ),
+        JournalPrimaryButton(label: 'Create space', onPressed: () {}),
         const SizedBox(height: 12),
         Container(
           height: 40,
@@ -190,9 +184,7 @@ class _SignUpActions extends StatelessWidget {
               onTap: () => context.go('/login'),
               child: Text(
                 'Sign in',
-                style: AppTextStyles.label().copyWith(
-                  color: AppColors.accent,
-                ),
+                style: AppTextStyles.label().copyWith(color: AppColors.accent),
               ),
             ),
           ],

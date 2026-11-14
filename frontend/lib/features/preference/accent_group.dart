@@ -12,8 +12,16 @@ class AccentGroup extends StatelessWidget {
       spacing: 10,
       runSpacing: 10,
       children: [
-        AccentSwatch(label: 'Original', color: AppColors.background, isSelected: false),
-        AccentSwatch(label: 'Electric', color: AppColors.accent, isSelected: true),
+        AccentSwatch(
+          label: 'Original',
+          color: AppColors.background,
+          isSelected: false,
+        ),
+        AccentSwatch(
+          label: 'Electric',
+          color: AppColors.accent,
+          isSelected: true,
+        ),
         AccentSwatch(label: 'Vibrant', color: AppColors.accent),
         AccentSwatch(label: 'Cherry', color: AppColors.accent),
         AccentSwatch(label: 'Lime', color: AppColors.accent),

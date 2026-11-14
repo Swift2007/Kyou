@@ -13,7 +13,7 @@ class JournalEditorSpeedDialScrim extends StatelessWidget {
       child: Container(
         width: 390,
         height: 748,
-        color: AppColors.ink.withOpacity(0.25),
+        color: AppColors.ink.withValues(alpha: 0.25),
       ),
     );
   }
@@ -83,10 +83,7 @@ class _SpeedDialItem extends StatelessWidget {
             ],
           ),
           child: Center(
-            child: Text(
-              icon,
-              style: const TextStyle(fontSize: 20),
-            ),
+            child: Text(icon, style: const TextStyle(fontSize: 20)),
           ),
         ),
         const SizedBox(height: 4),

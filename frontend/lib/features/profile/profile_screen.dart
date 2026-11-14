@@ -50,9 +50,7 @@ class ProfileScreen extends ConsumerWidget {
             Container(
               height: 38,
               color: AppColors.background,
-              child: const Center(
-                child: _HomeIndicator(),
-              ),
+              child: const Center(child: _HomeIndicator()),
             ),
           ],
         ),
@@ -148,31 +146,35 @@ class _ProfileMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _MenuItem(
-          label: 'My Profile',
-          onTap: () {},
+        _MenuItem(label: 'My Profile', onTap: () {}),
+        const Divider(
+          height: 1,
+          color: AppColors.rule,
+          indent: 0,
+          endIndent: 0,
         ),
-        const Divider(height: 1, color: AppColors.rule, indent: 0, endIndent: 0),
-        _MenuItem(
-          label: 'Preferences',
-          onTap: () {},
+        _MenuItem(label: 'Preferences', onTap: () {}),
+        const Divider(
+          height: 1,
+          color: AppColors.rule,
+          indent: 0,
+          endIndent: 0,
         ),
-        const Divider(height: 1, color: AppColors.rule, indent: 0, endIndent: 0),
-        _MenuItem(
-          label: 'Notifications',
-          onTap: () {},
+        _MenuItem(label: 'Notifications', onTap: () {}),
+        const Divider(
+          height: 1,
+          color: AppColors.rule,
+          indent: 0,
+          endIndent: 0,
         ),
-        const Divider(height: 1, color: AppColors.rule, indent: 0, endIndent: 0),
-        _MenuItem(
-          label: 'About App',
-          onTap: () {},
+        _MenuItem(label: 'About App', onTap: () {}),
+        const Divider(
+          height: 1,
+          color: AppColors.rule,
+          indent: 0,
+          endIndent: 0,
         ),
-        const Divider(height: 1, color: AppColors.rule, indent: 0, endIndent: 0),
-        _MenuItem(
-          label: 'Logout',
-          onTap: () {},
-          accent: true,
-        ),
+        _MenuItem(label: 'Logout', onTap: () {}, accent: true),
       ],
     );
   }
@@ -199,11 +201,7 @@ class _MenuItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(6.0),
         border: Border.all(color: AppColors.ink, width: 3),
         boxShadow: const [
-          BoxShadow(
-            color: AppColors.ink,
-            offset: Offset(4, 4),
-            blurRadius: 0,
-          ),
+          BoxShadow(color: AppColors.ink, offset: Offset(4, 4), blurRadius: 0),
         ],
       ),
       child: Padding(
@@ -245,9 +243,7 @@ class _ProfileBottomNav extends StatelessWidget {
       height: 60,
       decoration: BoxDecoration(
         color: AppColors.background,
-        border: Border(
-          top: BorderSide(color: AppColors.ink, width: 2),
-        ),
+        border: Border(top: BorderSide(color: AppColors.ink, width: 2)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -318,11 +314,7 @@ class _NavItem extends StatelessWidget {
           )
         else
           const SizedBox(height: 8),
-        Icon(
-          icon,
-          size: 22,
-          color: active ? AppColors.ink : AppColors.muted,
-        ),
+        Icon(icon, size: 22, color: active ? AppColors.ink : AppColors.muted),
         Text(
           label,
           style: GoogleFonts.inter(

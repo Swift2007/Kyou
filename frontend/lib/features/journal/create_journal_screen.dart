@@ -45,10 +45,7 @@ class CreateJournalScreen extends ConsumerWidget {
                     children: [
                       Container(width: 24, height: 3, color: AppColors.accent),
                       const SizedBox(width: 8),
-                      Text(
-                        'PAGES WAITING.',
-                        style: AppTextStyles.caption(),
-                      ),
+                      Text('PAGES WAITING.', style: AppTextStyles.caption()),
                     ],
                   ),
                 ],
@@ -89,10 +86,7 @@ class _CreateJournalForm extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         // Journal title field
-        JournalTextField(
-          label: 'JOURNAL TITLE',
-          hint: 'Untitled journal',
-        ),
+        JournalTextField(label: 'JOURNAL TITLE', hint: 'Untitled journal'),
         const SizedBox(height: 16),
         // Cover row
         Row(
@@ -107,10 +101,7 @@ class _CreateJournalForm extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            Text(
-              'COVER',
-              style: AppTextStyles.caption(),
-            ),
+            Text('COVER', style: AppTextStyles.caption()),
           ],
         ),
         const SizedBox(height: 8),
@@ -132,10 +123,7 @@ class _CreateJournalActions extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        JournalPrimaryButton(
-          label: 'Create journal',
-          onPressed: () {},
-        ),
+        JournalPrimaryButton(label: 'Create journal', onPressed: () {}),
         const SizedBox(height: 32),
         const Spacer(),
       ],

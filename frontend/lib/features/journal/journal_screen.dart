@@ -75,9 +75,7 @@ class JournalScreen extends ConsumerWidget {
                 Container(
                   height: 38,
                   color: AppColors.background,
-                  child: const Center(
-                    child: _HomeIndicator(),
-                  ),
+                  child: const Center(child: _HomeIndicator()),
                 ),
               ],
             ),
@@ -164,21 +162,13 @@ class _JournalSearchField extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.ink, width: 3),
         boxShadow: const [
-          BoxShadow(
-            color: AppColors.ink,
-            offset: Offset(4, 4),
-            blurRadius: 0,
-          ),
+          BoxShadow(color: AppColors.ink, offset: Offset(4, 4), blurRadius: 0),
         ],
       ),
       child: Row(
         children: [
           const SizedBox(width: 16),
-          const Icon(
-            Icons.search,
-            size: 20,
-            color: AppColors.muted,
-          ),
+          const Icon(Icons.search, size: 20, color: AppColors.muted),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
@@ -205,18 +195,10 @@ class _JournalRows extends StatelessWidget {
     return Column(
       children: [
         // Row 1 — avatar "M" (OpenPencil 0:1254-0:1256)
-        const _JournalRow(
-          title: null,
-          date: null,
-          body: null,
-        ),
+        const _JournalRow(title: null, date: null, body: null),
         const SizedBox(height: 1),
         // Row 2 — avatar "G" (OpenPencil 0:1257-0:1259)
-        const _JournalRow(
-          title: null,
-          date: null,
-          body: null,
-        ),
+        const _JournalRow(title: null, date: null, body: null),
         const SizedBox(height: 1),
         // Row 3 — avatar "T" + title + date + body (OpenPencil 0:1260-0:1265)
         const _JournalRow(
@@ -248,11 +230,7 @@ class _JournalRow extends StatelessWidget {
   final String? date;
   final String? body;
 
-  const _JournalRow({
-    this.title,
-    this.date,
-    this.body,
-  });
+  const _JournalRow({this.title, this.date, this.body});
 
   @override
   Widget build(BuildContext context) {
@@ -264,11 +242,7 @@ class _JournalRow extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.ink, width: 3),
         boxShadow: const [
-          BoxShadow(
-            color: AppColors.ink,
-            offset: Offset(4, 4),
-            blurRadius: 0,
-          ),
+          BoxShadow(color: AppColors.ink, offset: Offset(4, 4), blurRadius: 0),
         ],
       ),
       child: Padding(
@@ -332,9 +306,7 @@ class _JournalBottomNav extends StatelessWidget {
       height: 60,
       decoration: BoxDecoration(
         color: AppColors.background,
-        border: Border(
-          top: BorderSide(color: AppColors.ink, width: 2),
-        ),
+        border: Border(top: BorderSide(color: AppColors.ink, width: 2)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -405,11 +377,7 @@ class _NavItem extends StatelessWidget {
           )
         else
           const SizedBox(height: 8),
-        Icon(
-          icon,
-          size: 22,
-          color: active ? AppColors.ink : AppColors.muted,
-        ),
+        Icon(icon, size: 22, color: active ? AppColors.ink : AppColors.muted),
         Text(
           label,
           style: GoogleFonts.inter(

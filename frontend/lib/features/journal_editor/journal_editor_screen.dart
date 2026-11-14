@@ -29,9 +29,7 @@ class JournalEditorScreen extends StatefulWidget {
 }
 
 class _JournalEditorScreenState extends State<JournalEditorScreen> {
-  bool _saved = false; // Draft -> Saved status
   bool _speedDialOpen = false;
-  String? _selectedMood; // null = none selected
 
   @override
   Widget build(BuildContext context) {
@@ -53,17 +51,9 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
               ],
             ),
             // Title field — overlays top of paper
-            const Positioned(
-              left: 24,
-              top: 130,
-              child: JournalEditorTitle(),
-            ),
+            const Positioned(left: 24, top: 130, child: JournalEditorTitle()),
             // Mood chips row — below title
-            const Positioned(
-              left: 24,
-              top: 190,
-              child: JournalEditorMood(),
-            ),
+            const Positioned(left: 24, top: 190, child: JournalEditorMood()),
             // Body text area — below mood chips
             const Positioned(
               left: 24,
@@ -84,7 +74,8 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
               bottom: 56,
               child: JournalEditorToolToggle(
                 open: _speedDialOpen,
-                onToggled: () => setState(() => _speedDialOpen = !_speedDialOpen),
+                onToggled: () =>
+                    setState(() => _speedDialOpen = !_speedDialOpen),
               ),
             ),
             // Speed dial overlay — fans out when open

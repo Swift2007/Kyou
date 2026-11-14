@@ -33,91 +33,83 @@ class AppTextStyles {
   static TextStyle display({
     double fontSize = 56,
     FontWeight fontWeight = FontWeight.w800,
-  }) =>
-      GoogleFonts.anton(
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-        color: AppColors.ink,
-        letterSpacing: -1.5,
-        height: 1.1,
-      );
+  }) => GoogleFonts.anton(
+    fontSize: fontSize,
+    fontWeight: fontWeight,
+    color: AppColors.ink,
+    letterSpacing: -1.5,
+    height: 1.1,
+  );
 
   static TextStyle headline({
     double fontSize = 40,
     FontWeight fontWeight = FontWeight.w800,
-  }) =>
-      GoogleFonts.anton(
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-        color: AppColors.ink,
-        letterSpacing: -1,
-        height: 1.15,
-      );
+  }) => GoogleFonts.anton(
+    fontSize: fontSize,
+    fontWeight: fontWeight,
+    color: AppColors.ink,
+    letterSpacing: -1,
+    height: 1.15,
+  );
 
   static TextStyle title({
     double fontSize = 24,
     FontWeight fontWeight = FontWeight.w700,
-  }) =>
-      GoogleFonts.inter(
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-        color: AppColors.ink,
-      );
+  }) => GoogleFonts.inter(
+    fontSize: fontSize,
+    fontWeight: fontWeight,
+    color: AppColors.ink,
+  );
 
   static TextStyle body({
     double fontSize = 16,
     FontWeight fontWeight = FontWeight.w400,
-  }) =>
-      GoogleFonts.inter(
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-        color: AppColors.ink,
-        height: 1.5,
-      );
+  }) => GoogleFonts.inter(
+    fontSize: fontSize,
+    fontWeight: fontWeight,
+    color: AppColors.ink,
+    height: 1.5,
+  );
 
   static TextStyle bodyMuted({
     double fontSize = 14,
     FontWeight fontWeight = FontWeight.w400,
-  }) =>
-      GoogleFonts.inter(
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-        color: AppColors.muted,
-        height: 1.5,
-      );
+  }) => GoogleFonts.inter(
+    fontSize: fontSize,
+    fontWeight: fontWeight,
+    color: AppColors.muted,
+    height: 1.5,
+  );
 
   static TextStyle label({
     double fontSize = 12,
     FontWeight fontWeight = FontWeight.w700,
-  }) =>
-      GoogleFonts.inter(
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-        color: AppColors.ink,
-        letterSpacing: 0.5,
-      );
+  }) => GoogleFonts.inter(
+    fontSize: fontSize,
+    fontWeight: fontWeight,
+    color: AppColors.ink,
+    letterSpacing: 0.5,
+  );
 
   static TextStyle caption({
     double fontSize = 10,
     FontWeight fontWeight = FontWeight.w700,
-  }) =>
-      GoogleFonts.ibmPlexMono(
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-        color: AppColors.muted,
-        letterSpacing: 0.5,
-      );
+  }) => GoogleFonts.ibmPlexMono(
+    fontSize: fontSize,
+    fontWeight: fontWeight,
+    color: AppColors.muted,
+    letterSpacing: 0.5,
+  );
 
   static TextStyle mono({
     double fontSize = 12,
     FontWeight fontWeight = FontWeight.w400,
-  }) =>
-      GoogleFonts.ibmPlexMono(
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-        color: AppColors.ink,
-        height: 1.4,
-      );
+  }) => GoogleFonts.ibmPlexMono(
+    fontSize: fontSize,
+    fontWeight: fontWeight,
+    color: AppColors.ink,
+    height: 1.4,
+  );
 }
 
 ThemeData buildAppTheme() {
