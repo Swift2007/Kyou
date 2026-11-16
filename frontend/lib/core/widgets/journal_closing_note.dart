@@ -1,7 +1,7 @@
 // Responsibility: Footer strip of the prototype screens: mono note on the left,
 // edition mark on the right, under a 1px ink rule ("LESS SCROLLING. MORE FEELING." / "VOL. YOU").
 // Extracted from journal_kit.dart.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'journal_colors.dart';

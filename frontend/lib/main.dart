@@ -1,7 +1,7 @@
 // Responsibility: Bootstraps Flutter, validates config, and runs the app.
 // Supabase is initialized inside App after the first frame so the splash
 // screen appears immediately on weak devices instead of blocking startup.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app.dart';

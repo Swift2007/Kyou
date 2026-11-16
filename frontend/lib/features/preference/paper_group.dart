@@ -1,5 +1,5 @@
 // Responsibility: EDITOR APPEARANCE group — journal paper swatches (lines/dots).
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../core/theme.dart';
 

@@ -1,6 +1,6 @@
 // Responsibility: TopBar — close × | date chip | status dot + Draft/Saved |
 // lock | Done button. 390×96 per OpenPencil frame tree.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../core/theme.dart';
 

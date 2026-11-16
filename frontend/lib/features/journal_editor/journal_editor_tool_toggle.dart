@@ -1,6 +1,6 @@
 // Responsibility: Floating editor tool toggle — + when closed, × when open.
 // 48×48 per OpenPencil frame tree.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../core/theme.dart';
 

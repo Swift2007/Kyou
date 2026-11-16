@@ -1,7 +1,7 @@
 // Responsibility: Renders the About screen matching the OpenPencil
 // About page (page_id 0:54, frame 0:1906 light / 0:1940 dark, 390x844).
 // No status bar per user instruction.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme.dart';

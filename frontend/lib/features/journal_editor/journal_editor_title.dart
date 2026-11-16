@@ -1,6 +1,6 @@
 // Responsibility: Title field — "Give today a name" placeholder.
 // 185×38 per OpenPencil frame tree.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../core/theme.dart';
 

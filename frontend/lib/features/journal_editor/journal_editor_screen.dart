@@ -9,7 +9,7 @@
 // - Speed dial open: overlay fans out from tool toggle
 // Mood chips: Great, Good, Okay, Low, Rough, + (add custom)
 // Speed dial buttons: Attach, Voice, Mood: Good, Tag, Predict ✓, Reply
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../core/theme.dart';
 import 'journal_editor_app_bar.dart';

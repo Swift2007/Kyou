@@ -1,6 +1,6 @@
 // Responsibility: Insights screen app bar — "INSIGHTS" title.
 // Matches OpenPencil: IBM Plex Mono, 20px, bold.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../core/theme.dart';
 

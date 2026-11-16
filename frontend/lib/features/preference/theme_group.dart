@@ -1,5 +1,5 @@
 // Responsibility: THEME group — theme mode chips + paper tone color swatches.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../core/theme.dart';
 

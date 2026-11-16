@@ -8,7 +8,7 @@
 // - Create journal form: JOURNAL TITLE field, COVER row, Auto note
 // - Create journal actions: "Create journal" + forward arrow
 // - Closing note: "LESS SCROLLING. MORE FEELING." / "VOL. YOU"
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme.dart';

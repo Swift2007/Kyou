@@ -1,6 +1,6 @@
 // Responsibility: Profile screen — header and account/menu entry points.
 // OpenPencil-aligned (Profile frame 0:1272): flat header, row layout, 8px rhythm.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme.dart';

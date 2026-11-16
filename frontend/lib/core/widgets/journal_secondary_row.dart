@@ -1,6 +1,6 @@
 // Responsibility: Two-part helper row between actions: muted question on the left,
 // bold ink action link on the right. Extracted from journal_kit.dart.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'journal_colors.dart';

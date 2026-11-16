@@ -1,7 +1,7 @@
 // Responsibility: Shared bottom dock for main tab screens.
 // Rounded, raised 3-tab nav pill (Home/Journal/Profile) with a separate
 // FAB on the right (iOS-like).
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
 
 import '../theme.dart';

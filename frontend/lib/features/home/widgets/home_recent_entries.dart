@@ -1,6 +1,6 @@
 // Responsibility: "RECENT ENTRIES" section for Home screen.
 // Uses minimalized JournalEntryCard style (no intro, smaller height).
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../core/theme.dart';
 import '../../journal/widgets/journal_entry_card.dart';

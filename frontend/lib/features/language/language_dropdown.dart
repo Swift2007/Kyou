@@ -1,7 +1,7 @@
 // Responsibility: Language dropdown field + open menu.
 // Two languages: English (default) and Japanese (日本語).
 // Field: 140×40 per OpenPencil. Dropdown menu: 140×88 per OpenPencil.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../core/theme.dart';
 

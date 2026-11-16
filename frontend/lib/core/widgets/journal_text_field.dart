@@ -1,7 +1,7 @@
 // Responsibility: Editorial "writing line" input matching the Home UI auth prototype:
 // page-white box with a 2px ink stroke, mono label, Caveat handwriting value,
 // and a thin rule under the text. Extracted from journal_kit.dart.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'journal_colors.dart';

@@ -1,6 +1,6 @@
 // Responsibility: Stats row — word count + similar entries chip.
 // Bottom of paper area.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../core/theme.dart';
 

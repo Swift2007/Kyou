@@ -1,6 +1,6 @@
 // Responsibility: Filled accent action button with ink border, hard offset shadow,
 // and forward-arrow glyph — "Start journaling" / "Sign in" / "Create space". Extracted from journal_kit.dart.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'journal_colors.dart';

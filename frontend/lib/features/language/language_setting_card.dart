@@ -1,6 +1,6 @@
 // Responsibility: Language setting card — label, description, and dropdown
 // field. 342×84 per OpenPencil frame tree.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../core/theme.dart';
 import 'language_dropdown.dart';

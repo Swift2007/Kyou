@@ -1,6 +1,6 @@
 // Responsibility: Body text area — "Dear me…" placeholder.
 // Overlays the paper below mood chips, spans full paper width.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../core/theme.dart';
 
@@ -12,7 +12,7 @@ class JournalEditorBody extends StatelessWidget {
     return Container(
       height: 400,
       decoration: BoxDecoration(color: Colors.transparent),
-      child: const TextField(
+      child: TextField(
         style: TextStyle(
           fontSize: 17,
           fontWeight: FontWeight.w400,

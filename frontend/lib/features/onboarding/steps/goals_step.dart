@@ -1,5 +1,5 @@
 // Responsibility: Collects the user's journaling goals during onboarding (step 4 of 6).
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 

@@ -1,6 +1,6 @@
 // Responsibility: Weekly bar chart (MON-SUN) matching OpenPencil Insights.
 // Plain chart area (no elevated card wrapper). THU bar accented.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../core/theme.dart';
 

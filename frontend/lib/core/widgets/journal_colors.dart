@@ -1,6 +1,6 @@
 // Responsibility: Journal editorial color palette shared across welcome,
 // sign-in, and sign-up screens. Extracted from journal_kit.dart.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class JournalColors {
   const JournalColors._();

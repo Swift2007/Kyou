@@ -1,6 +1,6 @@
 // Responsibility: Shared visual primitives for the onboarding flow, matching the
 // OpenPencil "onBoarding" page prototypes.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../onboarding_data.dart';

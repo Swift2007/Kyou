@@ -1,6 +1,6 @@
 // Responsibility: Info banner — icon + explanatory text.
 // 342×54 per OpenPencil frame tree.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';

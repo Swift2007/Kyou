@@ -1,7 +1,7 @@
 // Responsibility: Shared "New entry" FAB for main screens.
 // Same as Insights: accent circle, 3px ink border, hard offset shadow,
 // anchored popup menu with "Create a new journal" action.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
 
 import '../theme.dart';

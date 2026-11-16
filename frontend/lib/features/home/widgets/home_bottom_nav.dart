@@ -1,6 +1,6 @@
 // Responsibility: Bottom navigation item (icon + label + active dot) used in
 // the home dashboard bottom nav bar. Extracted from home_dashboard_screen.dart.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeNavItem extends StatelessWidget {

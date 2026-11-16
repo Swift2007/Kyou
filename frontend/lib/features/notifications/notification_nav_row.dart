@@ -1,6 +1,6 @@
 // Responsibility: Notification nav row — label + description + chevron.
 // 342×64 per OpenPencil frame tree.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';

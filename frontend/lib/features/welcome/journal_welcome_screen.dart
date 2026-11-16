@@ -1,5 +1,5 @@
 // Responsibility: Renders the Home UI "Journal welcome" landing screen from the OpenPencil prototype.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/widgets/journal_kit.dart';

@@ -1,5 +1,5 @@
 // Responsibility: Speed Dial scrim — full-screen overlay when speed dial is open.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../core/theme.dart';
 

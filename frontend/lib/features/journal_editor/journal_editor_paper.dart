@@ -1,7 +1,7 @@
 // Responsibility: PaperSheet — ruled journal paper background 366×714.
 // Horizontal lines (334×1 each), left margin line (1×534).
 // Bottom 96px padding keeps text clear of the tool toggle.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../core/theme.dart';
 

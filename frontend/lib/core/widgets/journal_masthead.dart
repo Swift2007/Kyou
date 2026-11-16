@@ -1,6 +1,6 @@
 // Responsibility: Masthead strip: brand note on the right above a 2px ink rule
 // (Home UI prototype). Extracted from journal_kit.dart.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'journal_colors.dart';

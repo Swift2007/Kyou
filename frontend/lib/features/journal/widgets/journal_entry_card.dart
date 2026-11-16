@@ -1,7 +1,7 @@
 // Responsibility: Journal entry card — icon/color block, content, chevron.
 // Configurable for user-chosen icon/color; OpenPencil-aligned typography.
 // Supports compact mode (smaller height, no intro) for Home recent entries.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme.dart';

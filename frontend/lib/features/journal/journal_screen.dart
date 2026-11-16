@@ -1,6 +1,6 @@
 // Responsibility: Journal screen — lists journals/entries. Uses shared bottom dock.
 // New journal cards: icon/color block, title/date, mood/trait, intro, chevron.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme.dart';

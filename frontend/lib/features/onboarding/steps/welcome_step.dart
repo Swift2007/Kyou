@@ -1,5 +1,5 @@
 // Responsibility: Renders the welcoming screen (Onboarding / 0) from the OpenPencil prototype.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 /// Prototype palette (Onboarding / 0 Welcome).

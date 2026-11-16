@@ -1,6 +1,6 @@
 // Responsibility: Recent insight card — "You write most on Wednesdays.
 // Keep the momentum going." Flat/brutal card (2px border, no shadow).
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../core/theme.dart';
 

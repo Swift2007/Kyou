@@ -1,5 +1,5 @@
 // Responsibility: Home date/calendar strip — minimal layout with year, flat style.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../core/theme.dart';
 

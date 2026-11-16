@@ -9,7 +9,7 @@
 // - Welcome message: "An account only holds the door.\nThe pages hold you."
 // - Welcome actions: "Create space" + forward arrow, "Continue with Google", "Already keeping a journal? / Sign in"
 // - Closing note: "LESS SCROLLING. MORE FEELING." / "VOL. YOU"
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 

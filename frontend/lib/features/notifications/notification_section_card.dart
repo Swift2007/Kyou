@@ -1,6 +1,6 @@
 // Responsibility: Section card wrapper — title + children content.
 // Used for REMINDERS, ACTIVITY, and PRODUCT sections.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../core/theme.dart';
 

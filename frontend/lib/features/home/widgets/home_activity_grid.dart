@@ -1,6 +1,6 @@
 // Responsibility: Compact daily activity grid (GitHub contribution-style)
 // for Home progress section. Date-continuous window ending today.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../core/theme.dart';
 

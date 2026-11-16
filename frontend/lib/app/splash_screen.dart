@@ -1,7 +1,7 @@
 // Responsibility: Branded splash screen shown while Supabase initializes.
 // Uses the app's neobrutalist cream/orange palette so the first thing the
 // user sees matches the app identity, not a blank white screen.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../core/theme.dart';
 

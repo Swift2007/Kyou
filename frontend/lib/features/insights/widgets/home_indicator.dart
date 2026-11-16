@@ -1,6 +1,6 @@
 // Responsibility: iOS home indicator pill (134x5) shown at the bottom of
 // the insights screen. Extracted from insights_screen.dart.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../core/theme.dart';
 

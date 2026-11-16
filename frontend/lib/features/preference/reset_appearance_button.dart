@@ -1,5 +1,5 @@
 // Responsibility: Reset appearance button — full width touch target at bottom.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../core/theme.dart';
 

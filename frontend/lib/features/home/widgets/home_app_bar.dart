@@ -1,5 +1,5 @@
 // Responsibility: Home app bar — greeting on the left, profile avatar on the right.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../core/theme.dart';
 

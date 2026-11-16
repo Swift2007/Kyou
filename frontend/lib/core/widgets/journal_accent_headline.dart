@@ -1,6 +1,6 @@
 // Responsibility: Two-line Anton headline with an accent-colored closing word,
 // plus the editorial note row (28x3 accent rule + mono label). Extracted from journal_kit.dart.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'journal_colors.dart';

@@ -7,7 +7,7 @@
 // - ACTIVITY: Streaks & milestones (toggle On), Journal insights (toggle Off)
 // - PRODUCT: Tips & features (toggle Off), Quiet hours (nav)
 // - Info banner + footer note
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme.dart';

@@ -1,6 +1,6 @@
 // Responsibility: Mood chips row — Great, Good, Okay, Low, Rough, + (add custom).
 // Each chip 28×28 per OpenPencil frame tree.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../core/theme.dart';
 

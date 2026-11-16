@@ -2,7 +2,7 @@
 // Language page (page_id 0:59, frames 0:3349 closed / 0:3326 open, 390x844).
 // Only two languages: English (default) and Japanese (日本語).
 // No status bar per user instruction.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';

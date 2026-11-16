@@ -1,6 +1,6 @@
 // Responsibility: Insights stats — 4 cards (STREAK, ENTRIES, WORDS, DAYS)
 // in a responsive 2x2 grid. Flat cards per OpenPencil (2px border, r20, no shadow).
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../core/theme.dart';
 

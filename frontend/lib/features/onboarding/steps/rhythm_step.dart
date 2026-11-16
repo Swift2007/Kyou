@@ -1,5 +1,5 @@
 // Responsibility: Collects writing rhythm preferences during onboarding (step 5 of 6).
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 

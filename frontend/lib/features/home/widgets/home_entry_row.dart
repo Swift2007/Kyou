@@ -1,6 +1,6 @@
 // Responsibility: Entry row widget (avatar + title + subtitle + time) and
 // divider used in the home dashboard recent-entries list. Extracted from home_dashboard_screen.dart.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeEntryRow extends StatelessWidget {

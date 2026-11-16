@@ -1,5 +1,5 @@
 // Responsibility: Hosts the multi-step onboarding flow and renders the current step.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../auth/auth_viewmodel.dart';
