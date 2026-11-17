@@ -1,24 +1,26 @@
-// Responsibility: Defines go_router routes and redirects based on auth state.
+// Responsibility: Defines go_router routes, shell navigation, and auth redirects.
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 
+import '../features/about/about_screen.dart';
 import '../features/auth/auth_repository.dart';
 import '../features/auth/login_screen.dart';
-import '../features/auth/signup_screen.dart';
 import '../features/auth/sign_up_screen.dart';
+import '../features/auth/signup_screen.dart';
 import '../features/entries/entries_list_screen.dart';
-import '../features/journal_editor/journal_editor_screen.dart';
 import '../features/home/home_dashboard_screen.dart';
 import '../features/insights/insights_screen.dart';
 import '../features/journal/create_journal_screen.dart';
 import '../features/journal/journal_screen.dart';
+import '../features/journal_editor/journal_editor_screen.dart';
+import '../features/language/language_screen.dart';
+import '../features/notifications/notification_screen.dart';
 import '../features/onboarding/onboarding_flow_screen.dart';
 import '../features/preference/preference_screen.dart';
 import '../features/profile/profile_screen.dart';
-import '../features/notifications/notification_screen.dart';
-import '../features/about/about_screen.dart';
-import '../features/language/language_screen.dart';
 import '../features/welcome/journal_welcome_screen.dart';
+import 'widgets/main_shell_scaffold.dart';
 
 /// Decides where a request for [location] should go.
 ///
@@ -37,16 +39,36 @@ String? resolveAuthRedirect({
     return isAuthEntry ? null : '/welcome';
   }
 
-  // Any signed-in user who has not finished onboarding goes there first.
   if (needsOnboarding) {
     return isOnboarding ? null : '/onboarding';
   }
 
-  // Finished onboarding: keep them out of the auth/onboarding screens.
   if (isAuthEntry || isOnboarding) {
     return '/home';
   }
   return null;
+}
+
+CustomTransitionPage<void> _slidePage({
+  required GoRouterState state,
+  required Widget child,
+}) {
+  return CustomTransitionPage<void>(
+    key: state.pageKey,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final curved = CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeOutCubic,
+        reverseCurve: Curves.easeInCubic,
+      );
+      final offset = Tween<Offset>(
+        begin: const Offset(1.0, 0.0),
+        end: Offset.zero,
+      ).animate(curved);
+      return SlideTransition(position: offset, child: child);
+    },
+  );
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -78,10 +100,6 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const SignUpScreen(),
       ),
       GoRoute(
-        path: '/create-journal',
-        builder: (context, state) => const CreateJournalScreen(),
-      ),
-      GoRoute(
         path: '/onboarding',
         builder: (context, state) => OnboardingFlowScreen(
           onGetStarted: () => context.go('/home'),
@@ -89,46 +107,104 @@ final routerProvider = Provider<GoRouter>((ref) {
           onFinished: () => context.go('/home'),
         ),
       ),
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) =>
+            MainShellScaffold(navigationShell: navigationShell),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/home',
+                pageBuilder: (context, state) => const NoTransitionPage(
+                  child: HomeDashboardScreen(),
+                ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/journal',
+                pageBuilder: (context, state) => const NoTransitionPage(
+                  child: JournalScreen(),
+                ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/profile',
+                pageBuilder: (context, state) => const NoTransitionPage(
+                  child: ProfileScreen(),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/create-journal',
+        pageBuilder: (context, state) => _slidePage(
+          state: state,
+          child: const CreateJournalScreen(),
+        ),
+      ),
       GoRoute(
         path: '/preference',
-        builder: (context, state) => const PreferenceScreen(),
+        pageBuilder: (context, state) => _slidePage(
+          state: state,
+          child: const PreferenceScreen(),
+        ),
       ),
       GoRoute(
         path: '/insights',
-        builder: (context, state) => const InsightsScreen(),
-      ),
-      GoRoute(
-        path: '/journal',
-        builder: (context, state) => const JournalScreen(),
-      ),
-      GoRoute(
-        path: '/profile',
-        builder: (context, state) => const ProfileScreen(),
-      ),
-      GoRoute(
-        path: '/home',
-        builder: (context, state) => const HomeDashboardScreen(),
+        pageBuilder: (context, state) => _slidePage(
+          state: state,
+          child: const InsightsScreen(),
+        ),
       ),
       GoRoute(
         path: '/entries',
-        builder: (context, state) => const EntriesListScreen(),
+        pageBuilder: (context, state) => _slidePage(
+          state: state,
+          child: const EntriesListScreen(),
+        ),
       ),
       GoRoute(
         path: '/entries/new',
-        builder: (context, state) => const JournalEditorScreen(),
+        pageBuilder: (context, state) => _slidePage(
+          state: state,
+          child: const JournalEditorScreen(),
+        ),
       ),
       GoRoute(
         path: '/entries/edit',
-        builder: (context, state) => const JournalEditorScreen(),
+        pageBuilder: (context, state) => _slidePage(
+          state: state,
+          child: const JournalEditorScreen(),
+        ),
       ),
       GoRoute(
         path: '/notifications',
-        builder: (context, state) => const NotificationScreen(),
+        pageBuilder: (context, state) => _slidePage(
+          state: state,
+          child: const NotificationScreen(),
+        ),
       ),
-      GoRoute(path: '/about', builder: (context, state) => const AboutScreen()),
+      GoRoute(
+        path: '/about',
+        pageBuilder: (context, state) => _slidePage(
+          state: state,
+          child: const AboutScreen(),
+        ),
+      ),
       GoRoute(
         path: '/language',
-        builder: (context, state) => const LanguageScreen(),
+        pageBuilder: (context, state) => _slidePage(
+          state: state,
+          child: const LanguageScreen(),
+        ),
       ),
     ],
   );

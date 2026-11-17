@@ -1,10 +1,9 @@
-// Responsibility: Profile screen — header and account/menu entry points.
+// Responsibility: Profile screen — header and account/menu entry points (tab content).
 // OpenPencil-aligned (Profile frame 0:1272): flat header, row layout, 8px rhythm.
 import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme.dart';
-import '../../core/widgets/app_bottom_dock.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -13,16 +12,15 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      bottomNavigationBar: const AppBottomDock(activeTab: AppTab.profile),
       body: SafeArea(
         bottom: false,
         child: LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(24, 24, 24, 120),
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  minHeight: (constraints.maxHeight - 144).clamp(0.0, double.infinity),
+                  minHeight: (constraints.maxHeight - 56).clamp(0.0, double.infinity),
                 ),
                 child: IntrinsicHeight(
                   child: Column(
@@ -125,12 +123,12 @@ class ProfileScreen extends StatelessWidget {
                         onTap: () => context.push('/about'),
                       ),
                       const Spacer(),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 16),
                       _MenuItem(
-                        icon: Icons.logout_outlined,
+                        icon: Icons.logout,
                         label: 'Log out',
-                        accent: true,
                         onTap: () {},
+                        isDestructive: true,
                       ),
                     ],
                   ),
@@ -148,60 +146,40 @@ class _MenuItem extends StatelessWidget {
   final IconData icon;
   final String label;
   final VoidCallback onTap;
-  final bool accent;
+  final bool isDestructive;
 
   const _MenuItem({
     required this.icon,
     required this.label,
     required this.onTap,
-    this.accent = false,
+    this.isDestructive = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    final labelColor = accent ? AppColors.accent : AppColors.ink;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(16),
-          child: Container(
-            height: 56,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.ink, width: 2),
-            ),
-            child: Row(
-              children: [
-                Icon(icon, size: 20, color: labelColor),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    label,
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: labelColor,
-                    ),
-                  ),
+    final color = isDestructive ? AppColors.accent : AppColors.ink;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 14),
+        child: Row(
+          children: [
+            Icon(icon, size: 22, color: color),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: color,
                 ),
-                const Text(
-                  '›',
-                  style: TextStyle(
-                    fontFamily: 'Inter',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.muted,
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
+            Icon(Icons.chevron_right, color: color),
+          ],
         ),
       ),
     );

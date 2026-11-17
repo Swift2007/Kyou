@@ -1,10 +1,9 @@
-// Responsibility: Journal screen — lists journals/entries. Uses shared bottom dock.
+// Responsibility: Journal screen — lists journals/entries (tab content).
 // New journal cards: icon/color block, title/date, mood/trait, intro, chevron.
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme.dart';
-import '../../core/widgets/app_bottom_dock.dart';
 import 'widgets/journal_entry_card.dart';
 
 class JournalScreen extends ConsumerWidget {
@@ -14,11 +13,10 @@ class JournalScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      bottomNavigationBar: const AppBottomDock(activeTab: AppTab.journal),
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: const [

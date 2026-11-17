@@ -1,21 +1,53 @@
 // Responsibility: Bootstraps Flutter, validates config, and runs the app.
 // Supabase is initialized inside App after the first frame so the splash
 // screen appears immediately on weak devices instead of blocking startup.
-import 'package:material_ui/material_ui.dart';
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'app.dart';
 import 'core/env.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  runZonedGuarded(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
 
-  if (!Env.isConfigured) {
-    runApp(MissingConfigApp(missingKeys: Env.missingKeys));
-    return;
-  }
+      // Prevent runtime font downloads from hanging the UI on poor/offline
+      // networks (e.g. first open of editor screens using Caveat/Newsreader).
+      GoogleFonts.config.allowRuntimeFetching = false;
 
-  runApp(const ProviderScope(child: App()));
+      FlutterError.onError = (FlutterErrorDetails details) {
+        FlutterError.presentError(details);
+        debugPrint('FlutterError: ${details.exceptionAsString()}');
+        if (details.stack != null) {
+          debugPrintStack(stackTrace: details.stack);
+        }
+      };
+
+      PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
+        debugPrint('Uncaught platform error: $error');
+        debugPrintStack(stackTrace: stack);
+        // Prevent unhandled async/platform errors (e.g. background auth/network
+        // refresh failures when offline) from crashing the app.
+        return true;
+      };
+
+      if (!Env.isConfigured) {
+        runApp(MissingConfigApp(missingKeys: Env.missingKeys));
+        return;
+      }
+
+      runApp(const ProviderScope(child: App()));
+    },
+    (Object error, StackTrace stack) {
+      debugPrint('Uncaught zoned error: $error');
+      debugPrintStack(stackTrace: stack);
+    },
+  );
 }
 
 class MissingConfigApp extends StatelessWidget {

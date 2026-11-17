@@ -4,7 +4,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme.dart';
-import '../../core/widgets/app_bottom_dock.dart';
 import 'widgets/home_activity_grid.dart';
 import 'widgets/home_app_bar.dart';
 import 'widgets/home_calendar_card.dart';
@@ -17,7 +16,6 @@ class HomeDashboardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      bottomNavigationBar: const AppBottomDock(activeTab: AppTab.home),
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -32,7 +30,7 @@ class HomeDashboardScreen extends ConsumerWidget {
               child: Stack(
                 children: [
                   SingleChildScrollView(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 120),
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: const [

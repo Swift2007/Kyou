@@ -1,7 +1,6 @@
 // Responsibility: Two-line Anton headline with an accent-colored closing word,
 // plus the editorial note row (28x3 accent rule + mono label). Extracted from journal_kit.dart.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'journal_colors.dart';
 
@@ -29,7 +28,8 @@ class JournalAccentHeadline extends StatelessWidget {
     final lineHeight = fontSize * (72 / 76);
     final text = Text.rich(
       TextSpan(
-        style: GoogleFonts.anton(
+        style: TextStyle(
+          fontFamily: 'Anton',
           fontSize: fontSize,
           fontWeight: FontWeight.w400,
           color: JournalColors.ink,
@@ -64,7 +64,8 @@ class JournalAccentHeadline extends StatelessWidget {
                 note,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.ibmPlexMono(
+                style: const TextStyle(
+                  fontFamily: 'IBM Plex Mono',
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
                   color: JournalColors.ink,

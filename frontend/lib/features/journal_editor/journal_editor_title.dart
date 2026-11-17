@@ -1,42 +1,40 @@
-// Responsibility: Title field — "Give today a name" placeholder.
-// 185×38 per OpenPencil frame tree.
+// Responsibility: Journal title field — Caveat 30 w700, placeholder vs filled.
 import 'package:material_ui/material_ui.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
 class JournalEditorTitle extends StatelessWidget {
-  const JournalEditorTitle({super.key});
+  final TextEditingController controller;
+
+  const JournalEditorTitle({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 185,
-      height: 38,
-      decoration: BoxDecoration(color: Colors.transparent),
-      child: const TextField(
-        style: TextStyle(
-          fontSize: 27,
-          fontWeight: FontWeight.w800,
-          color: AppColors.ink,
-          height: 1,
+    final base = GoogleFonts.caveat(
+      fontSize: 30,
+      fontWeight: FontWeight.w700,
+      color: AppColors.ink,
+      height: 1.1,
+    );
+    return TextField(
+      controller: controller,
+      style: base,
+      cursorColor: AppColors.ink,
+      decoration: InputDecoration(
+        hintText: 'Give today a name',
+        hintStyle: base.copyWith(
+          color: AppColors.muted.withValues(alpha: 0.55),
         ),
-        decoration: InputDecoration(
-          hintText: 'Give today a name',
-          hintStyle: TextStyle(
-            fontSize: 27,
-            fontWeight: FontWeight.w800,
-            color: AppColors.muted,
-            height: 1,
-          ),
-          border: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          contentPadding: EdgeInsets.zero,
-          isDense: true,
-        ),
-        maxLines: 1,
-        cursorColor: AppColors.ink,
+        border: InputBorder.none,
+        enabledBorder: InputBorder.none,
+        focusedBorder: InputBorder.none,
+        disabledBorder: InputBorder.none,
+        isDense: true,
+        contentPadding: EdgeInsets.zero,
       ),
+      textInputAction: TextInputAction.next,
+      maxLines: 1,
     );
   }
 }

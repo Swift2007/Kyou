@@ -1,43 +1,44 @@
-// Responsibility: Body text area — "Dear me…" placeholder.
-// Overlays the paper below mood chips, spans full paper width.
+// Responsibility: Multiline journal body editor — Newsreader 17 w400.
 import 'package:material_ui/material_ui.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
 class JournalEditorBody extends StatelessWidget {
-  const JournalEditorBody({super.key});
+  final TextEditingController controller;
+
+  const JournalEditorBody({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 400,
-      decoration: BoxDecoration(color: Colors.transparent),
+    final base = GoogleFonts.newsreader(
+      fontSize: 17,
+      fontWeight: FontWeight.w400,
+      color: AppColors.ink,
+      height: 27 / 17,
+    );
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 240),
       child: TextField(
-        style: TextStyle(
-          fontSize: 17,
-          fontWeight: FontWeight.w400,
-          color: AppColors.ink,
-          height: 1.4,
-        ),
+        controller: controller,
+        style: base,
+        cursorColor: AppColors.ink,
+        keyboardType: TextInputType.multiline,
+        textInputAction: TextInputAction.newline,
+        maxLines: null,
+        minLines: 8,
         decoration: InputDecoration(
           hintText: 'Dear me…',
-          hintStyle: TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.w400,
-            color: AppColors.muted,
-            height: 1.4,
+          hintStyle: base.copyWith(
+            color: AppColors.muted.withValues(alpha: 0.6),
           ),
           border: InputBorder.none,
           enabledBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
-          contentPadding: EdgeInsets.zero,
+          disabledBorder: InputBorder.none,
           isDense: true,
+          contentPadding: EdgeInsets.zero,
         ),
-        maxLines: null,
-        expands: false,
-        cursorColor: AppColors.ink,
-        keyboardType: TextInputType.multiline,
-        textInputAction: TextInputAction.newline,
       ),
     );
   }

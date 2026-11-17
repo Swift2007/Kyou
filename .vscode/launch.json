@@ -8,7 +8,7 @@
       "cwd": "${workspaceFolder}/frontend",
       "program": "${workspaceFolder}/frontend/lib/main.dart",
       "toolArgs": [
-        "--dart-define-from-file=env.json"
+        "--dart-define-from-file=${workspaceFolder}/frontend/env.json"
       ],
       "env": {
         "FLUTTER_STORAGE_BASE_URL": "https://storage.flutter-io.cn"

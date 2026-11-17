@@ -1,8 +1,6 @@
-// Responsibility: Shared bottom dock for main tab screens.
-// Rounded, raised 3-tab nav pill (Home/Journal/Profile) with a separate
-// FAB on the right (iOS-like).
+// Responsibility: Shared bottom dock for main tab shell.
+// Rounded, raised 3-tab nav pill (Home/Journal/Profile) with separate FAB.
 import 'package:material_ui/material_ui.dart';
-import 'package:go_router/go_router.dart';
 
 import '../theme.dart';
 import 'app_new_entry_fab.dart';
@@ -10,9 +8,14 @@ import 'app_new_entry_fab.dart';
 enum AppTab { home, journal, profile }
 
 class AppBottomDock extends StatelessWidget {
-  final AppTab? activeTab;
+  final int currentIndex;
+  final ValueChanged<int> onTabSelected;
 
-  const AppBottomDock({super.key, required this.activeTab});
+  const AppBottomDock({
+    super.key,
+    required this.currentIndex,
+    required this.onTabSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,20 +39,20 @@ class AppBottomDock extends StatelessWidget {
                     _DockItem(
                       label: 'Home',
                       icon: Icons.home_outlined,
-                      active: activeTab == AppTab.home,
-                      onTap: () => context.go('/home'),
+                      active: currentIndex == 0,
+                      onTap: () => onTabSelected(0),
                     ),
                     _DockItem(
                       label: 'Journal',
                       icon: Icons.book_outlined,
-                      active: activeTab == AppTab.journal,
-                      onTap: () => context.go('/journal'),
+                      active: currentIndex == 1,
+                      onTap: () => onTabSelected(1),
                     ),
                     _DockItem(
                       label: 'Profile',
                       icon: Icons.person_outline,
-                      active: activeTab == AppTab.profile,
-                      onTap: () => context.go('/profile'),
+                      active: currentIndex == 2,
+                      onTap: () => onTabSelected(2),
                     ),
                   ],
                 ),

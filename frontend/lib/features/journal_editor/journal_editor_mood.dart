@@ -1,36 +1,48 @@
-// Responsibility: Mood chips row — Great, Good, Okay, Low, Rough, + (add custom).
-// Each chip 28×28 per OpenPencil frame tree.
+// Responsibility: Mood prompt and selectable quick mood chips row.
 import 'package:material_ui/material_ui.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
 class JournalEditorMood extends StatelessWidget {
-  const JournalEditorMood({super.key});
+  final List<String> moods;
+  final String? selectedMood;
+  final ValueChanged<String?> onSelected;
+
+  const JournalEditorMood({
+    super.key,
+    required this.moods,
+    required this.selectedMood,
+    required this.onSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'How are you feeling?',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w800,
-            color: AppColors.ink,
+          style: GoogleFonts.inter(
+            fontSize: 13,
+            fontWeight: FontWeight.w700,
+            color: AppColors.muted,
           ),
         ),
-        const SizedBox(width: 8),
-        _MoodChip(label: 'Great'),
-        const SizedBox(width: 6),
-        _MoodChip(label: 'Good'),
-        const SizedBox(width: 6),
-        _MoodChip(label: 'Okay'),
-        const SizedBox(width: 6),
-        _MoodChip(label: 'Low'),
-        const SizedBox(width: 6),
-        _MoodChip(label: 'Rough'),
-        const SizedBox(width: 6),
-        _AddChip(),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (final mood in moods)
+              _MoodChip(
+                label: mood,
+                selected: mood == selectedMood,
+                onTap: () => onSelected(mood == selectedMood ? null : mood),
+              ),
+            _AddChip(onTap: () {}),
+          ],
+        ),
       ],
     );
   }
@@ -38,70 +50,82 @@ class JournalEditorMood extends StatelessWidget {
 
 class _MoodChip extends StatelessWidget {
   final String label;
+  final bool selected;
+  final VoidCallback onTap;
 
-  const _MoodChip({required this.label});
+  const _MoodChip({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: _chipWidth(label),
-      height: 28,
-      decoration: BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: AppColors.ink, width: 3),
-      ),
-      child: Center(
+    final bg = selected ? AppColors.accent : AppColors.surface;
+    final fg = selected ? AppColors.surface : AppColors.ink;
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 28,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        decoration: BoxDecoration(
+          color: bg,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: AppColors.ink, width: 2),
+          boxShadow: const [
+            BoxShadow(
+              color: AppColors.ink,
+              offset: Offset(2, 2),
+              blurRadius: 0,
+            ),
+          ],
+        ),
+        alignment: Alignment.center,
         child: Text(
           label,
-          style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w800,
-            color: AppColors.ink,
+          style: GoogleFonts.inter(
+            fontSize: 12,
+            fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
+            color: fg,
           ),
         ),
       ),
     );
   }
-
-  double _chipWidth(String label) {
-    switch (label) {
-      case 'Great':
-        return 53;
-      case 'Good':
-        return 52;
-      case 'Okay':
-        return 50;
-      case 'Low':
-        return 44;
-      case 'Rough':
-        return 58;
-      default:
-        return 50;
-    }
-  }
 }
 
 class _AddChip extends StatelessWidget {
-  const _AddChip();
+  final VoidCallback onTap;
+
+  const _AddChip({required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 29,
-      height: 28,
-      decoration: BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: AppColors.ink, width: 3),
-      ),
-      child: const Center(
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 28,
+        height: 28,
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: AppColors.ink, width: 2),
+          boxShadow: const [
+            BoxShadow(
+              color: AppColors.ink,
+              offset: Offset(2, 2),
+              blurRadius: 0,
+            ),
+          ],
+        ),
+        alignment: Alignment.center,
         child: Text(
           '+',
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w800,
+          style: GoogleFonts.inter(
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
             color: AppColors.ink,
+            height: 1,
           ),
         ),
       ),

@@ -1,159 +1,160 @@
-// Responsibility: TopBar — close × | date chip | status dot + Draft/Saved |
-// lock | Done button. 390×96 per OpenPencil frame tree.
+// Responsibility: Editor top bar — close, date chip, draft/saved status,
+// lock affordance, and Done action. Responsive, OpenPencil-aligned.
 import 'package:material_ui/material_ui.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
 class JournalEditorAppBar extends StatelessWidget {
-  const JournalEditorAppBar({super.key});
+  final bool isSaved;
+  final VoidCallback onClose;
+  final VoidCallback onDone;
+
+  const JournalEditorAppBar({
+    super.key,
+    required this.isSaved,
+    required this.onClose,
+    required this.onDone,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final statusLabel = isSaved ? 'Saved' : 'Draft';
+    final statusDotColor =
+        isSaved ? const Color(0xFF4A8F5A) : AppColors.accent;
+
     return Container(
-      width: 390,
-      height: 96,
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.ink, width: 3),
-        boxShadow: const [
-          BoxShadow(color: AppColors.ink, offset: Offset(4, 4), blurRadius: 0),
-        ],
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppColors.ink, width: 2),
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        child: Row(
-          children: [
-            // Close button — ×
-            GestureDetector(
-              onTap: () => Navigator.of(context).pop(),
-              child: Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: AppColors.background,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: AppColors.ink, width: 3),
-                ),
-                child: const Center(
-                  child: Text(
-                    '×',
-                    style: TextStyle(
-                      fontSize: 27,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.ink,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _IconTapTarget(
+            onTap: onClose,
+            child: Text(
+              '×',
+              style: GoogleFonts.inter(
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+                color: AppColors.ink,
+                height: 1,
+              ),
+            ),
+          ),
+          const SizedBox(width: 4),
+          Expanded(
+            child: Row(
+              children: [
+                Flexible(
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFFF8EC),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppColors.ink, width: 2),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: AppColors.ink,
+                          offset: Offset(2, 2),
+                          blurRadius: 0,
+                        ),
+                      ],
+                    ),
+                    child: Text(
+                      'Thu, 5 Nov',
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.ibmPlexMono(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.ink,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            // Date chip — "Thu, 5 Nov"
-            Container(
-              width: 122,
-              height: 32,
-              decoration: BoxDecoration(
-                color: AppColors.background,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: AppColors.ink, width: 3),
-              ),
-              child: const Center(
-                child: Text(
-                  'Thu, 5 Nov',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.ink,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            // Status dot + Draft/Saved text
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
+                const SizedBox(width: 10),
                 Container(
                   width: 8,
                   height: 8,
                   decoration: BoxDecoration(
-                    color: AppColors.accent,
+                    color: statusDotColor,
                     shape: BoxShape.circle,
                   ),
                 ),
-                const SizedBox(width: 4),
-                const Text(
-                  'Draft',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.ink,
+                const SizedBox(width: 6),
+                Text(
+                  statusLabel,
+                  style: GoogleFonts.ibmPlexMono(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.muted,
                   ),
                 ),
               ],
             ),
-            const Spacer(),
-            // Lock button
-            Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: AppColors.background,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: AppColors.ink, width: 3),
-              ),
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      width: 12,
-                      height: 10,
-                      decoration: BoxDecoration(
-                        color: AppColors.ink,
-                        borderRadius: BorderRadius.circular(1),
-                      ),
-                    ),
-                    SizedBox(height: 2),
-                    Container(
-                      width: 6,
-                      height: 8,
-                      decoration: BoxDecoration(color: AppColors.ink),
-                    ),
-                  ],
-                ),
-              ),
+          ),
+          const SizedBox(width: 8),
+          _IconTapTarget(
+            onTap: () {},
+            child: const Icon(
+              Icons.lock_outline,
+              size: 18,
+              color: AppColors.muted,
             ),
-            const SizedBox(width: 12),
-            // Done button — 46×30
-            Container(
-              width: 46,
-              height: 30,
+          ),
+          const SizedBox(width: 4),
+          GestureDetector(
+            onTap: onDone,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
                 color: AppColors.accent,
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(color: AppColors.ink, width: 3),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: AppColors.ink, width: 2),
                 boxShadow: const [
                   BoxShadow(
                     color: AppColors.ink,
-                    offset: Offset(4, 4),
+                    offset: Offset(2, 2),
                     blurRadius: 0,
                   ),
                 ],
               ),
-              child: const Center(
-                child: Text(
-                  'Done',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.ink,
-                  ),
+              child: Text(
+                'Done',
+                style: GoogleFonts.inter(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.surface,
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _IconTapTarget extends StatelessWidget {
+  final VoidCallback onTap;
+  final Widget child;
+
+  const _IconTapTarget({required this.onTap, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: SizedBox(
+        width: 36,
+        height: 36,
+        child: Center(child: child),
       ),
     );
   }

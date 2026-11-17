@@ -1,25 +1,43 @@
-// Responsibility: Renders the Journal Editor screen matching the OpenPencil
-// Journal Editor page (page_id 0:56, frames 0:1974 empty / 0:2041 mood /
-// 0:2641 speed dial open / dark night variant, 390x844).
-// No status bar per user instruction.
-//
-// States:
-// - Draft (default): paper empty, title "Give today a name", body "Dear me…"
-// - Saved: status dot says "Saved"
-// - Speed dial open: overlay fans out from tool toggle
-// Mood chips: Great, Good, Okay, Low, Rough, + (add custom)
-// Speed dial buttons: Attach, Voice, Mood: Good, Tag, Predict ✓, Reply
+// Responsibility: Journal Editor screen (OpenPencil Journal Editor page 0:56).
+// Phase 1 foundation + Phase 2 rich content + Phase 3 speed dial interactions
+// + Phase 4 sheets/cards and reorderable attachment blocks.
+// No status bar. Responsive, modular layout.
 import 'package:material_ui/material_ui.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 import 'journal_editor_app_bar.dart';
-import 'journal_editor_paper.dart';
-import 'journal_editor_title.dart';
-import 'journal_editor_mood.dart';
+import 'journal_editor_attachment_block.dart';
+import 'journal_editor_attachment_sheet.dart';
 import 'journal_editor_body.dart';
-import 'journal_editor_stats.dart';
-import 'journal_editor_tool_toggle.dart';
+import 'journal_editor_mood_sheet.dart';
+import 'journal_editor_paper.dart';
+import 'journal_editor_prediction_block.dart';
+import 'journal_editor_reply_card.dart';
 import 'journal_editor_speed_dial.dart';
+import 'journal_editor_stats.dart';
+import 'journal_editor_tags.dart';
+import 'journal_editor_title.dart';
+import 'journal_editor_tool_toggle.dart';
+
+class _ReplyData {
+  final String sourceLabel;
+  final String quote;
+
+  const _ReplyData({required this.sourceLabel, required this.quote});
+}
+
+class _PredictionData {
+  final String text;
+  final String dueLabel;
+  String confidence;
+
+  _PredictionData({
+    required this.text,
+    required this.dueLabel,
+    required this.confidence,
+  });
+}
 
 class JournalEditorScreen extends StatefulWidget {
   const JournalEditorScreen({super.key});
@@ -29,63 +47,374 @@ class JournalEditorScreen extends StatefulWidget {
 }
 
 class _JournalEditorScreenState extends State<JournalEditorScreen> {
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _bodyController = TextEditingController();
   bool _speedDialOpen = false;
+  bool _saved = false;
+  String? _selectedMood;
+  double _moodIntensity = 0.5;
+  final List<String> _tags = <String>[];
+  final List<JournalAttachment> _attachments = <JournalAttachment>[];
+  _ReplyData? _reply;
+  _PredictionData? _prediction;
+  int _attachmentSeed = 0;
+
+  static const List<String> _defaultMoods = [
+    'Great',
+    'Good',
+    'Okay',
+    'Low',
+    'Rough',
+  ];
+  static const List<String> _confidenceOptions = ['Low', 'Medium', 'High'];
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController.addListener(_onContentChanged);
+    _bodyController.addListener(_onContentChanged);
+  }
+
+  void _onContentChanged() => setState(() {});
+
+  @override
+  void dispose() {
+    _titleController
+      ..removeListener(_onContentChanged)
+      ..dispose();
+    _bodyController
+      ..removeListener(_onContentChanged)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _closeEditor() => Navigator.of(context).maybePop();
+
+  void _markDone() {
+    FocusScope.of(context).unfocus();
+    setState(() => _saved = true);
+  }
+
+  void _toggleSpeedDial() => setState(() => _speedDialOpen = !_speedDialOpen);
+
+  void _closeSpeedDial() => setState(() => _speedDialOpen = false);
+
+  bool get _hasContent {
+    return _titleController.text.trim().isNotEmpty ||
+        _bodyController.text.trim().isNotEmpty ||
+        _selectedMood != null ||
+        _tags.isNotEmpty ||
+        _attachments.isNotEmpty ||
+        _reply != null ||
+        _prediction != null;
+  }
+
+  int get _extrasCount {
+    var count = 0;
+    if (_selectedMood != null) count++;
+    if (_tags.isNotEmpty) count++;
+    if (_attachments.isNotEmpty) count++;
+    if (_prediction != null) count++;
+    if (_reply != null) count++;
+    return count;
+  }
+
+  int get _attachmentCount => _attachments.length;
+
+  void _showHint(String message) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(message),
+          duration: const Duration(milliseconds: 1400),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+  }
+
+  Future<void> _addTag() async {
+    final controller = TextEditingController();
+    final tag = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          backgroundColor: AppColors.surface,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+            side: const BorderSide(color: AppColors.ink, width: 2),
+          ),
+          title: Text(
+            'Add tag',
+            style: GoogleFonts.inter(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: AppColors.ink,
+            ),
+          ),
+          content: TextField(
+            controller: controller,
+            autofocus: true,
+            decoration: const InputDecoration(hintText: 'e.g. work'),
+            textInputAction: TextInputAction.done,
+            onSubmitted: (value) => Navigator.of(dialogContext).pop(value),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(controller.text),
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
+    controller.dispose();
+    final cleaned = tag?.trim().replaceAll(RegExp(r'^#+'), '');
+    if (cleaned == null || cleaned.isEmpty) return;
+    if (_tags.any((t) => t.toLowerCase() == cleaned.toLowerCase())) return;
+    setState(() => _tags.add(cleaned));
+  }
+
+  void _removeTag(String tag) => setState(() => _tags.remove(tag));
+
+  void _addAttachment(JournalAttachmentKind kind, String title, String subtitle) {
+    setState(() {
+      _attachmentSeed++;
+      _attachments.add(
+        JournalAttachment(
+          id: '${kind.name}-$_attachmentSeed',
+          kind: kind,
+          title: title,
+          subtitle: subtitle,
+        ),
+      );
+    });
+  }
+
+  void _removeAttachment(String id) {
+    setState(() => _attachments.removeWhere((a) => a.id == id));
+  }
+
+  void _reorderAttachments(int oldIndex, int newIndex) {
+    setState(() {
+      final item = _attachments.removeAt(oldIndex);
+      _attachments.insert(newIndex, item);
+    });
+  }
+
+  Future<void> _handleMoodAction() async {
+    _closeSpeedDial();
+    final result = await showJournalMoodPickerSheet(
+      context,
+      moods: _defaultMoods,
+      initialMood: _selectedMood,
+      initialIntensity: _moodIntensity,
+    );
+    if (!mounted || result == null) return;
+    setState(() {
+      _selectedMood = result.mood;
+      _moodIntensity = result.intensity;
+    });
+  }
+
+  Future<void> _handleAttach() async {
+    _closeSpeedDial();
+    final action = await showJournalAttachmentPickerSheet(context);
+    if (!mounted || action == null) return;
+    switch (action) {
+      case JournalAttachmentAction.camera:
+        _addAttachment(JournalAttachmentKind.image, 'photo', 'Camera capture');
+        _showHint('Photo attachment added (placeholder)');
+        break;
+      case JournalAttachmentAction.photoLibrary:
+        _addAttachment(JournalAttachmentKind.image, 'photo', 'From library');
+        _showHint('Photo attachment added (placeholder)');
+        break;
+      case JournalAttachmentAction.voiceNote:
+        _addAttachment(JournalAttachmentKind.voice, 'voice note', '0:24');
+        _showHint('Voice note added');
+        break;
+      case JournalAttachmentAction.file:
+        _addAttachment(JournalAttachmentKind.file, 'file', 'Attached document');
+        _showHint('File attachment added (placeholder)');
+        break;
+    }
+  }
+
+  void _handleVoice() {
+    _closeSpeedDial();
+    _addAttachment(JournalAttachmentKind.voice, 'voice note', '0:24');
+    _showHint('Voice note added');
+  }
+
+  void _handleTagAction() {
+    _closeSpeedDial();
+    _addTag();
+  }
+
+  void _handlePredict() {
+    _closeSpeedDial();
+    setState(() {
+      if (_prediction == null) {
+        _prediction = _PredictionData(
+          text: 'I will feel more at ease after taking a short walk.',
+          dueLabel: 'Due: 19 Nov',
+          confidence: 'Medium',
+        );
+      } else {
+        _prediction = null;
+      }
+    });
+  }
+
+  void _handleReply() {
+    _closeSpeedDial();
+    setState(() {
+      if (_reply == null) {
+        _reply = const _ReplyData(
+          sourceLabel: 'Replying to your entry from 5 Nov 2025',
+          quote: '“You were worried about the week ahead, but you made it through.”',
+        );
+      } else {
+        _reply = null;
+      }
+    });
+  }
+
+  void _handleToggleLongPress() {
+    _showHint('Hold to record (voice) — coming soon');
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
-        bottom: false,
+        bottom: true,
         child: Stack(
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // TopBar — close × | date | status + Draft/Saved | lock | Done
-                const JournalEditorAppBar(),
-                const SizedBox(height: 12),
-                // PaperSheet — ruled journal paper 366×714
-                const JournalEditorPaper(),
-                const SizedBox(height: 4),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                  child: JournalEditorAppBar(
+                    isSaved: _saved,
+                    onClose: _closeEditor,
+                    onDone: _markDone,
+                  ),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 120),
+                    child: JournalEditorPaper(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          JournalEditorTitle(controller: _titleController),
+                          const SizedBox(height: 20),
+                          JournalEditorBody(controller: _bodyController),
+                          const SizedBox(height: 12),
+                          JournalEditorTags(
+                            tags: _tags,
+                            onAddTag: _addTag,
+                            onRemoveTag: _tags.isEmpty ? null : _removeTag,
+                          ),
+                          if (_attachments.isNotEmpty) ...[
+                            const SizedBox(height: 12),
+                            ReorderableListView.builder(
+                              shrinkWrap: true,
+                              buildDefaultDragHandles: false,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: _attachments.length,
+                              onReorderItem: _reorderAttachments,
+                              proxyDecorator: (child, index, animation) {
+                                return Material(
+                                  color: Colors.transparent,
+                                  elevation: 0,
+                                  child: child,
+                                );
+                              },
+                              itemBuilder: (context, index) {
+                                final attachment = _attachments[index];
+                                return Padding(
+                                  key: ValueKey<String>(attachment.id),
+                                  padding: EdgeInsets.only(
+                                    bottom: index == _attachments.length - 1 ? 0 : 10,
+                                  ),
+                                  child: JournalEditorAttachmentBlock(
+                                    attachment: attachment,
+                                    index: index,
+                                    onRemove: () => _removeAttachment(attachment.id),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                          if (_reply != null) ...[
+                            const SizedBox(height: 12),
+                            JournalEditorReplyCard(
+                              sourceLabel: _reply!.sourceLabel,
+                              quote: _reply!.quote,
+                              onRemove: () => setState(() => _reply = null),
+                            ),
+                          ],
+                          if (_prediction != null) ...[
+                            const SizedBox(height: 12),
+                            JournalEditorPredictionBlock(
+                              predictionText: _prediction!.text,
+                              dueLabel: _prediction!.dueLabel,
+                              confidence: _prediction!.confidence,
+                              confidenceOptions: _confidenceOptions,
+                              onConfidenceChanged: (value) {
+                                setState(() => _prediction!.confidence = value);
+                              },
+                              onRemove: () => setState(() => _prediction = null),
+                            ),
+                          ],
+                          const SizedBox(height: 24),
+                          JournalEditorStats(
+                            bodyText: _bodyController.text,
+                            hasContent: _hasContent,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
-            // Title field — overlays top of paper
-            const Positioned(left: 24, top: 130, child: JournalEditorTitle()),
-            // Mood chips row — below title
-            const Positioned(left: 24, top: 190, child: JournalEditorMood()),
-            // Body text area — below mood chips
-            const Positioned(
-              left: 24,
-              top: 250,
-              right: 24,
-              child: JournalEditorBody(),
+            if (_speedDialOpen)
+              JournalEditorSpeedDialScrim(onClose: _closeSpeedDial),
+            JournalEditorSpeedDial(
+              open: _speedDialOpen,
+              onClosed: _closeSpeedDial,
+              selectedMood: _selectedMood,
+              attachmentCount: _attachmentCount,
+              hasPrediction: _prediction != null,
+              onAttach: _handleAttach,
+              onVoice: _handleVoice,
+              onMood: _handleMoodAction,
+              onTag: _handleTagAction,
+              onPredict: _handlePredict,
+              onReply: _handleReply,
             ),
-            // Stats row — bottom of paper
-            const Positioned(
-              left: 24,
-              bottom: 110,
-              right: 24,
-              child: JournalEditorStats(),
-            ),
-            // Floating tool toggle — bottom right, above paper bottom
             Positioned(
               right: 24,
-              bottom: 56,
+              bottom: 24,
               child: JournalEditorToolToggle(
                 open: _speedDialOpen,
-                onToggled: () =>
-                    setState(() => _speedDialOpen = !_speedDialOpen),
+                onToggled: _toggleSpeedDial,
+                onLongPress: _handleToggleLongPress,
+                badgeCount: _extrasCount,
               ),
             ),
-            // Speed dial overlay — fans out when open
-            if (_speedDialOpen) ...[
-              const JournalEditorSpeedDialScrim(),
-              JournalEditorSpeedDial(
-                open: _speedDialOpen,
-                onClosed: () => setState(() => _speedDialOpen = false),
-              ),
-            ],
           ],
         ),
       ),
