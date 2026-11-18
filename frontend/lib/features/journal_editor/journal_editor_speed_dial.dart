@@ -1,6 +1,5 @@
 // Responsibility: Speed dial scrim and stacked action menu for the journal editor.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
@@ -30,6 +29,7 @@ class JournalEditorSpeedDial extends StatelessWidget {
   final String? selectedMood;
   final int attachmentCount;
   final bool hasPrediction;
+  final bool hasReply;
   final VoidCallback onAttach;
   final VoidCallback onVoice;
   final VoidCallback onMood;
@@ -44,6 +44,7 @@ class JournalEditorSpeedDial extends StatelessWidget {
     required this.selectedMood,
     this.attachmentCount = 0,
     this.hasPrediction = false,
+    this.hasReply = false,
     required this.onAttach,
     required this.onVoice,
     required this.onMood,
@@ -83,14 +84,15 @@ class JournalEditorSpeedDial extends StatelessWidget {
         label: predictLabel,
         icon: Icons.auto_awesome_outlined,
         onTap: onPredict,
-        emphasized: true,
+        signature: true,
         active: hasPrediction,
       ),
       _SpeedDialActionData(
         label: 'Reply',
         icon: Icons.reply_outlined,
         onTap: onReply,
-        emphasized: true,
+        signature: true,
+        active: hasReply,
       ),
     ];
 
@@ -124,14 +126,14 @@ class _SpeedDialActionData {
   final String label;
   final IconData icon;
   final VoidCallback onTap;
-  final bool emphasized;
+  final bool signature;
   final bool active;
 
   const _SpeedDialActionData({
     required this.label,
     required this.icon,
     required this.onTap,
-    this.emphasized = false,
+    this.signature = false,
     this.active = false,
   });
 }
@@ -186,10 +188,12 @@ class _SpeedDialItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final useAccent = data.emphasized || data.active;
-    final buttonBg = useAccent ? AppColors.accent : AppColors.surface;
-    final buttonFg = useAccent ? AppColors.surface : AppColors.ink;
-    final labelBg = AppColors.surface;
+    final accentButton = data.active || data.signature;
+    final buttonBg = accentButton ? AppColors.accent : AppColors.surface;
+    final buttonFg = accentButton ? AppColors.surface : AppColors.ink;
+    final radius = data.signature
+        ? BorderRadius.circular(10)
+        : BorderRadius.circular(24);
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -198,7 +202,7 @@ class _SpeedDialItem extends StatelessWidget {
           constraints: const BoxConstraints(maxWidth: 180),
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
           decoration: BoxDecoration(
-            color: labelBg,
+            color: AppColors.surface,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: AppColors.ink, width: 2),
             boxShadow: const [
@@ -213,7 +217,8 @@ class _SpeedDialItem extends StatelessWidget {
             data.label,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.inter(
+            style: const TextStyle(
+              fontFamily: 'Inter',
               fontSize: 12,
               fontWeight: FontWeight.w600,
               color: AppColors.ink,
@@ -229,7 +234,7 @@ class _SpeedDialItem extends StatelessWidget {
             height: 48,
             decoration: BoxDecoration(
               color: buttonBg,
-              shape: BoxShape.circle,
+              borderRadius: radius,
               border: Border.all(color: AppColors.ink, width: 2),
               boxShadow: const [
                 BoxShadow(

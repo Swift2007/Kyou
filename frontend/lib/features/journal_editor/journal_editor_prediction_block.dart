@@ -1,6 +1,5 @@
 // Responsibility: Prediction contextual block for the journal editor.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
@@ -40,10 +39,11 @@ class JournalEditorPredictionBlock extends StatelessWidget {
         children: [
           Row(
             children: [
-              Expanded(
+              const Expanded(
                 child: Text(
                   'I PREDICT…',
-                  style: GoogleFonts.ibmPlexMono(
+                  style: TextStyle(
+                    fontFamily: 'IBM Plex Mono',
                     fontSize: 10,
                     fontWeight: FontWeight.w600,
                     color: AppColors.accent,
@@ -62,7 +62,8 @@ class JournalEditorPredictionBlock extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             predictionText,
-            style: GoogleFonts.newsreader(
+            style: const TextStyle(
+              fontFamily: 'Newsreader',
               fontSize: 14,
               fontWeight: FontWeight.w400,
               color: AppColors.ink,
@@ -73,16 +74,16 @@ class JournalEditorPredictionBlock extends StatelessWidget {
           Wrap(
             spacing: 8,
             runSpacing: 8,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              _InfoChip(label: dueLabel, selected: false),
+              _InfoChip(label: dueLabel, selected: false, kind: _ChipKind.neutral),
               for (final option in confidenceOptions)
                 GestureDetector(
                   onTap: () => onConfidenceChanged(option),
                   child: _InfoChip(
-                    label: option == confidence
-                        ? 'Confidence: $option'
-                        : option,
+                    label: option == confidence ? 'Confidence: $option' : option,
                     selected: option == confidence,
+                    kind: _ChipKind.confidence,
                   ),
                 ),
             ],
@@ -93,16 +94,29 @@ class JournalEditorPredictionBlock extends StatelessWidget {
   }
 }
 
+enum _ChipKind { neutral, confidence }
+
 class _InfoChip extends StatelessWidget {
   final String label;
   final bool selected;
+  final _ChipKind kind;
 
-  const _InfoChip({required this.label, required this.selected});
+  const _InfoChip({
+    required this.label,
+    required this.selected,
+    required this.kind,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final bg = selected ? AppColors.accent : AppColors.surface;
-    final fg = selected ? AppColors.surface : AppColors.ink;
+    final isConfidenceSelected = kind == _ChipKind.confidence && selected;
+    final bg = isConfidenceSelected ? AppColors.accent : AppColors.surface;
+    final fg = isConfidenceSelected ? AppColors.surface : AppColors.ink;
+    final fontWeight = isConfidenceSelected
+        ? FontWeight.w700
+        : (kind == _ChipKind.neutral ? FontWeight.w600 : FontWeight.w500);
+    final fontFamily = kind == _ChipKind.neutral ? 'Inter' : 'Inter';
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
@@ -112,9 +126,10 @@ class _InfoChip extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: GoogleFonts.ibmPlexMono(
-          fontSize: 10,
-          fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+        style: TextStyle(
+          fontFamily: fontFamily,
+          fontSize: 12,
+          fontWeight: fontWeight,
           color: fg,
         ),
       ),

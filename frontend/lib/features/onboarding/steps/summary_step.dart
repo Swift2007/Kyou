@@ -1,7 +1,6 @@
 // Responsibility: Shows onboarding summary and completes setup (step 7 / finish).
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../onboarding_viewmodel.dart';
 import '../widgets/onboarding_widgets.dart';
@@ -189,8 +188,7 @@ class _SummaryRow extends StatelessWidget {
               children: [
                 Text(
                   row.label,
-                  style: GoogleFonts.ibmPlexMono(
-                    fontSize: 9,
+                  style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 9,
                     fontWeight: FontWeight.w600,
                     color: OnbColors.muted,
                   ),
@@ -198,8 +196,7 @@ class _SummaryRow extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   row.value,
-                  style: GoogleFonts.inter(
-                    fontSize: 13,
+                  style: TextStyle(fontFamily: 'Inter', fontSize: 13,
                     fontWeight: FontWeight.w600,
                     color: OnbColors.ink,
                     height: 1.25,
@@ -216,8 +213,7 @@ class _SummaryRow extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 2),
               child: Text(
                 'Edit',
-                style: GoogleFonts.inter(
-                  fontSize: 12,
+                style: TextStyle(fontFamily: 'Inter', fontSize: 12,
                   fontWeight: FontWeight.w700,
                   color: OnbColors.accent,
                 ),
@@ -284,8 +280,7 @@ class _PrivacyNoteSticker extends StatelessWidget {
           Expanded(
             child: Text(
               'Your entries are private. You can change or delete this information in Profile any time.',
-              style: GoogleFonts.ibmPlexMono(
-                fontSize: 10,
+              style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 10,
                 fontWeight: FontWeight.w400,
                 color: OnbColors.ink,
                 height: 15 / 10,
@@ -325,8 +320,7 @@ class _SavingButton extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               'Saving…',
-              style: GoogleFonts.inter(
-                fontSize: 15,
+              style: TextStyle(fontFamily: 'Inter', fontSize: 15,
                 fontWeight: FontWeight.w700,
                 color: OnbColors.onAccent,
               ),
@@ -365,8 +359,7 @@ class _NetworkErrorToast extends StatelessWidget {
             ),
             child: Text(
               '!',
-              style: GoogleFonts.inter(
-                fontSize: 11,
+              style: TextStyle(fontFamily: 'Inter', fontSize: 11,
                 fontWeight: FontWeight.w700,
                 color: OnbColors.onAccent,
                 height: 1,
@@ -377,8 +370,7 @@ class _NetworkErrorToast extends StatelessWidget {
           Expanded(
             child: Text(
               "Couldn't save. Check your connection.",
-              style: GoogleFonts.inter(
-                fontSize: 12,
+              style: TextStyle(fontFamily: 'Inter', fontSize: 12,
                 fontWeight: FontWeight.w600,
                 color: OnbColors.ink,
               ),
@@ -404,8 +396,7 @@ class _NetworkErrorToast extends StatelessWidget {
                     child: Center(
                       child: Text(
                         'Retry',
-                        style: GoogleFonts.inter(
-                          fontSize: 12,
+                        style: TextStyle(fontFamily: 'Inter', fontSize: 12,
                           fontWeight: FontWeight.w700,
                           color: OnbColors.onAccent,
                         ),

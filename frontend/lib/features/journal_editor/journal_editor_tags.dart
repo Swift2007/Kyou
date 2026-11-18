@@ -1,6 +1,5 @@
 // Responsibility: Tags row for journal editor — #tag chips and + tag action.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
@@ -60,8 +59,7 @@ class _TagChip extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: GoogleFonts.ibmPlexMono(
-            fontSize: 11,
+          style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 11,
             fontWeight: FontWeight.w500,
             color: AppColors.ink,
           ),
@@ -89,8 +87,7 @@ class _AddTagChip extends StatelessWidget {
         ),
         child: Text(
           '+ tag',
-          style: GoogleFonts.ibmPlexMono(
-            fontSize: 11,
+          style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 11,
             fontWeight: FontWeight.w400,
             color: AppColors.muted,
           ),

@@ -1,6 +1,5 @@
 // Responsibility: Editor footer — similar entries affordance and word/min stats.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
@@ -28,8 +27,7 @@ class JournalEditorStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final metaStyle = GoogleFonts.ibmPlexMono(
-      fontSize: 10,
+    final metaStyle = TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 10,
       fontWeight: FontWeight.w400,
       color: AppColors.muted,
     );

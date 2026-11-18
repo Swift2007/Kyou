@@ -3,13 +3,13 @@
 // + Phase 4 sheets/cards and reorderable attachment blocks.
 // No status bar. Responsive, modular layout.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 import 'journal_editor_app_bar.dart';
 import 'journal_editor_attachment_block.dart';
 import 'journal_editor_attachment_sheet.dart';
 import 'journal_editor_body.dart';
+import 'journal_editor_mood.dart';
 import 'journal_editor_mood_sheet.dart';
 import 'journal_editor_paper.dart';
 import 'journal_editor_prediction_block.dart';
@@ -51,21 +51,14 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
   final TextEditingController _bodyController = TextEditingController();
   bool _speedDialOpen = false;
   bool _saved = false;
-  String? _selectedMood;
-  double _moodIntensity = 0.5;
+  JournalMoodLevel? _selectedMood;
+  int _moodIntensity = 3;
   final List<String> _tags = <String>[];
   final List<JournalAttachment> _attachments = <JournalAttachment>[];
   _ReplyData? _reply;
   _PredictionData? _prediction;
   int _attachmentSeed = 0;
 
-  static const List<String> _defaultMoods = [
-    'Great',
-    'Good',
-    'Okay',
-    'Low',
-    'Rough',
-  ];
   static const List<String> _confidenceOptions = ['Low', 'Medium', 'High'];
 
   @override
@@ -147,8 +140,7 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
           ),
           title: Text(
             'Add tag',
-            style: GoogleFonts.inter(
-              fontSize: 16,
+            style: TextStyle(fontFamily: 'Inter', fontSize: 16,
               fontWeight: FontWeight.w700,
               color: AppColors.ink,
             ),
@@ -211,7 +203,6 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
     _closeSpeedDial();
     final result = await showJournalMoodPickerSheet(
       context,
-      moods: _defaultMoods,
       initialMood: _selectedMood,
       initialIntensity: _moodIntensity,
     );
@@ -287,7 +278,7 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
   }
 
   void _handleToggleLongPress() {
-    _showHint('Hold to record (voice) — coming soon');
+    _showHint('Hold to record');
   }
 
   @override
@@ -302,22 +293,29 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-                  child: JournalEditorAppBar(
-                    isSaved: _saved,
-                    onClose: _closeEditor,
-                    onDone: _markDone,
-                  ),
+                JournalEditorAppBar(
+                  isSaved: _saved,
+                  onClose: _closeEditor,
+                  onDone: _markDone,
                 ),
                 Expanded(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 120),
-                    child: JournalEditorPaper(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final minPaperHeight =
+                          (constraints.maxHeight - 12 - 120).clamp(520.0, double.infinity);
+                      return SingleChildScrollView(
+                        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
+                        child: JournalEditorPaper(
+                          minHeight: minPaperHeight,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           JournalEditorTitle(controller: _titleController),
+                          const SizedBox(height: 12),
+                          JournalEditorMoodRow(
+                            selectedMood: _selectedMood,
+                            onSelected: (mood) => setState(() => _selectedMood = mood),
+                          ),
                           const SizedBox(height: 20),
                           JournalEditorBody(controller: _bodyController),
                           const SizedBox(height: 12),
@@ -386,18 +384,21 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
                         ],
                       ),
                     ),
-                  ),
-                ),
-              ],
+                  );
+                },
+              ),
             ),
+          ],
+        ),
             if (_speedDialOpen)
               JournalEditorSpeedDialScrim(onClose: _closeSpeedDial),
             JournalEditorSpeedDial(
               open: _speedDialOpen,
               onClosed: _closeSpeedDial,
-              selectedMood: _selectedMood,
+              selectedMood: _selectedMood?.inlineLabel,
               attachmentCount: _attachmentCount,
               hasPrediction: _prediction != null,
+              hasReply: _reply != null,
               onAttach: _handleAttach,
               onVoice: _handleVoice,
               onMood: _handleMoodAction,

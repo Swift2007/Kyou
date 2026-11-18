@@ -14,7 +14,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
@@ -192,8 +191,7 @@ class _EditProfileAvatar extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           'Change photo',
-          style: GoogleFonts.inter(
-            fontSize: 17,
+          style: TextStyle(fontFamily: 'Inter', fontSize: 17,
             fontWeight: FontWeight.w400,
             color: AppColors.ink,
           ),
@@ -311,8 +309,7 @@ class _EditProfileField extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: Text(
                       counter!,
-                      style: GoogleFonts.ibmPlexMono(
-                        fontSize: 13,
+                      style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 13,
                         fontWeight: FontWeight.w400,
                         color: AppColors.muted,
                         height: 17 / 13,

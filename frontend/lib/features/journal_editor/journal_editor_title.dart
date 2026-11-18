@@ -1,6 +1,5 @@
 // Responsibility: Journal title field — Caveat 30 w700, placeholder vs filled.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
@@ -11,8 +10,7 @@ class JournalEditorTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final base = GoogleFonts.caveat(
-      fontSize: 30,
+    final base = TextStyle(fontFamily: 'Caveat', fontSize: 30,
       fontWeight: FontWeight.w700,
       color: AppColors.ink,
       height: 1.1,

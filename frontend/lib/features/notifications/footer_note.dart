@@ -1,6 +1,5 @@
 // Responsibility: Footer note text at bottom of Notifications screen.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
@@ -11,8 +10,7 @@ class FooterNote extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       'Kyou keeps notifications calm and intentional.',
-      style: GoogleFonts.inter(
-        fontSize: 11,
+      style: TextStyle(fontFamily: 'Inter', fontSize: 11,
         fontWeight: FontWeight.w400,
         color: AppColors.muted,
       ),

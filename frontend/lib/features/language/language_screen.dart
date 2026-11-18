@@ -3,7 +3,6 @@
 // Only two languages: English (default) and Japanese (日本語).
 // No status bar per user instruction.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
@@ -98,8 +97,7 @@ class FooterNote extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       'More languages can be added later.',
-      style: GoogleFonts.inter(
-        fontSize: 11,
+      style: TextStyle(fontFamily: 'Inter', fontSize: 11,
         fontWeight: FontWeight.w400,
         color: AppColors.muted,
       ),

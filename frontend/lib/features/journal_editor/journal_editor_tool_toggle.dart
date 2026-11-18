@@ -1,6 +1,5 @@
 // Responsibility: Floating editor tool toggle with badge and long-press hint hook.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
@@ -73,8 +72,7 @@ class _JournalEditorToolToggleState extends State<JournalEditorToolToggle> {
                   child: Text(
                     widget.open ? '×' : '+',
                     key: ValueKey<bool>(widget.open),
-                    style: GoogleFonts.inter(
-                      fontSize: widget.open ? 22 : 24,
+                    style: TextStyle(fontFamily: 'Inter', fontSize: widget.open ? 22 : 24,
                       fontWeight: FontWeight.w700,
                       color: AppColors.surface,
                       height: 1,
@@ -100,8 +98,7 @@ class _JournalEditorToolToggleState extends State<JournalEditorToolToggle> {
                   alignment: Alignment.center,
                   child: Text(
                     '${widget.badgeCount}',
-                    style: GoogleFonts.inter(
-                      fontSize: 9,
+                    style: TextStyle(fontFamily: 'Inter', fontSize: 9,
                       fontWeight: FontWeight.w700,
                       color: AppColors.surface,
                       height: 1,

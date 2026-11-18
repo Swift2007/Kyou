@@ -2,7 +2,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/validators.dart';
 import '../../core/widgets/journal_kit.dart';
@@ -88,8 +87,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               error,
                               maxLines: 6,
                               overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.inter(
-                                fontSize: 11,
+                              style: TextStyle(fontFamily: 'Inter', fontSize: 11,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.red.shade700,
                                 height: 1.2,
@@ -158,16 +156,14 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
             title: Text(
               'Confirm your email',
-              style: GoogleFonts.anton(
-                fontSize: 24,
+              style: TextStyle(fontFamily: 'Anton', fontSize: 24,
                 color: JournalColors.ink,
                 fontWeight: FontWeight.w400,
               ),
             ),
             content: Text(
               'We sent a confirmation link to $_email. Open it to confirm your account, then sign in.',
-              style: GoogleFonts.inter(
-                fontSize: 14,
+              style: TextStyle(fontFamily: 'Inter', fontSize: 14,
                 color: JournalColors.ink,
                 height: 1.4,
               ),
@@ -177,8 +173,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 onPressed: () => Navigator.of(dialogContext).pop(),
                 child: Text(
                   'OK',
-                  style: GoogleFonts.inter(
-                    color: JournalColors.muted,
+                  style: TextStyle(fontFamily: 'Inter', color: JournalColors.muted,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -190,8 +185,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 },
                 child: Text(
                   'Go to sign in',
-                  style: GoogleFonts.inter(
-                    color: JournalColors.accent,
+                  style: TextStyle(fontFamily: 'Inter', color: JournalColors.accent,
                     fontWeight: FontWeight.w700,
                   ),
                 ),

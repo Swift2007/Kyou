@@ -1,7 +1,6 @@
 // Responsibility: Collects topics the user writes about during onboarding (step 6 of 6).
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../onboarding_viewmodel.dart';
 import '../widgets/onboarding_widgets.dart';
@@ -96,8 +95,7 @@ class _TopicsStepState extends ConsumerState<TopicsStep> {
           const SizedBox(height: 12),
           Text(
             'This only shapes prompts and suggestions. Nothing is shared.',
-            style: GoogleFonts.ibmPlexMono(
-              fontSize: 9,
+            style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 9,
               fontWeight: FontWeight.w400,
               color: OnbColors.muted,
               height: 14 / 9,

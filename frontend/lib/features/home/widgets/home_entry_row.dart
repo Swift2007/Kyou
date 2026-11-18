@@ -1,7 +1,6 @@
 // Responsibility: Entry row widget (avatar + title + subtitle + time) and
 // divider used in the home dashboard recent-entries list. Extracted from home_dashboard_screen.dart.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class HomeEntryRow extends StatelessWidget {
   const HomeEntryRow({
@@ -41,8 +40,7 @@ class HomeEntryRow extends StatelessWidget {
             child: Center(
               child: Text(
                 initial,
-                style: GoogleFonts.ibmPlexMono(
-                  fontSize: 15,
+                style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 15,
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFF191916),
                 ),
@@ -56,8 +54,7 @@ class HomeEntryRow extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: GoogleFonts.inter(
-                    fontSize: 16,
+                  style: TextStyle(fontFamily: 'Inter', fontSize: 16,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF191916),
                   ),
@@ -66,8 +63,7 @@ class HomeEntryRow extends StatelessWidget {
                   subtitle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.inter(
-                    fontSize: 13,
+                  style: TextStyle(fontFamily: 'Inter', fontSize: 13,
                     color: const Color(0xFF625F55),
                   ),
                 ),
@@ -77,8 +73,7 @@ class HomeEntryRow extends StatelessWidget {
           const SizedBox(width: 8),
           Text(
             time,
-            style: GoogleFonts.ibmPlexMono(
-              fontSize: 10,
+            style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 10,
               color: const Color(0xFF625F55),
             ),
           ),

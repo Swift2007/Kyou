@@ -1,6 +1,5 @@
 // Responsibility: Attachment picker bottom sheet — add entry attachments.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
@@ -49,8 +48,7 @@ class _AttachmentPickerSheet extends StatelessWidget {
               const SizedBox(height: 16),
               Text(
                 'Add to entry',
-                style: GoogleFonts.inter(
-                  fontSize: 18,
+                style: TextStyle(fontFamily: 'Inter', fontSize: 18,
                   fontWeight: FontWeight.w700,
                   color: AppColors.ink,
                 ),
@@ -134,8 +132,7 @@ class _AttachmentRow extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: GoogleFonts.inter(
-                          fontSize: 14,
+                        style: TextStyle(fontFamily: 'Inter', fontSize: 14,
                           fontWeight: FontWeight.w600,
                           color: AppColors.ink,
                         ),
@@ -143,8 +140,7 @@ class _AttachmentRow extends StatelessWidget {
                       const SizedBox(height: 2),
                       Text(
                         subtitle,
-                        style: GoogleFonts.ibmPlexMono(
-                          fontSize: 10,
+                        style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 10,
                           fontWeight: FontWeight.w400,
                           color: AppColors.muted,
                         ),

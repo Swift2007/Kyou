@@ -1,6 +1,5 @@
 // Responsibility: Renders the welcoming screen (Onboarding / 0) from the OpenPencil prototype.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 /// Prototype palette (Onboarding / 0 Welcome).
 class _WelcomeColors {
@@ -64,8 +63,7 @@ class WelcomeStep extends StatelessWidget {
                 child: Text(
                   "Let's set up your journal",
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.caveat(
-                    fontSize: 40,
+                  style: TextStyle(fontFamily: 'Caveat', fontSize: 40,
                     fontWeight: FontWeight.w700,
                     color: _WelcomeColors.ink,
                     height: 50 / 40,
@@ -76,8 +74,7 @@ class WelcomeStep extends StatelessWidget {
               Text(
                 'Takes about a minute. You can skip most of it.',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.newsreader(
-                  fontSize: 16,
+                style: TextStyle(fontFamily: 'Newsreader', fontSize: 16,
                   fontWeight: FontWeight.w400,
                   color: _WelcomeColors.muted,
                   height: 23 / 16,
@@ -104,8 +101,7 @@ class WelcomeStep extends StatelessWidget {
                   ),
                   child: Text(
                     'Skip for now',
-                    style: GoogleFonts.inter(
-                      fontSize: 14,
+                    style: TextStyle(fontFamily: 'Inter', fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: _WelcomeColors.muted,
                     ),
@@ -289,8 +285,7 @@ class _PrimaryActionButton extends StatelessWidget {
           child: Center(
             child: Text(
               label,
-              style: GoogleFonts.inter(
-                fontSize: 16,
+              style: TextStyle(fontFamily: 'Inter', fontSize: 16,
                 fontWeight: FontWeight.w700,
                 color: _WelcomeColors.buttonText,
               ),

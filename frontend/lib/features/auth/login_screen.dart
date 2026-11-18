@@ -2,7 +2,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/validators.dart';
 import '../../core/widgets/journal_kit.dart';
@@ -88,8 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               error,
                               maxLines: 6,
                               overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.inter(
-                                fontSize: 11,
+                              style: TextStyle(fontFamily: 'Inter', fontSize: 11,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.red.shade700,
                                 height: 1.2,

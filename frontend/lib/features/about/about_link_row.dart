@@ -1,7 +1,6 @@
 // Responsibility: Link row — label + description + chevron.
 // 342×56 per OpenPencil frame tree.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
@@ -37,8 +36,7 @@ class AboutLinkRow extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     desc,
-                    style: GoogleFonts.ibmPlexMono(
-                      fontSize: 11,
+                    style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 11,
                       fontWeight: FontWeight.w400,
                       color: AppColors.muted,
                       height: 16 / 11,

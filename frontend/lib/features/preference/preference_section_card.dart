@@ -1,7 +1,6 @@
 // Responsibility: Section card wrapper — title + subtitle + child content.
 // Used for THEME, ACCENT COLOR, and EDITOR APPEARANCE groups.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
@@ -44,8 +43,7 @@ class SectionCard extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         subtitle,
-                        style: GoogleFonts.inter(
-                          fontSize: 12,
+                        style: TextStyle(fontFamily: 'Inter', fontSize: 12,
                           fontWeight: FontWeight.w400,
                           color: AppColors.muted,
                           height: 16 / 12,

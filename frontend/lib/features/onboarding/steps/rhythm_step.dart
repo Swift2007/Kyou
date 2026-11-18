@@ -1,7 +1,6 @@
 // Responsibility: Collects writing rhythm preferences during onboarding (step 5 of 6).
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../onboarding_data.dart';
 import '../onboarding_viewmodel.dart';
@@ -142,8 +141,7 @@ class _RhythmStepState extends ConsumerState<RhythmStep> {
               Expanded(
                 child: Text(
                   'Remind me gently',
-                  style: GoogleFonts.inter(
-                    fontSize: 14,
+                  style: TextStyle(fontFamily: 'Inter', fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: OnbColors.ink,
                   ),
@@ -173,8 +171,7 @@ class _RhythmStepState extends ConsumerState<RhythmStep> {
                     Expanded(
                       child: Text(
                         'Reminder time',
-                        style: GoogleFonts.inter(
-                          fontSize: 14,
+                        style: TextStyle(fontFamily: 'Inter', fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: OnbColors.ink,
                         ),
@@ -182,8 +179,7 @@ class _RhythmStepState extends ConsumerState<RhythmStep> {
                     ),
                     Text(
                       _formatTime(_reminderTime),
-                      style: GoogleFonts.ibmPlexMono(
-                        fontSize: 13,
+                      style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 13,
                         fontWeight: FontWeight.w600,
                         color: OnbColors.accent,
                       ),
@@ -191,8 +187,7 @@ class _RhythmStepState extends ConsumerState<RhythmStep> {
                     const SizedBox(width: 6),
                     Text(
                       '›',
-                      style: GoogleFonts.inter(
-                        fontSize: 18,
+                      style: TextStyle(fontFamily: 'Inter', fontSize: 18,
                         fontWeight: FontWeight.w600,
                         color: OnbColors.muted,
                         height: 1,

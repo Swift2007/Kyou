@@ -1,7 +1,6 @@
 // Responsibility: Two-part helper row between actions: muted question on the left,
 // bold ink action link on the right. Extracted from journal_kit.dart.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'journal_colors.dart';
 
@@ -26,8 +25,7 @@ class JournalSecondaryRow extends StatelessWidget {
         Expanded(
           child: Text(
             question,
-            style: GoogleFonts.inter(
-              fontSize: 14,
+            style: TextStyle(fontFamily: 'Inter', fontSize: 14,
               fontWeight: FontWeight.w400,
               color: JournalColors.muted,
               height: 21 / 14,
@@ -44,8 +42,7 @@ class JournalSecondaryRow extends StatelessWidget {
           ),
           child: Text(
             action,
-            style: GoogleFonts.inter(
-              fontSize: 14,
+            style: TextStyle(fontFamily: 'Inter', fontSize: 14,
               fontWeight: FontWeight.w700,
               color: JournalColors.ink,
             ),

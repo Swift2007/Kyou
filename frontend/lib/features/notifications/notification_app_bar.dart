@@ -3,7 +3,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
@@ -51,8 +50,7 @@ class NotificationAppBar extends ConsumerWidget {
           const SizedBox(height: 4),
           Text(
             'Choose what deserves your attention.',
-            style: GoogleFonts.inter(
-              fontSize: 14,
+            style: TextStyle(fontFamily: 'Inter', fontSize: 14,
               fontWeight: FontWeight.w400,
               color: AppColors.muted,
             ),

@@ -8,7 +8,6 @@
 // Fonts: Inter (UI), IBM Plex Mono (monospace/dates), Caveat (display),
 // Anton (headline condensed) — wired via google_fonts.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AppColors {
   const AppColors._();
@@ -33,8 +32,7 @@ class AppTextStyles {
   static TextStyle display({
     double fontSize = 56,
     FontWeight fontWeight = FontWeight.w800,
-  }) => GoogleFonts.anton(
-    fontSize: fontSize,
+  }) => TextStyle(fontFamily: 'Anton', fontSize: fontSize,
     fontWeight: fontWeight,
     color: AppColors.ink,
     letterSpacing: -1.5,
@@ -44,8 +42,7 @@ class AppTextStyles {
   static TextStyle headline({
     double fontSize = 40,
     FontWeight fontWeight = FontWeight.w800,
-  }) => GoogleFonts.anton(
-    fontSize: fontSize,
+  }) => TextStyle(fontFamily: 'Anton', fontSize: fontSize,
     fontWeight: fontWeight,
     color: AppColors.ink,
     letterSpacing: -1,
@@ -55,8 +52,7 @@ class AppTextStyles {
   static TextStyle title({
     double fontSize = 24,
     FontWeight fontWeight = FontWeight.w700,
-  }) => GoogleFonts.inter(
-    fontSize: fontSize,
+  }) => TextStyle(fontFamily: 'Inter', fontSize: fontSize,
     fontWeight: fontWeight,
     color: AppColors.ink,
   );
@@ -64,8 +60,7 @@ class AppTextStyles {
   static TextStyle body({
     double fontSize = 16,
     FontWeight fontWeight = FontWeight.w400,
-  }) => GoogleFonts.inter(
-    fontSize: fontSize,
+  }) => TextStyle(fontFamily: 'Inter', fontSize: fontSize,
     fontWeight: fontWeight,
     color: AppColors.ink,
     height: 1.5,
@@ -74,8 +69,7 @@ class AppTextStyles {
   static TextStyle bodyMuted({
     double fontSize = 14,
     FontWeight fontWeight = FontWeight.w400,
-  }) => GoogleFonts.inter(
-    fontSize: fontSize,
+  }) => TextStyle(fontFamily: 'Inter', fontSize: fontSize,
     fontWeight: fontWeight,
     color: AppColors.muted,
     height: 1.5,
@@ -84,8 +78,7 @@ class AppTextStyles {
   static TextStyle label({
     double fontSize = 12,
     FontWeight fontWeight = FontWeight.w700,
-  }) => GoogleFonts.inter(
-    fontSize: fontSize,
+  }) => TextStyle(fontFamily: 'Inter', fontSize: fontSize,
     fontWeight: fontWeight,
     color: AppColors.ink,
     letterSpacing: 0.5,
@@ -94,8 +87,7 @@ class AppTextStyles {
   static TextStyle caption({
     double fontSize = 10,
     FontWeight fontWeight = FontWeight.w700,
-  }) => GoogleFonts.ibmPlexMono(
-    fontSize: fontSize,
+  }) => TextStyle(fontFamily: 'IBM Plex Mono', fontSize: fontSize,
     fontWeight: fontWeight,
     color: AppColors.muted,
     letterSpacing: 0.5,
@@ -104,8 +96,7 @@ class AppTextStyles {
   static TextStyle mono({
     double fontSize = 12,
     FontWeight fontWeight = FontWeight.w400,
-  }) => GoogleFonts.ibmPlexMono(
-    fontSize: fontSize,
+  }) => TextStyle(fontFamily: 'IBM Plex Mono', fontSize: fontSize,
     fontWeight: fontWeight,
     color: AppColors.ink,
     height: 1.4,

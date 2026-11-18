@@ -1,6 +1,5 @@
 // Responsibility: Renders the Home UI "Journal welcome" landing screen from the OpenPencil prototype.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/widgets/journal_kit.dart';
 
@@ -43,8 +42,7 @@ class JournalWelcomeScreen extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 'A little space to spill your thoughts.\nNo right words. No perfect days.',
-                style: GoogleFonts.inter(
-                  fontSize: 15,
+                style: TextStyle(fontFamily: 'Inter', fontSize: 15,
                   fontWeight: FontWeight.w400,
                   color: JournalColors.ink,
                   height: 22 / 15,
@@ -68,8 +66,7 @@ class JournalWelcomeScreen extends StatelessWidget {
                   ),
                   child: Text(
                     'Already have an account? Log in',
-                    style: GoogleFonts.inter(
-                      fontSize: 14,
+                    style: TextStyle(fontFamily: 'Inter', fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: JournalColors.muted,
                     ),
@@ -121,8 +118,7 @@ class _JournalCollage extends StatelessWidget {
                 angle: 9 * 3.141592653589793 / 180,
                 child: Text(
                   '!',
-                  style: GoogleFonts.anton(
-                    fontSize: 35,
+                  style: TextStyle(fontFamily: 'Anton', fontSize: 35,
                     fontWeight: FontWeight.w400,
                     color: JournalColors.ink,
                   ),
@@ -177,8 +173,7 @@ class _JournalPageCard extends StatelessWidget {
             top: 13,
             child: Text(
               'A NOTE TO MYSELF',
-              style: GoogleFonts.ibmPlexMono(
-                fontSize: 10,
+              style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 10,
                 fontWeight: FontWeight.w400,
                 color: JournalColors.muted,
                 letterSpacing: 1,
@@ -191,8 +186,7 @@ class _JournalPageCard extends StatelessWidget {
             right: 17,
             child: Text(
               "I don't have to know\nit all yet.",
-              style: GoogleFonts.caveat(
-                fontSize: 24,
+              style: TextStyle(fontFamily: 'Caveat', fontSize: 24,
                 fontWeight: FontWeight.w400,
                 color: JournalColors.ink,
                 height: 28 / 24,
@@ -204,8 +198,7 @@ class _JournalPageCard extends StatelessWidget {
             top: 130,
             child: Text(
               'AND THAT\u2019S A START.',
-              style: GoogleFonts.ibmPlexMono(
-                fontSize: 10,
+              style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 10,
                 fontWeight: FontWeight.w400,
                 color: JournalColors.muted,
               ),

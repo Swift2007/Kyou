@@ -1,7 +1,6 @@
 // Responsibility: Editor top bar — close, date chip, draft/saved status,
-// lock affordance, and Done action. Responsive, OpenPencil-aligned.
+// lock affordance, and Done action. Responsive, OpenPencil-aligned (full-width bar).
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
@@ -25,20 +24,22 @@ class JournalEditorAppBar extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.fromLTRB(8, 10, 12, 10),
+      decoration: const BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.ink, width: 2),
+        border: Border(
+          bottom: BorderSide(color: AppColors.ink, width: 2),
+        ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           _IconTapTarget(
             onTap: onClose,
-            child: Text(
+            child: const Text(
               '×',
-              style: GoogleFonts.inter(
+              style: TextStyle(
+                fontFamily: 'Inter',
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
                 color: AppColors.ink,
@@ -46,7 +47,7 @@ class JournalEditorAppBar extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 4),
+          const SizedBox(width: 2),
           Expanded(
             child: Row(
               children: [
@@ -66,10 +67,11 @@ class JournalEditorAppBar extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: Text(
+                    child: const Text(
                       'Thu, 5 Nov',
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.ibmPlexMono(
+                      style: TextStyle(
+                        fontFamily: 'IBM Plex Mono',
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
                         color: AppColors.ink,
@@ -89,7 +91,8 @@ class JournalEditorAppBar extends StatelessWidget {
                 const SizedBox(width: 6),
                 Text(
                   statusLabel,
-                  style: GoogleFonts.ibmPlexMono(
+                  style: const TextStyle(
+                    fontFamily: 'IBM Plex Mono',
                     fontSize: 10,
                     fontWeight: FontWeight.w600,
                     color: AppColors.muted,
@@ -124,9 +127,10 @@ class JournalEditorAppBar extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Text(
+              child: const Text(
                 'Done',
-                style: GoogleFonts.inter(
+                style: TextStyle(
+                  fontFamily: 'Inter',
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
                   color: AppColors.surface,

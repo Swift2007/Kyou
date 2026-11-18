@@ -1,6 +1,5 @@
 // Responsibility: Multiline journal body editor — Newsreader 17 w400.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
@@ -11,8 +10,7 @@ class JournalEditorBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final base = GoogleFonts.newsreader(
-      fontSize: 17,
+    final base = TextStyle(fontFamily: 'Newsreader', fontSize: 17,
       fontWeight: FontWeight.w400,
       color: AppColors.ink,
       height: 27 / 17,

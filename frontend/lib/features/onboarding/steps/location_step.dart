@@ -1,7 +1,6 @@
 // Responsibility: Collects the user's approximate location during onboarding (step 3 of 6).
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../onboarding_viewmodel.dart';
 import '../widgets/onboarding_widgets.dart';
@@ -104,8 +103,7 @@ class _LocationStepState extends ConsumerState<LocationStep> {
                       child: TextField(
                         controller: _country,
                         textInputAction: TextInputAction.next,
-                        style: GoogleFonts.caveat(
-                          fontSize: 22,
+                        style: TextStyle(fontFamily: 'Caveat', fontSize: 22,
                           fontWeight: FontWeight.w400,
                           color: OnbColors.ink,
                           height: 24 / 22,
@@ -120,8 +118,7 @@ class _LocationStepState extends ConsumerState<LocationStep> {
                           focusedErrorBorder: InputBorder.none,
                           disabledBorder: InputBorder.none,
                           hintText: 'Select country',
-                          hintStyle: GoogleFonts.caveat(
-                            fontSize: 22,
+                          hintStyle: TextStyle(fontFamily: 'Caveat', fontSize: 22,
                             fontWeight: FontWeight.w400,
                             color: _country.text.trim().isEmpty
                                 ? OnbColors.ink
@@ -134,8 +131,7 @@ class _LocationStepState extends ConsumerState<LocationStep> {
                     if (_country.text.trim().isEmpty)
                       Text(
                         '⌄',
-                        style: GoogleFonts.inter(
-                          fontSize: 18,
+                        style: TextStyle(fontFamily: 'Inter', fontSize: 18,
                           fontWeight: FontWeight.w700,
                           color: OnbColors.muted,
                         ),
@@ -154,8 +150,7 @@ class _LocationStepState extends ConsumerState<LocationStep> {
                     _save();
                     widget.onContinue();
                   },
-                  style: GoogleFonts.caveat(
-                    fontSize: 22,
+                  style: TextStyle(fontFamily: 'Caveat', fontSize: 22,
                     fontWeight: FontWeight.w400,
                     color: OnbColors.ink,
                     height: 24 / 22,
@@ -170,8 +165,7 @@ class _LocationStepState extends ConsumerState<LocationStep> {
                     focusedErrorBorder: InputBorder.none,
                     disabledBorder: InputBorder.none,
                     hintText: '',
-                    hintStyle: GoogleFonts.caveat(
-                      fontSize: 22,
+                    hintStyle: TextStyle(fontFamily: 'Caveat', fontSize: 22,
                       fontWeight: FontWeight.w400,
                       color: OnbColors.muted,
                       height: 24 / 22,
@@ -197,8 +191,7 @@ class _LocationStepState extends ConsumerState<LocationStep> {
               const SizedBox(height: 8),
               Text(
                 'Only your approximate area is kept, never exact coordinates.',
-                style: GoogleFonts.ibmPlexMono(
-                  fontSize: 9,
+                style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 9,
                   fontWeight: FontWeight.w400,
                   color: OnbColors.muted,
                 ),
@@ -240,8 +233,7 @@ class _UseLocationButton extends StatelessWidget {
             child: Center(
               child: Text(
                 '◎  Use my location',
-                style: GoogleFonts.inter(
-                  fontSize: 14,
+                style: TextStyle(fontFamily: 'Inter', fontSize: 14,
                   fontWeight: FontWeight.w600,
                   color: OnbColors.ink,
                 ),
@@ -274,8 +266,7 @@ class _TimeZoneSticker extends StatelessWidget {
           ),
           child: Text(
             timeZone,
-            style: GoogleFonts.ibmPlexMono(
-              fontSize: 10,
+            style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 10,
               fontWeight: FontWeight.w600,
               color: OnbColors.ink,
             ),
@@ -286,8 +277,7 @@ class _TimeZoneSticker extends StatelessWidget {
           onTap: onChange,
           child: Text(
             'Change',
-            style: GoogleFonts.inter(
-              fontSize: 12,
+            style: TextStyle(fontFamily: 'Inter', fontSize: 12,
               fontWeight: FontWeight.w700,
               color: OnbColors.accent,
             ),
@@ -340,8 +330,7 @@ class _LocationPermissionOverlay extends StatelessWidget {
                       ),
                       child: Text(
                         '◎',
-                        style: GoogleFonts.inter(
-                          fontSize: 30,
+                        style: TextStyle(fontFamily: 'Inter', fontSize: 30,
                           fontWeight: FontWeight.w700,
                           color: OnbColors.accent,
                         ),
@@ -351,8 +340,7 @@ class _LocationPermissionOverlay extends StatelessWidget {
                     Text(
                       'Allow location access?',
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.inter(
-                        fontSize: 20,
+                      style: TextStyle(fontFamily: 'Inter', fontSize: 20,
                         fontWeight: FontWeight.w700,
                         color: OnbColors.ink,
                       ),
@@ -361,8 +349,7 @@ class _LocationPermissionOverlay extends StatelessWidget {
                     Text(
                       'We only keep your approximate area to set your time zone. Never exact coordinates.',
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.newsreader(
-                        fontSize: 14,
+                      style: TextStyle(fontFamily: 'Newsreader', fontSize: 14,
                         fontWeight: FontWeight.w400,
                         color: OnbColors.muted,
                         height: 21 / 14,
@@ -426,8 +413,7 @@ class _DialogButton extends StatelessWidget {
           child: Center(
             child: Text(
               label,
-              style: GoogleFonts.inter(
-                fontSize: 15,
+              style: TextStyle(fontFamily: 'Inter', fontSize: 15,
                 fontWeight: FontWeight.w700,
                 color: filled ? OnbColors.onAccent : OnbColors.ink,
               ),

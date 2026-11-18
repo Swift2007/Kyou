@@ -1,7 +1,6 @@
 // Responsibility: Collects the user's journaling goals during onboarding (step 4 of 6).
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../onboarding_viewmodel.dart';
 import '../widgets/onboarding_widgets.dart';
@@ -94,8 +93,7 @@ class _GoalsStepState extends ConsumerState<GoalsStep> {
           const SizedBox(height: 10),
           Text(
             'Pick as many as you like',
-            style: GoogleFonts.ibmPlexMono(
-              fontSize: 10,
+            style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 10,
               fontWeight: FontWeight.w400,
               color: OnbColors.muted,
             ),
