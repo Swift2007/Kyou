@@ -1,22 +1,17 @@
-// Responsibility: Tags row for journal editor — #tag chips and + tag action.
+// Responsibility: Tags row for journal editor — #tag chips (add via speed dial).
 import 'package:material_ui/material_ui.dart';
 
 import '../../core/theme.dart';
 
 class JournalEditorTags extends StatelessWidget {
   final List<String> tags;
-  final VoidCallback onAddTag;
   final ValueChanged<String>? onRemoveTag;
 
-  const JournalEditorTags({
-    super.key,
-    required this.tags,
-    required this.onAddTag,
-    this.onRemoveTag,
-  });
+  const JournalEditorTags({super.key, required this.tags, this.onRemoveTag});
 
   @override
   Widget build(BuildContext context) {
+    if (tags.isEmpty) return const SizedBox.shrink();
     return Wrap(
       spacing: 8,
       runSpacing: 8,
@@ -27,7 +22,6 @@ class JournalEditorTags extends StatelessWidget {
             label: '#$tag',
             onTap: onRemoveTag == null ? null : () => onRemoveTag!(tag),
           ),
-        _AddTagChip(onTap: onAddTag),
       ],
     );
   }
@@ -59,37 +53,11 @@ class _TagChip extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 11,
+          style: TextStyle(
+            fontFamily: 'IBM Plex Mono',
+            fontSize: 11,
             fontWeight: FontWeight.w500,
             color: AppColors.ink,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _AddTagChip extends StatelessWidget {
-  final VoidCallback onTap;
-
-  const _AddTagChip({required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.rule, width: 1.5),
-        ),
-        child: Text(
-          '+ tag',
-          style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 11,
-            fontWeight: FontWeight.w400,
-            color: AppColors.muted,
           ),
         ),
       ),

@@ -36,6 +36,8 @@ class JournalEditorBody extends StatelessWidget {
           disabledBorder: InputBorder.none,
           isDense: true,
           contentPadding: EdgeInsets.zero,
+          filled: false,
+          fillColor: Colors.transparent,
         ),
       ),
     );

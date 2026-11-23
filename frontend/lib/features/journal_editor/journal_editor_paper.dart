@@ -1,22 +1,40 @@
 // Responsibility: Responsive paper/writing surface container for the editor.
 // OpenPencil-aligned: surface fill, 2px inside stroke, r14, hard shadow (6,6),
-// top binder-tab "pinned" detail (straddling top edge), and ruled lines/margin
-// filling the whole paper.
+// top binder-tab "pinned" detail, ruled lines/margin filling the whole paper,
+// and a free-form attachment layer (Phase 4: drag/place anywhere on the sheet).
 import 'package:material_ui/material_ui.dart';
 
 import '../../core/theme.dart';
+import 'journal_editor_attachment_block.dart';
 
 class JournalEditorPaper extends StatelessWidget {
   final Widget child;
   final double minHeight;
+  final List<JournalAttachment> attachments;
+  final void Function(
+    JournalAttachment attachment,
+    Offset delta,
+    Size paperSize,
+  )?
+  onMoveAttachment;
+  final void Function(JournalAttachment attachment, Size paperSize)?
+  onAttachmentDragEnd;
+  final void Function(JournalAttachment attachment)? onLiftAttachment;
+  final void Function(String id)? onRemoveAttachment;
 
   const JournalEditorPaper({
     super.key,
     required this.child,
     this.minHeight = 520,
+    this.attachments = const <JournalAttachment>[],
+    this.onMoveAttachment,
+    this.onAttachmentDragEnd,
+    this.onLiftAttachment,
+    this.onRemoveAttachment,
   });
 
-  static const double _tabOverlap = 3.0; // half of 6px tab height, to center on edge
+  static const double _tabOverlap =
+      3.0; // half of 6px tab height, to center on edge
 
   @override
   Widget build(BuildContext context) {
@@ -43,15 +61,57 @@ class JournalEditorPaper extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             child: Stack(
               children: [
-                const Positioned.fill(
+                Positioned.fill(
                   child: IgnorePointer(
                     child: CustomPaint(painter: _PaperLinesPainter()),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 24, 20, 96),
+                  padding: const EdgeInsets.fromLTRB(56, 28, 20, 48),
                   child: child,
                 ),
+                if (attachments.isNotEmpty)
+                  Positioned.fill(
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        final paperSize = constraints.biggest;
+                        return Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            for (final attachment in attachments)
+                              Positioned(
+                                left: attachment.dx,
+                                top: attachment.dy,
+                                child: FreeformAttachment(
+                                  key: ValueKey<String>(attachment.id),
+                                  attachment: attachment,
+                                  onRemove: onRemoveAttachment == null
+                                      ? null
+                                      : () =>
+                                            onRemoveAttachment!(attachment.id),
+                                  onDragUpdate: onMoveAttachment == null
+                                      ? null
+                                      : (delta) => onMoveAttachment!(
+                                          attachment,
+                                          delta,
+                                          paperSize,
+                                        ),
+                                  onDragEnd: onAttachmentDragEnd == null
+                                      ? null
+                                      : () => onAttachmentDragEnd!(
+                                          attachment,
+                                          paperSize,
+                                        ),
+                                  onLift: onLiftAttachment == null
+                                      ? null
+                                      : () => onLiftAttachment!(attachment),
+                                ),
+                              ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
               ],
             ),
           ),
@@ -92,7 +152,11 @@ class _BinderTabsPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1;
 
-    for (double x = sideInset; x + tabWidth <= size.width - sideInset + 0.5; x += spacing) {
+    for (
+      double x = sideInset;
+      x + tabWidth <= size.width - sideInset + 0.5;
+      x += spacing
+    ) {
       final rect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, 0, tabWidth, tabHeight),
         tabRadius,
@@ -107,8 +171,6 @@ class _BinderTabsPainter extends CustomPainter {
 }
 
 class _PaperLinesPainter extends CustomPainter {
-  const _PaperLinesPainter();
-
   @override
   void paint(Canvas canvas, Size size) {
     _paintRuledLines(canvas, size);
@@ -116,51 +178,38 @@ class _PaperLinesPainter extends CustomPainter {
   }
 
   void _paintRuledLines(Canvas canvas, Size size) {
-    // Subtle ruled lines filling the whole paper (OpenPencil: ~6% ink, 28px spacing).
+    // Full-page ruled lines across the whole paper (notebook feel).
     final linePaint = Paint()
-      ..color = AppColors.ink.withValues(alpha: 0.06)
+      ..color = AppColors.ink.withValues(alpha: 0.10)
       ..strokeWidth = 1;
 
-    // Inset lines within the paper so they sit in the writing area.
-    const leftInset = 24.0;
+    const leftInset = 56.0; // start after margin guide
     const rightInset = 16.0;
-    const bottomInset = 24.0;
-    // Start below header/title/mood rhythm and continue to bottom to fill the sheet.
-    const firstLineY = 150.0;
     const lineGap = 28.0;
+    const firstLineY = 56.0; // start below the title line (remove line above "Give today a name")
 
     final lineLeft = leftInset;
     final lineRight = size.width - rightInset;
     if (lineRight <= lineLeft) return;
 
-    for (double y = firstLineY; y <= size.height - bottomInset; y += lineGap) {
-      canvas.drawLine(
-        Offset(lineLeft, y),
-        Offset(lineRight, y),
-        linePaint,
-      );
+    for (double y = firstLineY; y <= size.height - 4; y += lineGap) {
+      canvas.drawLine(Offset(lineLeft, y), Offset(lineRight, y), linePaint);
     }
   }
 
   void _paintMarginGuide(Canvas canvas, Size size) {
-    // OpenPencil-like left margin guide (reddish tint, subtle).
     final marginPaint = Paint()
-      ..color = const Color(0xFFD98B8B).withValues(alpha: 0.22)
+      ..color = const Color(0xFFD98B8B).withValues(alpha: 0.24)
       ..strokeWidth = 1;
 
     const marginX = 44.0;
-    const top = 120.0;
-    const bottomInset = 24.0;
-    final bottom = size.height - bottomInset;
+    const top = 12.0;
+    final bottom = size.height - 4;
     if (bottom <= top) return;
 
-    canvas.drawLine(
-      Offset(marginX, top),
-      Offset(marginX, bottom),
-      marginPaint,
-    );
+    canvas.drawLine(Offset(marginX, top), Offset(marginX, bottom), marginPaint);
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant _PaperLinesPainter oldDelegate) => true;
 }

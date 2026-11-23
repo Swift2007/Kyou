@@ -30,6 +30,8 @@ class JournalEditorTitle extends StatelessWidget {
         disabledBorder: InputBorder.none,
         isDense: true,
         contentPadding: EdgeInsets.zero,
+        filled: false,
+        fillColor: Colors.transparent,
       ),
       textInputAction: TextInputAction.next,
       maxLines: 1,

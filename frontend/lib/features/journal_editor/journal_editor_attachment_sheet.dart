@@ -1,9 +1,10 @@
 // Responsibility: Attachment picker bottom sheet — add entry attachments.
+// Voice is handled via the speed dial only (to keep the sheet focused/spacious).
 import 'package:material_ui/material_ui.dart';
 
 import '../../core/theme.dart';
 
-enum JournalAttachmentAction { camera, photoLibrary, voiceNote, file }
+enum JournalAttachmentAction { camera, photoLibrary, file }
 
 Future<JournalAttachmentAction?> showJournalAttachmentPickerSheet(
   BuildContext context,
@@ -46,9 +47,11 @@ class _AttachmentPickerSheet extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              Text(
+              const Text(
                 'Add to entry',
-                style: TextStyle(fontFamily: 'Inter', fontSize: 18,
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 18,
                   fontWeight: FontWeight.w700,
                   color: AppColors.ink,
                 ),
@@ -66,13 +69,6 @@ class _AttachmentPickerSheet extends StatelessWidget {
                 subtitle: 'Choose photos',
                 onTap: () =>
                     Navigator.of(context).pop(JournalAttachmentAction.photoLibrary),
-              ),
-              _AttachmentRow(
-                icon: Icons.mic_none_outlined,
-                title: 'Voice note',
-                subtitle: 'Record audio',
-                onTap: () =>
-                    Navigator.of(context).pop(JournalAttachmentAction.voiceNote),
               ),
               _AttachmentRow(
                 icon: Icons.attach_file_outlined,
@@ -132,7 +128,9 @@ class _AttachmentRow extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: TextStyle(fontFamily: 'Inter', fontSize: 14,
+                        style: const TextStyle(
+                          fontFamily: 'Inter',
+                          fontSize: 14,
                           fontWeight: FontWeight.w600,
                           color: AppColors.ink,
                         ),
@@ -140,7 +138,9 @@ class _AttachmentRow extends StatelessWidget {
                       const SizedBox(height: 2),
                       Text(
                         subtitle,
-                        style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 10,
+                        style: const TextStyle(
+                          fontFamily: 'IBM Plex Mono',
+                          fontSize: 10,
                           fontWeight: FontWeight.w400,
                           color: AppColors.muted,
                         ),

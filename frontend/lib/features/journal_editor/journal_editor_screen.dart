@@ -15,7 +15,6 @@ import 'journal_editor_paper.dart';
 import 'journal_editor_prediction_block.dart';
 import 'journal_editor_reply_card.dart';
 import 'journal_editor_speed_dial.dart';
-import 'journal_editor_stats.dart';
 import 'journal_editor_tags.dart';
 import 'journal_editor_title.dart';
 import 'journal_editor_tool_toggle.dart';
@@ -92,16 +91,6 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
 
   void _closeSpeedDial() => setState(() => _speedDialOpen = false);
 
-  bool get _hasContent {
-    return _titleController.text.trim().isNotEmpty ||
-        _bodyController.text.trim().isNotEmpty ||
-        _selectedMood != null ||
-        _tags.isNotEmpty ||
-        _attachments.isNotEmpty ||
-        _reply != null ||
-        _prediction != null;
-  }
-
   int get _extrasCount {
     var count = 0;
     if (_selectedMood != null) count++;
@@ -140,7 +129,9 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
           ),
           title: Text(
             'Add tag',
-            style: TextStyle(fontFamily: 'Inter', fontSize: 16,
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontSize: 16,
               fontWeight: FontWeight.w700,
               color: AppColors.ink,
             ),
@@ -174,15 +165,33 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
 
   void _removeTag(String tag) => setState(() => _tags.remove(tag));
 
-  void _addAttachment(JournalAttachmentKind kind, String title, String subtitle) {
+  void _addAttachment(
+    JournalAttachmentKind kind,
+    String title,
+    String subtitle,
+  ) {
     setState(() {
       _attachmentSeed++;
+      // Stagger defaults in free areas of the paper (handwritten/scrapbook placement).
+      final baseX = 24.0 + ((_attachmentSeed - 1) % 3) * 40.0;
+      final baseY =
+          360.0 +
+          ((_attachmentSeed - 1) % 2) * 120.0 +
+          ((_attachmentSeed - 1) ~/ 3) * 24.0;
+      final usesJournalPlacement =
+          kind == JournalAttachmentKind.image ||
+          kind == JournalAttachmentKind.voice;
       _attachments.add(
         JournalAttachment(
           id: '${kind.name}-$_attachmentSeed',
           kind: kind,
           title: title,
           subtitle: subtitle,
+          dx: baseX,
+          dy: baseY,
+          // Photos & voice notes (1b): start in move mode, snap on release.
+          // Tape appears on snap for photos only. Files stay freely placeable.
+          isPlaced: !usesJournalPlacement,
         ),
       );
     });
@@ -192,10 +201,49 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
     setState(() => _attachments.removeWhere((a) => a.id == id));
   }
 
-  void _reorderAttachments(int oldIndex, int newIndex) {
+  void _moveAttachment(
+    JournalAttachment attachment,
+    Offset delta,
+    Size paperSize,
+  ) {
     setState(() {
-      final item = _attachments.removeAt(oldIndex);
-      _attachments.insert(newIndex, item);
+      final size = attachment.footprintSize;
+      final maxX = (paperSize.width - size.width).clamp(0.0, double.infinity);
+      final maxY = (paperSize.height - size.height).clamp(0.0, double.infinity);
+      attachment.dx = (attachment.dx + delta.dx).clamp(0.0, maxX);
+      attachment.dy = (attachment.dy + delta.dy).clamp(0.0, maxY);
+    });
+  }
+
+  void _liftAttachment(JournalAttachment attachment) {
+    if (!attachment.usesJournalPlacement) return;
+    setState(() => attachment.isPlaced = false);
+  }
+
+  void _onAttachmentDragEnd(JournalAttachment attachment, Size paperSize) {
+    setState(() {
+      final footprint = attachment.footprintSize;
+      final maxX = (paperSize.width - footprint.width).clamp(
+        0.0,
+        double.infinity,
+      );
+      final maxY = (paperSize.height - footprint.height).clamp(
+        0.0,
+        double.infinity,
+      );
+
+      // Snap to a small grid for a tidy "settle" feel (free placement anywhere on paper).
+      double snap(double v) => (v / 8.0).roundToDouble() * 8.0;
+      final dx = snap(attachment.dx).clamp(0.0, maxX);
+      final dy = snap(attachment.dy).clamp(0.0, maxY);
+
+      if (attachment.usesJournalPlacement) {
+        attachment.isPlaced =
+            true; // confirm placement on snap/release (photo tape/audio no tape)
+      }
+
+      attachment.dx = dx;
+      attachment.dy = dy;
     });
   }
 
@@ -225,10 +273,6 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
       case JournalAttachmentAction.photoLibrary:
         _addAttachment(JournalAttachmentKind.image, 'photo', 'From library');
         _showHint('Photo attachment added (placeholder)');
-        break;
-      case JournalAttachmentAction.voiceNote:
-        _addAttachment(JournalAttachmentKind.voice, 'voice note', '0:24');
-        _showHint('Voice note added');
         break;
       case JournalAttachmentAction.file:
         _addAttachment(JournalAttachmentKind.file, 'file', 'Attached document');
@@ -301,95 +345,63 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
                 Expanded(
                   child: LayoutBuilder(
                     builder: (context, constraints) {
-                      final minPaperHeight =
-                          (constraints.maxHeight - 12 - 120).clamp(520.0, double.infinity);
+                      final minPaperHeight = (constraints.maxHeight - 12 - 120)
+                          .clamp(520.0, double.infinity);
                       return SingleChildScrollView(
                         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
                         child: JournalEditorPaper(
                           minHeight: minPaperHeight,
+                          attachments: _attachments,
+                          onMoveAttachment: _moveAttachment,
+                          onAttachmentDragEnd: _onAttachmentDragEnd,
+                          onLiftAttachment: _liftAttachment,
+                          onRemoveAttachment: _removeAttachment,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          JournalEditorTitle(controller: _titleController),
-                          const SizedBox(height: 12),
-                          JournalEditorMoodRow(
-                            selectedMood: _selectedMood,
-                            onSelected: (mood) => setState(() => _selectedMood = mood),
+                            children: [
+                              JournalEditorTitle(controller: _titleController),
+                              const SizedBox(height: 20),
+                              JournalEditorBody(controller: _bodyController),
+                              if (_tags.isNotEmpty) ...[
+                                const SizedBox(height: 16),
+                                JournalEditorTags(
+                                  tags: _tags,
+                                  onRemoveTag: _removeTag,
+                                ),
+                              ],
+                              if (_reply != null) ...[
+                                const SizedBox(height: 12),
+                                JournalEditorReplyCard(
+                                  sourceLabel: _reply!.sourceLabel,
+                                  quote: _reply!.quote,
+                                  onRemove: () => setState(() => _reply = null),
+                                ),
+                              ],
+                              if (_prediction != null) ...[
+                                const SizedBox(height: 12),
+                                JournalEditorPredictionBlock(
+                                  predictionText: _prediction!.text,
+                                  dueLabel: _prediction!.dueLabel,
+                                  confidence: _prediction!.confidence,
+                                  confidenceOptions: _confidenceOptions,
+                                  onConfidenceChanged: (value) {
+                                    setState(
+                                      () => _prediction!.confidence = value,
+                                    );
+                                  },
+                                  onRemove: () =>
+                                      setState(() => _prediction = null),
+                                ),
+                              ],
+                            ],
                           ),
-                          const SizedBox(height: 20),
-                          JournalEditorBody(controller: _bodyController),
-                          const SizedBox(height: 12),
-                          JournalEditorTags(
-                            tags: _tags,
-                            onAddTag: _addTag,
-                            onRemoveTag: _tags.isEmpty ? null : _removeTag,
-                          ),
-                          if (_attachments.isNotEmpty) ...[
-                            const SizedBox(height: 12),
-                            ReorderableListView.builder(
-                              shrinkWrap: true,
-                              buildDefaultDragHandles: false,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: _attachments.length,
-                              onReorderItem: _reorderAttachments,
-                              proxyDecorator: (child, index, animation) {
-                                return Material(
-                                  color: Colors.transparent,
-                                  elevation: 0,
-                                  child: child,
-                                );
-                              },
-                              itemBuilder: (context, index) {
-                                final attachment = _attachments[index];
-                                return Padding(
-                                  key: ValueKey<String>(attachment.id),
-                                  padding: EdgeInsets.only(
-                                    bottom: index == _attachments.length - 1 ? 0 : 10,
-                                  ),
-                                  child: JournalEditorAttachmentBlock(
-                                    attachment: attachment,
-                                    index: index,
-                                    onRemove: () => _removeAttachment(attachment.id),
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
-                          if (_reply != null) ...[
-                            const SizedBox(height: 12),
-                            JournalEditorReplyCard(
-                              sourceLabel: _reply!.sourceLabel,
-                              quote: _reply!.quote,
-                              onRemove: () => setState(() => _reply = null),
-                            ),
-                          ],
-                          if (_prediction != null) ...[
-                            const SizedBox(height: 12),
-                            JournalEditorPredictionBlock(
-                              predictionText: _prediction!.text,
-                              dueLabel: _prediction!.dueLabel,
-                              confidence: _prediction!.confidence,
-                              confidenceOptions: _confidenceOptions,
-                              onConfidenceChanged: (value) {
-                                setState(() => _prediction!.confidence = value);
-                              },
-                              onRemove: () => setState(() => _prediction = null),
-                            ),
-                          ],
-                          const SizedBox(height: 24),
-                          JournalEditorStats(
-                            bodyText: _bodyController.text,
-                            hasContent: _hasContent,
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
             if (_speedDialOpen)
               JournalEditorSpeedDialScrim(onClose: _closeSpeedDial),
             JournalEditorSpeedDial(
