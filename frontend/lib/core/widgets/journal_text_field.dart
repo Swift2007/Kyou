@@ -2,7 +2,6 @@
 // page-white box with a 2px ink stroke, mono label, Caveat handwriting value,
 // and a thin rule under the text. Extracted from journal_kit.dart.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'journal_colors.dart';
 
@@ -35,8 +34,7 @@ class JournalTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final inputStyle = GoogleFonts.caveat(
-      fontSize: 22,
+    final inputStyle = TextStyle(fontFamily: 'Caveat', fontSize: 22,
       fontWeight: FontWeight.w400,
       color: JournalColors.ink,
       height: 24 / 22,
@@ -53,8 +51,7 @@ class JournalTextField extends StatelessWidget {
         children: [
           Text(
             label,
-            style: GoogleFonts.ibmPlexMono(
-              fontSize: 9,
+            style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 9,
               fontWeight: FontWeight.w400,
               color: JournalColors.muted,
               letterSpacing: 0.8,
@@ -84,8 +81,7 @@ class JournalTextField extends StatelessWidget {
               disabledBorder: InputBorder.none,
               hintText: hint,
               hintStyle: inputStyle.copyWith(color: JournalColors.muted),
-              errorStyle: GoogleFonts.inter(
-                fontSize: 10,
+              errorStyle: TextStyle(fontFamily: 'Inter', fontSize: 10,
                 fontWeight: FontWeight.w400,
                 color: Colors.red.shade700,
                 height: 1.2,

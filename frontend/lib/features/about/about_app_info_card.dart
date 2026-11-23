@@ -1,7 +1,6 @@
 // Responsibility: App info card — app mark, name, tagline, version.
 // 342×108 per OpenPencil frame tree.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
@@ -65,8 +64,7 @@ class AboutAppInfoCard extends StatelessWidget {
                   const SizedBox(height: 6),
                   Text(
                     'A calm, neo-brutalist space for your journal.',
-                    style: GoogleFonts.inter(
-                      fontSize: 13,
+                    style: TextStyle(fontFamily: 'Inter', fontSize: 13,
                       fontWeight: FontWeight.w400,
                       color: AppColors.muted,
                       height: 17 / 13,
@@ -75,8 +73,7 @@ class AboutAppInfoCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     'Version 1.0.0',
-                    style: GoogleFonts.ibmPlexMono(
-                      fontSize: 11,
+                    style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 11,
                       fontWeight: FontWeight.w400,
                       color: AppColors.muted,
                     ),

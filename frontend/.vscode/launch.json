@@ -17,7 +17,7 @@
       "deviceId": "chrome"
     },
     {
-      "name": "Kyou (Android emulator)",
+      "name": "Kyou (MED LX9)",
       "type": "dart",
       "request": "launch",
       "program": "${workspaceFolder}/lib/main.dart",
@@ -25,7 +25,8 @@
       "toolArgs": [
         "--dart-define-from-file=env.json"
       ],
-      "flutterMode": "debug"
+      "flutterMode": "debug",
+      "deviceId": "9CEBB20605200476"
     },
     {
       "name": "Kyou (attach)",

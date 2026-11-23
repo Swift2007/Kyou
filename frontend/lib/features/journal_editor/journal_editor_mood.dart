@@ -1,110 +1,65 @@
-// Responsibility: Mood chips row — Great, Good, Okay, Low, Rough, + (add custom).
-// Each chip 28×28 per OpenPencil frame tree.
+// Responsibility: Mood model/constants for the journal editor.
+// Mood is selected via the FAB/mood picker sheet (no inline "How are you feeling?" row).
 import 'package:material_ui/material_ui.dart';
 
-import '../../core/theme.dart';
-
-class JournalEditorMood extends StatelessWidget {
-  const JournalEditorMood({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const Text(
-          'How are you feeling?',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w800,
-            color: AppColors.ink,
-          ),
-        ),
-        const SizedBox(width: 8),
-        _MoodChip(label: 'Great'),
-        const SizedBox(width: 6),
-        _MoodChip(label: 'Good'),
-        const SizedBox(width: 6),
-        _MoodChip(label: 'Okay'),
-        const SizedBox(width: 6),
-        _MoodChip(label: 'Low'),
-        const SizedBox(width: 6),
-        _MoodChip(label: 'Rough'),
-        const SizedBox(width: 6),
-        _AddChip(),
-      ],
-    );
-  }
+enum JournalMoodLevel {
+  veryUnpleasant,
+  unpleasant,
+  neutral,
+  pleasant,
+  veryPleasant,
 }
 
-class _MoodChip extends StatelessWidget {
-  final String label;
-
-  const _MoodChip({required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: _chipWidth(label),
-      height: 28,
-      decoration: BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: AppColors.ink, width: 3),
-      ),
-      child: Center(
-        child: Text(
-          label,
-          style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w800,
-            color: AppColors.ink,
-          ),
-        ),
-      ),
-    );
-  }
-
-  double _chipWidth(String label) {
-    switch (label) {
-      case 'Great':
-        return 53;
-      case 'Good':
-        return 52;
-      case 'Okay':
-        return 50;
-      case 'Low':
-        return 44;
-      case 'Rough':
-        return 58;
-      default:
-        return 50;
+extension JournalMoodLevelX on JournalMoodLevel {
+  String get inlineLabel {
+    switch (this) {
+      case JournalMoodLevel.veryUnpleasant:
+        return 'Rough';
+      case JournalMoodLevel.unpleasant:
+        return 'Low';
+      case JournalMoodLevel.neutral:
+        return 'Okay';
+      case JournalMoodLevel.pleasant:
+        return 'Good';
+      case JournalMoodLevel.veryPleasant:
+        return 'Great';
     }
   }
-}
 
-class _AddChip extends StatelessWidget {
-  const _AddChip();
+  String get sheetLabel {
+    switch (this) {
+      case JournalMoodLevel.veryUnpleasant:
+        return 'Very Unpleasant';
+      case JournalMoodLevel.unpleasant:
+        return 'Unpleasant';
+      case JournalMoodLevel.neutral:
+        return 'Neutral';
+      case JournalMoodLevel.pleasant:
+        return 'Pleasant';
+      case JournalMoodLevel.veryPleasant:
+        return 'Very Pleasant';
+    }
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 29,
-      height: 28,
-      decoration: BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: AppColors.ink, width: 3),
-      ),
-      child: const Center(
-        child: Text(
-          '+',
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w800,
-            color: AppColors.ink,
-          ),
-        ),
-      ),
-    );
+  IconData get icon {
+    switch (this) {
+      case JournalMoodLevel.veryUnpleasant:
+        return Icons.sentiment_very_dissatisfied_outlined;
+      case JournalMoodLevel.unpleasant:
+        return Icons.sentiment_dissatisfied_outlined;
+      case JournalMoodLevel.neutral:
+        return Icons.sentiment_neutral_outlined;
+      case JournalMoodLevel.pleasant:
+        return Icons.sentiment_satisfied_outlined;
+      case JournalMoodLevel.veryPleasant:
+        return Icons.sentiment_very_satisfied_outlined;
+    }
+  }
+
+  static JournalMoodLevel? fromInlineLabel(String? label) {
+    for (final level in JournalMoodLevel.values) {
+      if (level.inlineLabel == label) return level;
+    }
+    return null;
   }
 }

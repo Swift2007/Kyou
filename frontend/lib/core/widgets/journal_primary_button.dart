@@ -1,7 +1,6 @@
 // Responsibility: Filled accent action button with ink border, hard offset shadow,
 // and forward-arrow glyph — "Start journaling" / "Sign in" / "Create space". Extracted from journal_kit.dart.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'journal_colors.dart';
 
@@ -42,7 +41,8 @@ class JournalPrimaryButton extends StatelessWidget {
                 children: [
                   Text(
                     label,
-                    style: GoogleFonts.inter(
+                    style: const TextStyle(
+                      fontFamily: 'Inter',
                       fontSize: 17,
                       fontWeight: FontWeight.w700,
                       color: JournalColors.ink,

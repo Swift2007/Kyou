@@ -1,7 +1,6 @@
 // Responsibility: Collects the user's nickname during onboarding (step 1 of 6).
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../onboarding_viewmodel.dart';
 import '../widgets/onboarding_widgets.dart';
@@ -80,8 +79,7 @@ class _NameStepState extends ConsumerState<NameStep> {
               maxLength: _max,
               textInputAction: TextInputAction.done,
               onSubmitted: (_) => canContinue ? _continue() : null,
-              style: GoogleFonts.caveat(
-                fontSize: 22,
+              style: TextStyle(fontFamily: 'Caveat', fontSize: 22,
                 fontWeight: FontWeight.w400,
                 color: OnbColors.ink,
                 height: 24 / 22,
@@ -97,8 +95,7 @@ class _NameStepState extends ConsumerState<NameStep> {
                 focusedErrorBorder: InputBorder.none,
                 disabledBorder: InputBorder.none,
                 hintText: '',
-                hintStyle: GoogleFonts.caveat(
-                  fontSize: 22,
+                hintStyle: TextStyle(fontFamily: 'Caveat', fontSize: 22,
                   fontWeight: FontWeight.w400,
                   color: OnbColors.muted,
                   height: 24 / 22,
@@ -111,8 +108,7 @@ class _NameStepState extends ConsumerState<NameStep> {
             alignment: Alignment.centerRight,
             child: Text(
               '${text.characters.length} / $_max',
-              style: GoogleFonts.ibmPlexMono(
-                fontSize: 10,
+              style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 10,
                 fontWeight: FontWeight.w400,
                 color: OnbColors.muted,
               ),

@@ -1,7 +1,6 @@
 // Responsibility: Shared visual primitives for the onboarding flow, matching the
 // OpenPencil "onBoarding" page prototypes.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../onboarding_data.dart';
 
@@ -133,8 +132,7 @@ class OnboardingTopBar extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 10, top: 8),
                     child: Text(
                       '\u2190',
-                      style: GoogleFonts.inter(
-                        fontSize: 22,
+                      style: TextStyle(fontFamily: 'Inter', fontSize: 22,
                         fontWeight: FontWeight.w700,
                         color: OnbColors.ink,
                         height: 1,
@@ -149,8 +147,7 @@ class OnboardingTopBar extends StatelessWidget {
             top: 42,
             child: Text(
               'Step $step of $totalSteps',
-              style: GoogleFonts.ibmPlexMono(
-                fontSize: 10,
+              style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 10,
                 fontWeight: FontWeight.w600,
                 color: OnbColors.muted,
                 height: 1,
@@ -200,8 +197,7 @@ class OnboardingHeadline extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: GoogleFonts.caveat(
-        fontSize: size,
+      style: TextStyle(fontFamily: 'Caveat', fontSize: size,
         fontWeight: FontWeight.w700,
         color: OnbColors.ink,
         height: 1.1,
@@ -218,8 +214,7 @@ class OnboardingSubtitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: GoogleFonts.newsreader(
-        fontSize: 15,
+      style: TextStyle(fontFamily: 'Newsreader', fontSize: 15,
         fontWeight: FontWeight.w400,
         color: OnbColors.muted,
         height: 22 / 15,
@@ -269,8 +264,7 @@ class _WhyWeAskStickerState extends State<WhyWeAskSticker> {
                   const SizedBox(height: 6),
                   Text(
                     widget.message,
-                    style: GoogleFonts.newsreader(
-                      fontSize: 13,
+                    style: TextStyle(fontFamily: 'Newsreader', fontSize: 13,
                       fontWeight: FontWeight.w400,
                       color: OnbColors.ink,
                       height: 18 / 13,
@@ -289,8 +283,7 @@ class _WhyWeAskStickerState extends State<WhyWeAskSticker> {
       children: [
         Text(
           '?',
-          style: GoogleFonts.inter(
-            fontSize: 12,
+          style: TextStyle(fontFamily: 'Inter', fontSize: 12,
             fontWeight: FontWeight.w700,
             color: OnbColors.ink,
           ),
@@ -298,8 +291,7 @@ class _WhyWeAskStickerState extends State<WhyWeAskSticker> {
         const SizedBox(width: 6),
         Text(
           'Why we ask',
-          style: GoogleFonts.ibmPlexMono(
-            fontSize: 10,
+          style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 10,
             fontWeight: FontWeight.w600,
             color: OnbColors.ink,
           ),
@@ -342,8 +334,7 @@ class OnboardingContinueButton extends StatelessWidget {
             child: Center(
               child: Text(
                 label,
-                style: GoogleFonts.inter(
-                  fontSize: 16,
+                style: TextStyle(fontFamily: 'Inter', fontSize: 16,
                   fontWeight: FontWeight.w700,
                   color: active ? OnbColors.onAccent : OnbColors.muted,
                 ),
@@ -398,8 +389,7 @@ class OnbFieldLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: GoogleFonts.ibmPlexMono(
-        fontSize: 11,
+      style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 11,
         fontWeight: FontWeight.w600,
         color: OnbColors.muted,
       ),
@@ -437,8 +427,7 @@ class OnbChip extends StatelessWidget {
           children: [
             Text(
               label,
-              style: GoogleFonts.inter(
-                fontSize: 13,
+              style: TextStyle(fontFamily: 'Inter', fontSize: 13,
                 // Constant weight prevents Wrap reflow when toggling selection.
                 fontWeight: FontWeight.w600,
                 color: selected ? OnbColors.onAccent : OnbColors.ink,
@@ -450,8 +439,7 @@ class OnbChip extends StatelessWidget {
               opacity: selected ? 1 : 0,
               child: Text(
                 '\u2713',
-                style: GoogleFonts.inter(
-                  fontSize: 11,
+                style: TextStyle(fontFamily: 'Inter', fontSize: 11,
                   fontWeight: FontWeight.w700,
                   color: selected ? OnbColors.onAccent : OnbColors.ink,
                 ),
@@ -528,8 +516,7 @@ class OnbErrorBadge extends StatelessWidget {
             ),
             child: Text(
               '!',
-              style: GoogleFonts.inter(
-                fontSize: 11,
+              style: TextStyle(fontFamily: 'Inter', fontSize: 11,
                 fontWeight: FontWeight.w700,
                 color: OnbColors.onAccent,
                 height: 1,
@@ -539,8 +526,7 @@ class OnbErrorBadge extends StatelessWidget {
           const SizedBox(width: 6),
           Text(
             message,
-            style: GoogleFonts.ibmPlexMono(
-              fontSize: 10,
+            style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 10,
               fontWeight: FontWeight.w600,
               color: OnbColors.error,
             ),
@@ -602,8 +588,7 @@ class OnbOptionCard extends StatelessWidget {
             const SizedBox(width: 10),
             Text(
               label,
-              style: GoogleFonts.inter(
-                fontSize: 15,
+              style: TextStyle(fontFamily: 'Inter', fontSize: 15,
                 fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
                 color: OnbColors.ink,
               ),
@@ -678,8 +663,7 @@ class _Seg extends StatelessWidget {
           label,
           textAlign: TextAlign.center,
           maxLines: 2,
-          style: GoogleFonts.inter(
-            fontSize: 10,
+          style: TextStyle(fontFamily: 'Inter', fontSize: 10,
             fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
             color: selected ? OnbColors.onAccent : OnbColors.ink,
           ),

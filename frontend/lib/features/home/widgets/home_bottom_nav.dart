@@ -1,7 +1,6 @@
 // Responsibility: Bottom navigation item (icon + label + active dot) used in
 // the home dashboard bottom nav bar. Extracted from home_dashboard_screen.dart.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class HomeNavItem extends StatelessWidget {
   const HomeNavItem({
@@ -35,8 +34,7 @@ class HomeNavItem extends StatelessWidget {
         Icon(icon, size: 22, color: const Color(0xFF625F55)),
         Text(
           label,
-          style: GoogleFonts.inter(
-            fontSize: 13,
+          style: TextStyle(fontFamily: 'Inter', fontSize: 13,
             color: const Color(0xFF625F55),
           ),
         ),

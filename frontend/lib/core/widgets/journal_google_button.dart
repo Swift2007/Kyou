@@ -2,7 +2,6 @@
 // Extracted from journal_kit.dart.
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'journal_colors.dart';
 
@@ -39,8 +38,7 @@ class JournalGoogleButton extends StatelessWidget {
                   const SizedBox(width: 10),
                   Text(
                     'Continue with Google',
-                    style: GoogleFonts.inter(
-                      fontSize: 14,
+                    style: TextStyle(fontFamily: 'Inter', fontSize: 14,
                       fontWeight: FontWeight.w700,
                       color: JournalColors.ink,
                       height: 17 / 14,

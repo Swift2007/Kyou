@@ -2,7 +2,6 @@
 // edition mark on the right, under a 1px ink rule ("LESS SCROLLING. MORE FEELING." / "VOL. YOU").
 // Extracted from journal_kit.dart.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'journal_colors.dart';
 
@@ -22,12 +21,13 @@ class JournalClosingNote extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Flexible(
+          const Flexible(
             child: Text(
               'LESS SCROLLING. MORE FEELING.',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.ibmPlexMono(
+              style: TextStyle(
+                fontFamily: 'IBM Plex Mono',
                 fontSize: 10,
                 fontWeight: FontWeight.w400,
                 color: JournalColors.muted,
@@ -36,9 +36,10 @@ class JournalClosingNote extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          Text(
+          const Text(
             'VOL. YOU',
-            style: GoogleFonts.ibmPlexMono(
+            style: TextStyle(
+              fontFamily: 'IBM Plex Mono',
               fontSize: 10,
               fontWeight: FontWeight.w400,
               color: JournalColors.muted,

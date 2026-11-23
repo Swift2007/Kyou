@@ -2,7 +2,6 @@
 // Configurable for user-chosen icon/color; OpenPencil-aligned typography.
 // Supports compact mode (smaller height, no intro) for Home recent entries.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme.dart';
 
@@ -137,8 +136,7 @@ class JournalEntryCard extends StatelessWidget {
                             SizedBox(height: metaGap),
                             Text(
                               intro,
-                              style: GoogleFonts.caveat(
-                                fontSize: 14,
+                              style: TextStyle(fontFamily: 'Caveat', fontSize: 14,
                                 fontWeight: FontWeight.w400,
                                 color: AppColors.muted,
                                 height: 1.2,

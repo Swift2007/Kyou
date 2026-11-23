@@ -1,6 +1,5 @@
 // Responsibility: Shared "New entry" FAB for main screens.
-// Same as Insights: accent circle, 3px ink border, hard offset shadow,
-// anchored popup menu with "Create a new journal" action.
+// Opens anchored menu and routes to journal entry editor.
 import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
 
@@ -11,14 +10,13 @@ class AppNewEntryFab extends StatelessWidget {
 
   Future<void> _showMenu(BuildContext context) async {
     final box = context.findRenderObject() as RenderBox?;
-    final overlay =
-        Overlay.of(context).context.findRenderObject() as RenderBox?;
+    final overlay = Overlay.of(context).context.findRenderObject() as RenderBox?;
     if (box == null || overlay == null) return;
 
     final fabTopLeft = box.localToGlobal(Offset.zero, ancestor: overlay);
     final position = RelativeRect.fromLTRB(
       fabTopLeft.dx - 220,
-      fabTopLeft.dy - 120,
+      fabTopLeft.dy - 112,
       overlay.size.width - fabTopLeft.dx - box.size.width,
       overlay.size.height - fabTopLeft.dy,
     );
@@ -27,12 +25,13 @@ class AppNewEntryFab extends StatelessWidget {
       context: context,
       position: position,
       color: AppColors.surface,
+      elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: const BorderSide(color: AppColors.ink, width: 3),
+        side: const BorderSide(color: AppColors.ink, width: 2),
       ),
-      items: [
-        const PopupMenuItem<String>(
+      items: const [
+        PopupMenuItem<String>(
           enabled: false,
           height: 32,
           child: Text(
@@ -44,12 +43,12 @@ class AppNewEntryFab extends StatelessWidget {
             ),
           ),
         ),
-        const PopupMenuDivider(height: 1),
+        PopupMenuDivider(height: 1),
         PopupMenuItem<String>(
-          value: 'create_journal',
+          value: 'new_entry',
           child: Row(
-            children: const [
-              Icon(Icons.book_outlined, size: 20, color: AppColors.ink),
+            children: [
+              Icon(Icons.edit_note_outlined, size: 20, color: AppColors.ink),
               SizedBox(width: 12),
               Expanded(
                 child: Text(
@@ -67,8 +66,9 @@ class AppNewEntryFab extends StatelessWidget {
       ],
     );
 
-    if (selected == 'create_journal' && context.mounted) {
-      context.push('/create-journal');
+    if (!context.mounted) return;
+    if (selected == 'new_entry') {
+      context.push('/entries/new');
     }
   }
 
@@ -91,15 +91,7 @@ class AppNewEntryFab extends StatelessWidget {
             ],
           ),
           child: const Center(
-            child: Text(
-              '+',
-              style: TextStyle(
-                fontSize: 34,
-                fontWeight: FontWeight.w800,
-                color: AppColors.ink,
-                height: 1,
-              ),
-            ),
+            child: Icon(Icons.add, size: 30, color: AppColors.ink),
           ),
         ),
       ),

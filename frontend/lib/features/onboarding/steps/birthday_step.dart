@@ -2,7 +2,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../onboarding_data.dart';
 import '../onboarding_viewmodel.dart';
@@ -137,8 +136,7 @@ class _BirthdayStepState extends ConsumerState<BirthdayStep> {
                   dense: true,
                   title: Text(
                     m,
-                    style: GoogleFonts.inter(
-                      fontSize: 15,
+                    style: TextStyle(fontFamily: 'Inter', fontSize: 15,
                       fontWeight: m == _month
                           ? FontWeight.w700
                           : FontWeight.w500,
@@ -239,8 +237,7 @@ class _BirthdayStepState extends ConsumerState<BirthdayStep> {
                             _month.isEmpty ? 'Month' : _month,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.inter(
-                              fontSize: 15,
+                            style: TextStyle(fontFamily: 'Inter', fontSize: 15,
                               fontWeight: _month.isEmpty
                                   ? FontWeight.w400
                                   : FontWeight.w600,
@@ -282,8 +279,7 @@ class _BirthdayStepState extends ConsumerState<BirthdayStep> {
               Expanded(
                 child: Text(
                   'Only use my birth year in the app',
-                  style: GoogleFonts.inter(
-                    fontSize: 14,
+                  style: TextStyle(fontFamily: 'Inter', fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: OnbColors.ink,
                   ),
@@ -302,8 +298,7 @@ class _BirthdayStepState extends ConsumerState<BirthdayStep> {
                   const SizedBox(height: 6),
                   Text(
                     _birthYearOnly ? 'ON' : 'OFF',
-                    style: GoogleFonts.ibmPlexMono(
-                      fontSize: 8,
+                    style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 8,
                       fontWeight: FontWeight.w600,
                       color: OnbColors.ink,
                     ),
@@ -348,8 +343,7 @@ class _DateBox extends StatelessWidget {
         keyboardType: keyboardType,
         inputFormatters: formatters,
         textAlign: TextAlign.center,
-        style: GoogleFonts.caveat(
-          fontSize: 22,
+        style: TextStyle(fontFamily: 'Caveat', fontSize: 22,
           fontWeight: FontWeight.w400,
           color: OnbColors.ink,
           height: 24 / 22,
@@ -364,8 +358,7 @@ class _DateBox extends StatelessWidget {
           focusedErrorBorder: InputBorder.none,
           disabledBorder: InputBorder.none,
           hintText: hint,
-          hintStyle: GoogleFonts.caveat(
-            fontSize: 22,
+          hintStyle: TextStyle(fontFamily: 'Caveat', fontSize: 22,
             fontWeight: FontWeight.w400,
             color: OnbColors.muted,
             height: 24 / 22,
@@ -416,8 +409,7 @@ class _UnderageBlocked extends StatelessWidget {
                         ),
                         child: Text(
                           '!',
-                          style: GoogleFonts.inter(
-                            fontSize: 34,
+                          style: TextStyle(fontFamily: 'Inter', fontSize: 34,
                             fontWeight: FontWeight.w700,
                             color: OnbColors.accent,
                           ),
@@ -427,8 +419,7 @@ class _UnderageBlocked extends StatelessWidget {
                       Text(
                         'Not available yet',
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.caveat(
-                          fontSize: 38,
+                        style: TextStyle(fontFamily: 'Caveat', fontSize: 38,
                           fontWeight: FontWeight.w700,
                           color: OnbColors.ink,
                           height: 1.1,
@@ -438,8 +429,7 @@ class _UnderageBlocked extends StatelessWidget {
                       Text(
                         "This journal app isn't available for people under MIN_AGE (placeholder: ${OnboardingData.minAge}).",
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.newsreader(
-                          fontSize: 16,
+                        style: TextStyle(fontFamily: 'Newsreader', fontSize: 16,
                           fontWeight: FontWeight.w400,
                           color: OnbColors.muted,
                           height: 24 / 16,
@@ -449,8 +439,7 @@ class _UnderageBlocked extends StatelessWidget {
                       Text(
                         'If you entered the wrong birthday, you can go back and fix it.',
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.inter(
-                          fontSize: 13,
+                        style: TextStyle(fontFamily: 'Inter', fontSize: 13,
                           fontWeight: FontWeight.w400,
                           color: OnbColors.muted,
                           height: 19 / 13,
@@ -475,8 +464,7 @@ class _UnderageBlocked extends StatelessWidget {
                               child: Center(
                                 child: Text(
                                   'Go back',
-                                  style: GoogleFonts.inter(
-                                    fontSize: 15,
+                                  style: TextStyle(fontFamily: 'Inter', fontSize: 15,
                                     fontWeight: FontWeight.w700,
                                     color: OnbColors.ink,
                                   ),
@@ -493,8 +481,7 @@ class _UnderageBlocked extends StatelessWidget {
                 Text(
                   'Kind blocking screen — no way to continue (MIN_AGE=${OnboardingData.minAge}).',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.ibmPlexMono(
-                    fontSize: 9,
+                  style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 9,
                     fontWeight: FontWeight.w400,
                     color: OnbColors.muted,
                   ),

@@ -1,7 +1,6 @@
 // Responsibility: Info banner — icon + explanatory text.
 // 342×54 per OpenPencil frame tree.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
@@ -51,8 +50,7 @@ class InfoBanner extends StatelessWidget {
             Expanded(
               child: Text(
                 text,
-                style: GoogleFonts.inter(
-                  fontSize: 13,
+                style: TextStyle(fontFamily: 'Inter', fontSize: 13,
                   fontWeight: FontWeight.w400,
                   color: AppColors.muted,
                   height: 17 / 13,

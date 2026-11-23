@@ -1,7 +1,6 @@
 // Responsibility: Bottom navigation bar item (InsightsNavItem) and container (InsightsBottomNav)
 // used in the insights screen bottom nav. Extracted from insights_screen.dart.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme.dart';
@@ -91,8 +90,7 @@ class InsightsNavItem extends StatelessWidget {
         Icon(icon, size: 22, color: active ? AppColors.ink : AppColors.muted),
         Text(
           label,
-          style: GoogleFonts.inter(
-            fontSize: 13,
+          style: TextStyle(fontFamily: 'Inter', fontSize: 13,
             color: active ? AppColors.ink : AppColors.muted,
             fontWeight: active ? FontWeight.w700 : FontWeight.w400,
           ),

@@ -1,7 +1,6 @@
 // Responsibility: Notification setting row — icon + label + description + toggle.
 // 342×72 per OpenPencil frame tree.
 import 'package:material_ui/material_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 
@@ -60,8 +59,7 @@ class NotificationSettingRow extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     desc,
-                    style: GoogleFonts.ibmPlexMono(
-                      fontSize: 11,
+                    style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 11,
                       fontWeight: FontWeight.w400,
                       color: AppColors.muted,
                       height: 16 / 11,
@@ -78,8 +76,7 @@ class NotificationSettingRow extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   toggleOn ? 'On' : 'Off',
-                  style: GoogleFonts.ibmPlexMono(
-                    fontSize: 11,
+                  style: TextStyle(fontFamily: 'IBM Plex Mono', fontSize: 11,
                     fontWeight: FontWeight.w800,
                     color: AppColors.ink,
                   ),
