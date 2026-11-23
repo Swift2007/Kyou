@@ -48,6 +48,7 @@ class JournalEditorScreen extends StatefulWidget {
 class _JournalEditorScreenState extends State<JournalEditorScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _bodyController = TextEditingController();
+  final GlobalKey _paperCoordinateKey = GlobalKey();
   bool _speedDialOpen = false;
   bool _saved = false;
   JournalMoodLevel? _selectedMood;
@@ -102,6 +103,18 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
   }
 
   int get _attachmentCount => _attachments.length;
+
+  List<Rect> get _paperExclusionRects => _attachments
+      .where((a) => a.isPlaced)
+      .map(
+        (a) => Rect.fromLTWH(
+          a.dx,
+          a.dy,
+          a.footprintSize.width,
+          a.footprintSize.height,
+        ),
+      )
+      .toList();
 
   void _showHint(String message) {
     if (!mounted) return;
@@ -201,26 +214,16 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
     setState(() => _attachments.removeWhere((a) => a.id == id));
   }
 
-  void _moveAttachment(
-    JournalAttachment attachment,
-    Offset delta,
-    Size paperSize,
-  ) {
-    setState(() {
-      final size = attachment.footprintSize;
-      final maxX = (paperSize.width - size.width).clamp(0.0, double.infinity);
-      final maxY = (paperSize.height - size.height).clamp(0.0, double.infinity);
-      attachment.dx = (attachment.dx + delta.dx).clamp(0.0, maxX);
-      attachment.dy = (attachment.dy + delta.dy).clamp(0.0, maxY);
-    });
-  }
-
   void _liftAttachment(JournalAttachment attachment) {
     if (!attachment.usesJournalPlacement) return;
     setState(() => attachment.isPlaced = false);
   }
 
-  void _onAttachmentDragEnd(JournalAttachment attachment, Size paperSize) {
+  void _onAttachmentDragCommit(
+    JournalAttachment attachment,
+    Offset finalPosition,
+    Size paperSize,
+  ) {
     setState(() {
       final footprint = attachment.footprintSize;
       final maxX = (paperSize.width - footprint.width).clamp(
@@ -234,8 +237,8 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
 
       // Snap to a small grid for a tidy "settle" feel (free placement anywhere on paper).
       double snap(double v) => (v / 8.0).roundToDouble() * 8.0;
-      final dx = snap(attachment.dx).clamp(0.0, maxX);
-      final dy = snap(attachment.dy).clamp(0.0, maxY);
+      final dx = snap(finalPosition.dx).clamp(0.0, maxX);
+      final dy = snap(finalPosition.dy).clamp(0.0, maxY);
 
       if (attachment.usesJournalPlacement) {
         attachment.isPlaced =
@@ -351,9 +354,9 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
                         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
                         child: JournalEditorPaper(
                           minHeight: minPaperHeight,
+                          coordinateKey: _paperCoordinateKey,
                           attachments: _attachments,
-                          onMoveAttachment: _moveAttachment,
-                          onAttachmentDragEnd: _onAttachmentDragEnd,
+                          onAttachmentDragCommit: _onAttachmentDragCommit,
                           onLiftAttachment: _liftAttachment,
                           onRemoveAttachment: _removeAttachment,
                           child: Column(
@@ -361,7 +364,11 @@ class _JournalEditorScreenState extends State<JournalEditorScreen> {
                             children: [
                               JournalEditorTitle(controller: _titleController),
                               const SizedBox(height: 20),
-                              JournalEditorBody(controller: _bodyController),
+                              JournalEditorBody(
+                                controller: _bodyController,
+                                paperExclusionRects: _paperExclusionRects,
+                                paperCoordinateKey: _paperCoordinateKey,
+                              ),
                               if (_tags.isNotEmpty) ...[
                                 const SizedBox(height: 16),
                                 JournalEditorTags(

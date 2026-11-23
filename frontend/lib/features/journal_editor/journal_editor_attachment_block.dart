@@ -1,6 +1,6 @@
 // Responsibility: Attachment models and visuals (polaroid/chip style).
-// Phase 4 refinement: photos use tape + auto-snap placement; long-press (~1.5s)
-// to lift/move again. C1: placement avoids overlapping the main writing area.
+// Phase 4 refinement: photos & audio use move/snap placement; long-press (~0.6s)
+// to lift/move again. Photos get washi tape on snap (audio no tape). Fluid local drag.
 import 'dart:async';
 
 import 'package:material_ui/material_ui.dart';
@@ -16,7 +16,7 @@ class JournalAttachment {
   final String subtitle;
   double dx;
   double dy;
-  bool isPlaced; // taped/snapped in place (used for photo journal placement)
+  bool isPlaced; // snapped/confirmed in place (journal placement flow)
 
   JournalAttachment({
     required this.id,
@@ -50,17 +50,17 @@ class JournalAttachment {
 
 class FreeformAttachment extends StatefulWidget {
   final JournalAttachment attachment;
+  final Size paperSize;
   final VoidCallback? onRemove;
-  final ValueChanged<Offset>? onDragUpdate; // continuous delta while moving
-  final VoidCallback? onDragEnd; // snap/commit placement
-  final VoidCallback? onLift; // long-hold to lift a placed photo
+  final void Function(Offset finalPosition)? onDragCommit; // commit on release
+  final VoidCallback? onLift; // long-hold to lift a placed journal item
 
   const FreeformAttachment({
     super.key,
     required this.attachment,
+    required this.paperSize,
     this.onRemove,
-    this.onDragUpdate,
-    this.onDragEnd,
+    this.onDragCommit,
     this.onLift,
   });
 
@@ -70,12 +70,13 @@ class FreeformAttachment extends StatefulWidget {
 
 class _FreeformAttachmentState extends State<FreeformAttachment> {
   Timer? _holdTimer;
+  Offset _localDragOffset = Offset.zero;
+  bool _isDragging = false;
 
   bool get _usesJournalPlacement => widget.attachment.usesJournalPlacement;
   bool get _isPlacedJournalItem =>
       _usesJournalPlacement && widget.attachment.isPlaced;
-  bool get _canDrag =>
-      widget.onDragUpdate != null && !_isPlacedJournalItem;
+  bool get _canDrag => widget.onDragCommit != null && !_isPlacedJournalItem;
 
   void _startHoldTimer() {
     _holdTimer?.cancel();
@@ -88,6 +89,74 @@ class _FreeformAttachmentState extends State<FreeformAttachment> {
   void _cancelHoldTimer() {
     _holdTimer?.cancel();
     _holdTimer = null;
+  }
+
+  Offset _clampedLocalOffset(Offset proposedLocal) {
+    final size = widget.attachment.footprintSize;
+    final maxX = (widget.paperSize.width - size.width).clamp(
+      0.0,
+      double.infinity,
+    );
+    final maxY = (widget.paperSize.height - size.height).clamp(
+      0.0,
+      double.infinity,
+    );
+    final targetX = (widget.attachment.dx + proposedLocal.dx).clamp(0.0, maxX);
+    final targetY = (widget.attachment.dy + proposedLocal.dy).clamp(0.0, maxY);
+    return Offset(
+      targetX - widget.attachment.dx,
+      targetY - widget.attachment.dy,
+    );
+  }
+
+  void _onPanStart(DragStartDetails details) {
+    if (!_canDrag) return;
+    _cancelHoldTimer();
+    setState(() {
+      _isDragging = true;
+      _localDragOffset = Offset.zero;
+    });
+  }
+
+  void _onPanUpdate(DragUpdateDetails details) {
+    if (!_canDrag || !_isDragging) return;
+    setState(() {
+      _localDragOffset = _clampedLocalOffset(_localDragOffset + details.delta);
+    });
+  }
+
+  void _finishDrag() {
+    if (!_isDragging) return;
+    final finalPosition = Offset(
+      widget.attachment.dx + _localDragOffset.dx,
+      widget.attachment.dy + _localDragOffset.dy,
+    );
+    setState(() {
+      _isDragging = false;
+      _localDragOffset = Offset.zero;
+    });
+    widget.onDragCommit?.call(finalPosition);
+  }
+
+  void _onPanEnd(DragEndDetails details) {
+    if (!_canDrag) return;
+    _finishDrag();
+  }
+
+  void _onPanCancel() {
+    if (!_canDrag) return;
+    _finishDrag();
+  }
+
+  @override
+  void didUpdateWidget(covariant FreeformAttachment oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.attachment.id != widget.attachment.id ||
+        oldWidget.attachment.isPlaced != widget.attachment.isPlaced) {
+      _cancelHoldTimer();
+      _localDragOffset = Offset.zero;
+      _isDragging = false;
+    }
   }
 
   @override
@@ -105,10 +174,10 @@ class _FreeformAttachmentState extends State<FreeformAttachment> {
       showTape: attachment.showsTape && attachment.isPlaced,
     );
 
-    // Placed (snapped) journal items: hold ~0.6s to lift, not directly draggable.
-    // No remove button while placed; lift to move/remove.
+    Widget child;
+
     if (_isPlacedJournalItem) {
-      return Listener(
+      child = Listener(
         onPointerDown: (_) => _startHoldTimer(),
         onPointerUp: (_) => _cancelHoldTimer(),
         onPointerCancel: (_) => _cancelHoldTimer(),
@@ -117,36 +186,41 @@ class _FreeformAttachmentState extends State<FreeformAttachment> {
           child: visual,
         ),
       );
-    }
-
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onPanUpdate: _canDrag ? (d) => widget.onDragUpdate!(d.delta) : null,
-      onPanEnd: _canDrag ? (_) => widget.onDragEnd?.call() : null,
-      onPanCancel: _canDrag ? () => widget.onDragEnd?.call() : null,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 8, right: 8),
-            child: Opacity(
-              opacity: _usesJournalPlacement && !attachment.isPlaced ? 0.96 : 1.0,
-              child: visual,
-            ),
-          ),
-          if (widget.onRemove != null)
-            Positioned(
-              top: 0,
-              right: 0,
-              child: GestureDetector(
-                onTap: widget.onRemove,
-                behavior: HitTestBehavior.opaque,
-                child: const _RemoveButton(),
+    } else {
+      child = GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onPanStart: _canDrag ? _onPanStart : null,
+        onPanUpdate: _canDrag ? _onPanUpdate : null,
+        onPanEnd: _canDrag ? _onPanEnd : null,
+        onPanCancel: _canDrag ? _onPanCancel : null,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 8, right: 8),
+              child: Opacity(
+                opacity: _usesJournalPlacement && !attachment.isPlaced
+                    ? 0.96
+                    : 1.0,
+                child: visual,
               ),
             ),
-        ],
-      ),
-    );
+            if (widget.onRemove != null)
+              Positioned(
+                top: 0,
+                right: 0,
+                child: GestureDetector(
+                  onTap: widget.onRemove,
+                  behavior: HitTestBehavior.opaque,
+                  child: const _RemoveButton(),
+                ),
+              ),
+          ],
+        ),
+      );
+    }
+
+    return Transform.translate(offset: _localDragOffset, child: child);
   }
 }
 
@@ -163,11 +237,7 @@ class _RemoveButton extends StatelessWidget {
         shape: BoxShape.circle,
         border: Border.all(color: AppColors.ink, width: 1.5),
         boxShadow: const [
-          BoxShadow(
-            color: AppColors.ink,
-            offset: Offset(1, 1),
-            blurRadius: 0,
-          ),
+          BoxShadow(color: AppColors.ink, offset: Offset(1, 1), blurRadius: 0),
         ],
       ),
       child: const Icon(Icons.close, size: 12, color: AppColors.ink),
@@ -229,7 +299,6 @@ class _PhotoPolaroid extends StatelessWidget {
 
     if (!showTape) return polaroid;
 
-    // Tape visible after snapping/placing (confirmation), like a real journal.
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -370,7 +439,11 @@ class _FileChip extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.insert_drive_file_outlined, size: 16, color: AppColors.ink),
+          const Icon(
+            Icons.insert_drive_file_outlined,
+            size: 16,
+            color: AppColors.ink,
+          ),
           const SizedBox(width: 6),
           Expanded(
             child: Text(

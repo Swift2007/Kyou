@@ -13,24 +13,23 @@ class JournalEditorPaper extends StatelessWidget {
   final List<JournalAttachment> attachments;
   final void Function(
     JournalAttachment attachment,
-    Offset delta,
+    Offset finalPosition,
     Size paperSize,
   )?
-  onMoveAttachment;
-  final void Function(JournalAttachment attachment, Size paperSize)?
-  onAttachmentDragEnd;
+  onAttachmentDragCommit;
   final void Function(JournalAttachment attachment)? onLiftAttachment;
   final void Function(String id)? onRemoveAttachment;
+  final GlobalKey? coordinateKey;
 
   const JournalEditorPaper({
     super.key,
     required this.child,
     this.minHeight = 520,
     this.attachments = const <JournalAttachment>[],
-    this.onMoveAttachment,
-    this.onAttachmentDragEnd,
+    this.onAttachmentDragCommit,
     this.onLiftAttachment,
     this.onRemoveAttachment,
+    this.coordinateKey,
   });
 
   static const double _tabOverlap =
@@ -60,6 +59,7 @@ class JournalEditorPaper extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: Stack(
+              key: coordinateKey,
               children: [
                 Positioned.fill(
                   child: IgnorePointer(
@@ -85,21 +85,16 @@ class JournalEditorPaper extends StatelessWidget {
                                 child: FreeformAttachment(
                                   key: ValueKey<String>(attachment.id),
                                   attachment: attachment,
+                                  paperSize: paperSize,
                                   onRemove: onRemoveAttachment == null
                                       ? null
                                       : () =>
                                             onRemoveAttachment!(attachment.id),
-                                  onDragUpdate: onMoveAttachment == null
+                                  onDragCommit: onAttachmentDragCommit == null
                                       ? null
-                                      : (delta) => onMoveAttachment!(
+                                      : (pos) => onAttachmentDragCommit!(
                                           attachment,
-                                          delta,
-                                          paperSize,
-                                        ),
-                                  onDragEnd: onAttachmentDragEnd == null
-                                      ? null
-                                      : () => onAttachmentDragEnd!(
-                                          attachment,
+                                          pos,
                                           paperSize,
                                         ),
                                   onLift: onLiftAttachment == null
